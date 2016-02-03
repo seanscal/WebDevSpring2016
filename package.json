@@ -23,6 +23,7 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "express": "^3.4.8"
   },
   "devDependencies": {},
