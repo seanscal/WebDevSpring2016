@@ -1,9 +1,7 @@
-    <?php
+<?php
 
-if (!empty($_POST)) {
-
-    // Enter the email where you want to receive the message
-    $emailTo = 'me@myemail.com';
+ // Enter the email where you want to receive the message
+    $emailTo = 'seanscala@gmail.com';
 
     $clientName = trim($_POST['name']);
     $clientEmail = trim($_POST['email']);
@@ -27,11 +25,17 @@ if (!empty($_POST)) {
         // Send email
         $headers = "From: " . $clientName . " <" . $clientEmail . ">" . "\r\n" . "Reply-To: " . $clientEmail;
         mail($emailTo, $subject, $message, $headers);
-        header("Hi");
+        header("location:../thankyou.html");
     } else {
         foreach ($errors as $err) {
             echo $err . '<br />';
         }
     }
-}
 ?>
+
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<script>alert("Thank you for contact us. As early as possible  we will contact you.");</script>
+	<meta HTTP-EQUIV="REFRESH" content="0; url=http://trendytheme.net/demo/iamx/v/">
+</head>
