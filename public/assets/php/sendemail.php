@@ -1,6 +1,6 @@
 <?php
 
- // Enter the email where you want to receive the message
+    error_reporting(E_ALL);ini_set('display_errors',1)
     $emailTo = 'seanscala@gmail.com';
 
     $clientName = trim($_POST['name']);
