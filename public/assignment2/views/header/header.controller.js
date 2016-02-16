@@ -3,6 +3,7 @@
         .module("FormBuilderApp")
         .controller("HeaderController", HeaderController);
 
-    function HeaderController() {
+    function HeaderController($scope, LoginController) {
+        $scope.username = LoginController.getUsername() || ""
     }
 })();

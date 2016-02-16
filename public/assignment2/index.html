@@ -16,14 +16,21 @@
     <script src="config.js"></script>
     <link href="./css/dashboard.css" rel="stylesheet">
 
+    <script src="./views/main/main.controller.js"></script>
+    <script src="./views/header/header.controller.js"></script>
+    <script src="./views/sidebar/sidebar.controller.js"></script>
+    <script src="./views/users/login.controller.js"></script>
+
     <title>Form Builder</title>
 </head>
 
 <body>
     <div class="container" ng-controller="MainController">
+        <div ng-include="'views/header/header.view.html'"></div>
+        <div class="col-sm-3 col-md-2 sidebar">
+            <div ng-include="'views/sidebar/sidebar.view.html'"></div>
+        </div>
         <div ng-view class="mainView"></div>
-        <div ng-include="header.view.html"></div>
-        <div ng-include="sidebar.view.html"></div>
     </div>
 </body>
 
