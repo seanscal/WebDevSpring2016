@@ -1,4 +1,7 @@
 <?php
+    ini_set('display_errors', 'On');
+    error_reporting(E_ALL);
+    var_dump($_POST);
 
 	$name = @trim(stripslashes($_POST['name']));
 	$email = @trim(stripslashes($_POST['email']));
