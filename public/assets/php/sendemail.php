@@ -1,36 +1,17 @@
 <?php
 
-    error_reporting(E_ALL);ini_set('display_errors',1)
-    $emailTo = 'seanscala@gmail.com';
+	$name = @trim(stripslashes($_POST['name']));
+	$email = @trim(stripslashes($_POST['email']));
+	$subject = @trim(stripslashes($_POST['subject']));
+	$message = @trim(stripslashes($_POST['message']));
 
-    $clientName = trim($_POST['name']);
-    $clientEmail = trim($_POST['email']);
-    $subject = trim($_POST['subject']);
-    $message = trim($_POST['message']);
+	$email_from = $email;
+	$email_to = 'nasirbinburhan@gmail.com'; //replace with your email
 
-    $errors = array();
+	$body = 'Name: ' . $name . "\n\n" . 'Email: ' . $email . "\n\n" . 'Subject: ' . $subject . "\n\n" . 'Message: ' . $message;
 
-    if (empty($clientName)) {
-        $errors['nameMessage'] = 'Please enter your name.';
-    }
-    if (!filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
-        $errors['emailMessage'] = 'Please insert a valid email address.';
-    }
-    if (empty($message)) {
-        $errors['messageMessage'] = 'Please enter your message.';
-    }
+	$success = @mail($email_to, $body, 'Name: ' . $name . "\n\n" . 'Email: ' . $email . "\n\n" . 'Subject: ' . $subject . "\n\n" . 'Message: ' . $message);
 
-    // Are there errors?
-    if (count($errors) == 0) {
-        // Send email
-        $headers = "From: " . $clientName . " <" . $clientEmail . ">" . "\r\n" . "Reply-To: " . $clientEmail;
-        mail($emailTo, $subject, $message, $headers);
-        header("location:../thankyou.html");
-    } else {
-        foreach ($errors as $err) {
-            echo $err . '<br />';
-        }
-    }
 ?>
 
 <!DOCTYPE HTML>
