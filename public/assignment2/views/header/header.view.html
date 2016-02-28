@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="HeaderController">
+<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="HeaderController as header">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -11,10 +11,24 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/register">Register</a></li>
-                <li><a href="#/login">Login</a></li>
-                <li><a href="#/profile">{{username}}</a></li>
-                <li><a href="#/login">Logout</a></li>
+                <li ng-hide="currentUser"
+                    ng-class="{'active': $location.url()=='/register'}">
+                    <a href="#/register">Register</a>
+                </li>
+
+                <li ng-hide="currentUser"
+                    ng-class="{'active': $location.url()=='/login'}">
+                    <a href="#/login">Login</a>
+                </li>
+
+                <li ng-show="currentUser"
+                    ng-class="{'active': $location.url()=='/profile'}">
+                    <a href="#/profile">{{currentUser.username}}</a>
+                </li>
+
+                <li ng-show="currentUser">
+                    <a id="logout" ng-click="logout()">Logout</a>
+                </li>
             </ul>
         </div>
     </div>

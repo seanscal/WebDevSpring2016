@@ -1,142 +1,107 @@
-(function() {
+(function(){
     'use strict';
 
     angular
-        .module('FormBuilderApp')
-        .factory('UserService', UserService);
+        .module("FormBuilderApp")
+        .factory("UserService", UserService);
 
-    function UserService() {
-        var theUsers = [];
-
-        var service = {
-            users: theUsers,
-            findByUsernameAndPassword: findByUsernameAndPassword,
+    function UserService($rootScope) {
+        var model = {
+            users: [
+                {	"_id":123, "firstName":"Alice",            "lastName":"Wonderland",
+                    "username":"alice",  "password":"alice",   "roles": ["student"]		},
+                {	"_id":234, "firstName":"Bob",              "lastName":"Hope",
+                    "username":"bob",    "password":"bob",     "roles": ["admin"]		},
+                {	"_id":345, "firstName":"Charlie",          "lastName":"Brown",
+                    "username":"charlie","password":"charlie", "roles": ["faculty"]		},
+                {	"_id":456, "firstName":"Dan",              "lastName":"Craig",
+                    "username":"dan",    "password":"dan",     "roles": ["faculty", "admin"]},
+                {	"_id":567, "firstName":"Edward",           "lastName":"Norton",
+                    "username":"ed",     "password":"ed",      "roles": ["student"]		}
+            ],
+            setCurrentUser: setCurrentUser,
+            getCurrentUser: getCurrentUser,
+            findUserByUsername: findUserByUsername,
+            findUserByCredentials: findUserByCredentials,
             findAllUsers: findAllUsers,
             createUser: createUser,
+            deleteUserById: deleteUserById,
             updateUser: updateUser,
-            deleteUserById: deleteUserById
+            findUserById: findUserById
         };
+        return model;
 
-        activate();
-
-        return service;
-
-        //////////////////////////////////
-
-        function activate() {
-            theUsers.push({"_id":123, "firstName":"Alice",  "lastName":"Wonderland","username":"alice",  "password":"alice"});
-            theUsers.push({"_id":234, "firstName":"Bob",    "lastName":"Hope",      "username":"bob",    "password":"bob"});
-            theUsers.push({"_id":345, "firstName":"Charlie","lastName":"Brown",     "username":"charlie","password":"charlie"});
-            theUsers.push({"_id":456, "firstName":"Dan",    "lastName":"Craig",     "username":"dan",    "password":"dan"});
-            theUsers.push({"_id":567, "firstName":"Edward", "lastName":"Norton",    "username":"ed",     "password":"ed"});
+        function setCurrentUser (user) {
+            $rootScope.currentUser = user;
         }
 
-        /**
-         * Find the user with the given username and password.
-         *
-         * Callback will be called with user, or null if not found.
-         *
-         * @param username string, the username to match
-         * @param password string, the password to match
-         * @param callback fn (user), function that is called when done
-         */
-        function findByUsernameAndPassword(username, password, callback) {
-            var len = this.users.length;
-            for (var i = 0; i < len; i++) {
-                var user = this.users[i];
-
-                if (user.username === username && user.password === password) {
-                    callback(user);
-                    return;
-                }
-            }
-
-            callback(null);
+        function getCurrentUser () {
+            return $rootScope.currentUser;
         }
 
-        /**
-         * Find all users.
-         *
-         * Callback will be called with an array of users.
-         *
-         * @param callback fn (users), function that is called when done
-         */
         function findAllUsers(callback) {
-            callback(this.users);
+            return callback(model.users);
         }
 
-        /**
-         * Create a user with the given information.
-         *
-         * Callback will be called with created user.
-         *
-         * @param user object, the new user object
-         * @param callback fn (user), function that is called when done
-         */
-        function createUser(user, callback) {
-            user['_id'] = (new Date()).getTime();
-            this.users.push(user);
-
+        function createUser (user, callback) {
+            var user = {
+                _id: (new Date).getTime(),
+                username: user.username,
+                password: user.password,
+                email: user.email
+            };
+            model.users.push(user);
             callback(user);
         }
 
-        /**
-         * Delete the user with the given id.
-         *
-         * Callback will be called with updated list of users.
-         *
-         * @param callback fn (users), function that is called when done
-         */
-        function deleteUserById(id, callback) {
-            var len = this.users.length;
-            var index;
-
-            for (var i = 0; i < len; i++) {
-                var user = this.users[i];
-
-                if (user['_id'] === id) {
-                    index = i;
-                    break;
+        function findUserByUsername (username) {
+            for (var u in model.users) {
+                if (model.users[u].username === username) {
+                    return model.users[u];
                 }
             }
-
-            if (index !== undefined) {
-                this.users.splice(index, 1);
-            }
-
-            callback(this.users);
+            return null;
         }
 
-        /**
-         * If user with id exists, sets properties of the user to the properties of the provided user object.
-         *
-         * Callback will be called with updated user, or null if no user with the specified id exists.
-         *
-         * @param id integer, the id to find
-         * @param user object, the new user object
-         * @param callback fn (user), function that is called when done
-         */
-        function updateUser(id, user, callback) {
-            var len = this.users.length;
-
-            for (var i = 0; i < len; i++) {
-                var theUser = this.users[i];
-
-                if (theUser['_id'] === id) {
-                    for (var prop in user) {
-                        if (user.hasOwnProperty(prop)) {
-                            console.log(prop);
-                            theUser[prop] = user[prop];
-                        }
-                    }
-
-                    callback(theUser);
-                    return;
+        function findUserByCredentials(username, password, callback) {
+            for (var u in model.users) {
+                if (model.users[u].username === username &&
+                    model.users[u].password === password) {
+                    callback(model.users[u]);
                 }
             }
+            callback(null);
+        }
 
+        function findUserById (id) {
+            for (var u in model.users) {
+                if (model.users[u]._id === id) {
+                    return model.users[u];
+                }
+            }
+            return null;
+        }
+
+        function updateUser (userId, updates, callback) {
+            var user = model.findUserById(userId);
+            if (user != null) {
+                user.firstName = updates.firstName;
+                user.lastName = updates.lastName;
+                user.password = updates.password;
+                callback(user);
+            } else {
+                callback(null);
+            }
+        }
+
+        function deleteUserById(userId, callback) {
+            var user = model.findUserById(userId);
+            if(user != null) {
+                var userIndex = model.users.indexOf(user);
+                model.users.splice(userIndex, 1);
+                callback(model.users);
+            }
             callback(null);
         }
     }
-
-}());
+})();

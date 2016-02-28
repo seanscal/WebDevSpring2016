@@ -27,6 +27,9 @@
                             <input type="password" class="form-control" id="verifyPassword" placeholder="Password">
                         </div>
                     </div>
+                    <div ng-show="passwordVerification" class="alert alert-warning">
+                        {{passwordVerification}}
+                    </div>
                     <div class="form-group">
                         <label for="email" class = "col-sm-2 control-label">Email:</label>
                         <div class = "col-sm-5">
