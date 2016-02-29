@@ -9,7 +9,8 @@
             $rootScope.$location.url('/login')
         }
 
-        $scope.updates = {
+        $scope.display = {
+            username: $rootScope.currentUser.username,
             password: $rootScope.currentUser.password,
             firstName: $rootScope.currentUser.firstName,
             lastName: $rootScope.currentUser.lastName,
