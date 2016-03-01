@@ -664,6 +664,9 @@ Resume Timeline
 .resume-title{
     margin-bottom: 30px;
 }
+.exp-title{
+    margin-top: 30px;
+}
 .timeline {
     position: relative;
     padding: 0;
@@ -736,6 +739,7 @@ Resume Timeline
     float: left;
     position: relative;
     width: 100%;
+    background-color:#f7f7f7;
 }
 
 .timeline-content{
@@ -770,6 +774,7 @@ Resume Timeline
     font-weight: 700;
     display: block;
     color: #2c3e50;
+    background-color: #f7f7f7;
     top: 0;
     float: left;
 }
@@ -806,8 +811,6 @@ Resume Timeline
     font-weight: 700;
     margin-bottom: 20px;
 }
-
-
 
 
 
