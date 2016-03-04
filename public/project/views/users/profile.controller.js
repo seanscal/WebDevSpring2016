@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    angular.module("FormBuilderApp")
+    angular.module("DevilsFanApp")
         .controller("ProfileController", ProfileController);
 
     function ProfileController($rootScope, $scope, UserService){

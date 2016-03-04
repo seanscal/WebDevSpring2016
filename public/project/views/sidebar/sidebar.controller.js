@@ -1,6 +1,6 @@
 (function(){
     angular
-        .module("FormBuilderApp")
+        .module("DevilsFanApp")
         .controller("SidebarController", SidebarController);
 
     function SidebarController() {

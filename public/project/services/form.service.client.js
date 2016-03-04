@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module("FormBuilderApp")
+        .module("DevilsFanApp")
         .factory("FormService", FormService);
 
     function FormService($rootScope) {

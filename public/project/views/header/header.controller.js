@@ -1,6 +1,6 @@
 (function(){
     angular
-        .module("FormBuilderApp")
+        .module("DevilsFanApp")
         .controller("HeaderController", HeaderController);
 
     function HeaderController($scope, $rootScope, UserService) {

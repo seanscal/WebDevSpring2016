@@ -1,6 +1,6 @@
 (function(){
     angular
-        .module("FormBuilderApp")
+        .module("DevilsFanApp")
         .controller("MainController", MainController);
 
     function MainController($rootScope, $location) {
@@ -8,3 +8,7 @@
         $rootScope.currentUser = null;
     }
 })();
+
+
+
+

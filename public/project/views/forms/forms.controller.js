@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    angular.module("FormBuilderApp")
+    angular.module("DevilsFanApp")
         .controller("FormsController", FormsController);
 
     function FormsController($rootScope, $scope, FormService){

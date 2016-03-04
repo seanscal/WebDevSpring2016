@@ -1,6 +1,6 @@
 (function(){
     angular
-        .module("FormBuilderApp")
+        .module("DevilsFanApp")
         .config(Configure);
 
     function Configure($routeProvider) {
@@ -21,9 +21,13 @@
                 templateUrl: "./views/users/profile.view.html",
                 controller: "ProfileController"
             })
-            .when("/admin", {
-                templateUrl: "./views/admin/admin.view.html",
-                controller: "AdminController"
+            .when("/editor", {
+                templateUrl: "./views/editor/editor.view.html",
+                controller: "EditorController"
+            })
+            .when("/roster", {
+                templateUrl: "./views/players/roster.view.html",
+                controller: "RosterController"
             })
             .when("/forms", {
                 templateUrl: "./views/forms/forms.view.html",

@@ -17,10 +17,10 @@
             email: $rootScope.currentUser.email
         };
 
-        $scope.update = update;
+        $scope.updateUser = updateUser;
 
-        function update() {
-            UserService.updateUser($rootScope.currentUser._id, $scope.updates, callback);
+        function updateUser() {
+            UserService.updateUser($rootScope.currentUser._id, $scope.display, callback);
 
             function callback(user){
                 $scope.message = "Information update successful"

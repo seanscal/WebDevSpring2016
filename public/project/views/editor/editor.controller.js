@@ -1,10 +1,10 @@
 (function(){
     'use strict';
 
-    angular.module("FormBuilderApp")
-        .controller("AdminController", AdminController);
+    angular.module("DevilsFanApp")
+        .controller("EditorController", EditorController);
 
-    function AdminController($scope){
+    function EditorController($scope){
         if(!$rootScope.currentUser.roles.indexOf('editor') > -1){
             $rootScope.$location.url('/login')
         }

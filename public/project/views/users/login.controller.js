@@ -1,6 +1,6 @@
 (function(){
     angular
-        .module("FormBuilderApp")
+        .module("DevilsFanApp")
         .controller("LoginController", LoginController);
 
     function LoginController($scope, $rootScope, UserService) {

@@ -1,4 +1,4 @@
 (function(){
     angular
-        .module("FormBuilderApp", ["ngRoute"]);
+        .module("DevilsFanApp", ["ngRoute"]);
 })();
