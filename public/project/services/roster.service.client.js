@@ -1,31 +1,19 @@
 (function(){
     'use strict';
 
+    var URL = 'http://cors.io/?u=http://nhlwc.cdnak.neulion.com/fs1/nhl/league/teamroster/NJD/iphone/clubroster.json';
+
     angular
         .module("DevilsFanApp")
         .factory("RosterService", RosterService);
 
     function RosterService($rootScope) {
         var model = {
-            players: [
-                {	"_id":123, "name":"Joseph Blandisi",    "position":"L", "height":"6'0\"",   "weight": 200,
-                    "birthday": "July 18, 1994",        "age": 21, "birthPlace":"Markham, ON, CAN",     "number": 64},
-
-                {	"_id":234, "name":"Reid Boucher",       "position":"L", "height":"5'10\"",  "weight": 195,
-                    "birthday": "September 8, 1993",    "age": 22, "birthPlace":"Lansing, MI, USA",     "number": 12},
-
-                {	"_id":345, "name":"Michael Cammalleri", "position":"L", "height":"5'9\"",   "weight": 185,
-                    "birthday": "June 8, 1982",         "age": 33, "birthPlace":"Toronto, ON, CAN",     "number": 13},
-
-                {	"_id":456, "name":"Ryane Clowe",        "position":"L", "height":"6'3\"",   "weight": 225,
-                    "birthday": "September 30, 1982",   "age": 33, "birthPlace":"St. John's, NL, CAN",  "number": 29},
-
-                {	"_id":567, "name":"Patrik Elias",       "position":"C", "height":"6'1\"",   "weight": 190,
-                    "birthday": "April 13, 1976",       "age": 39, "birthPlace":"Trebic, CZE",          "number": 26}
-            ],
+            players: [],
+            updatePlayers: updatePlayers,
             setCurrentPlayer: setCurrentPlayer,
             getCurrentPlayer: getCurrentPlayer,
-            findPlayerByPlayername: findPlayerByName,
+            findPlayerByName: findPlayerByName,
             findAllPlayers: findAllPlayers,
             createPlayer: createPlayer,
             deletePlayerById: deletePlayerById,
@@ -105,6 +93,37 @@
                 callback(model.players);
             }
             callback(null);
+        }
+
+        function updatePlayers(callback){
+            $.ajax({
+                url: URL,
+                dataType: 'json',
+                type: 'GET',
+            }).done(function(response) {
+                var data = angular.fromJson(response);
+                for (var g = 0; g < data.goalie.length; g++) {
+                    var player = model.findPlayerByName(data.goalie[g].name);
+                    if (player == null) {
+                        var newPlayer = {
+                            _id: (new Date).getTime(),
+                            name: data.goalie[g].name,
+                            position: data.goalie[g].position,
+                            height: data.goalie[g].height,
+                            weight: data.goalie[g].weight,
+                            birthday: data.goalie[g].birthdate,
+                            age: 25,
+                            birthPlace: data.goalie[g].birthplace,
+                            number: data.goalie[g].number
+                        };
+                        model.players.push(newPlayer);
+                    }
+                    else{
+                        callback(null)
+                    }
+                }
+                return callback(model.players)
+            });
         }
     }
 })();

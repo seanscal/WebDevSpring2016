@@ -24,7 +24,9 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "express": "^3.4.8"
+    "express": "^3.4.8",
+    "request": "^2.69.0",
+    "require": "^2.4.20"
   },
   "devDependencies": {},
   "bundleDependencies": [],

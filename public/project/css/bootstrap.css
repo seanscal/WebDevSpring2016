@@ -2864,8 +2864,10 @@ caption {
     text-align: left;
 }
 
+
+
 th {
-    text-align: left;
+    text-align: center;
 }
 
 .table {
@@ -2873,6 +2875,7 @@ th {
     max-width: 100%;
     margin-bottom: 20px;
 }
+
 
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -2928,6 +2931,12 @@ th {
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
     border: 1px solid #ddd;
+}
+
+.title{
+    margin-bottom: 0px;
+    margin-top: 20px;
+    border-bottom: 0px;
 }
 
 .table-bordered > thead > tr > th,
@@ -4293,15 +4302,42 @@ tbody.collapse.in {
     color: #E03A3E;
     white-space: nowrap;
 }
+.bottom-element{
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+.top-element{
+    border-top-right-radius: 6px;
+}
+
+.dropdown-menu > .top-element > a:hover,
+.dropdown-menu > .top-element > a:focus,
+.dropdown-menu > .top-element.active > a {
+    border-top-right-radius: 6px;
+}
+.dropdown-menu > .bottom-element > a:hover,
+.dropdown-menu > .bottom-element > a:focus,
+.dropdown-menu > .bottom-element.active > a {
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    color: #000000;
+    text-decoration: none;
+    background-color: #E03A3E;
+    outline: 0;
+}
 
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
     color: #000000;
     text-decoration: none;
     background-color: #E03A3E;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
 }
 
 .dropdown-menu > .disabled > a,

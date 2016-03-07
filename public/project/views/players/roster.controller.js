@@ -1,32 +1,73 @@
-(function(){
+(function () {
     'use strict';
 
     angular.module("DevilsFanApp")
         .controller("RosterController", RosterController);
 
-    function RosterController($rootScope, $scope, RosterService){
+    function RosterController($rootScope, $scope, RosterService) {
         $scope.players = RosterService.players;
 
         $scope.addPlayer = addPlayer;
         $scope.updatePlayer = updatePlayer;
         $scope.deletePlayer = deletePlayer;
         $scope.selectPlayer = selectPlayer;
+        $scope.fetchPlayers = fetchPlayers;
+
+        function init() {
+            fetchPlayers(function(res){
+                $scope.players = RosterService.players;
+                console.log("Goalies Now", $scope.players);
+            });
+        }
+        init();
+
+        function fetchPlayers(callback) {
+            var players = RosterService.updatePlayers(function(res){
+                callback(players);
+            });
+        }
 
         function addPlayer() {
-            RosterService.createPlayerForUser($rootScope.currentUser._id, { title: $scope.playerTitle }, callback);
+            RosterService.createPlayer({
+                    number: $scope.number, name: $scope.name, position: $scope.position, height: $scope.height,
+                    weight: $scope.weight, birthday: $scope.birthday, age: $scope.age, birthPlace: $scope.birthPlace
+                },
+                callback);
 
             function callback(player) {
-                $scope.playerTitle = null;
+                $scope.number = null;
+                $scope.name = null;
+                $scope.position = null;
+                $scope.height = null;
+                $scope.weight = null;
+                $scope.birthday = null;
+                $scope.age = null;
+                $scope.birthPlace = null;
             }
         }
 
         function updatePlayer() {
-            $scope.selectedPlayer.title = $scope.playerTitle;
-            RosterService.updatePlayerById($scope.selectedPlayer._id, $scope.selectedPlayer, callback);
+            $scope.selectedPlayer.number = $scope.number;
+            $scope.selectedPlayer.name = $scope.name;
+            $scope.selectedPlayer.position = $scope.position;
+            $scope.selectedPlayer.height = $scope.height;
+            $scope.selectedPlayer.weight = $scope.weight;
+            $scope.selectedPlayer.birthdate = $scope.birthdate;
+            $scope.selectedPlayer.age = $scope.age;
+            $scope.selectedPlayer.birthPlace = $scope.birthPlace;
+
+            RosterService.updatePlayer($scope.selectedPlayer._id, $scope.selectedPlayer, callback);
 
             function callback(player) {
                 $scope.selectedPlayer = null;
-                $scope.playerTitle = null;
+                $scope.number = null;
+                $scope.name = null;
+                $scope.position = null;
+                $scope.height = null;
+                $scope.weight = null;
+                $scope.birthday = null;
+                $scope.age = null;
+                $scope.birthPlace = null;
             }
         }
 
@@ -39,7 +80,14 @@
 
         function selectPlayer(index) {
             $scope.selectedPlayer = $.extend(true, {}, RosterService.players[index]);
-            $scope.playerTitle = $scope.selectedPlayer.title;
+            $scope.number = $scope.selectedPlayer.number;
+            $scope.name = $scope.selectedPlayer.name;
+            $scope.position = $scope.selectedPlayer.position;
+            $scope.height = $scope.selectedPlayer.height;
+            $scope.weight = $scope.selectedPlayer.weight;
+            $scope.birthday = $scope.selectedPlayer.birthday;
+            $scope.age = $scope.selectedPlayer.age;
+            $scope.birthPlace = $scope.selectedPlayer.birthPlace;
         }
     }
 })();

@@ -9,13 +9,13 @@
     <meta name="author" content="">
 
     <link rel="icon" href="../../favicon.ico">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.0/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.0/angular-route.js"></script>
     <script src="app.js"></script>
     <script src="config.js"></script>
-    <link href="./css/dashboard.css" rel="stylesheet">
 
+    <link href="./css/dashboard.css" rel="stylesheet">
+    <link href="./css/bootstrap.css" rel="stylesheet"/>
 
 
     <!-- Services -->
@@ -23,10 +23,11 @@
     <script src="services/form.service.client.js"></script>
     <script src="services/player.service.client.js"></script>
     <script src="services/roster.service.client.js"></script>
+    <script src="services/dropdown.service.client.js"></script>
 
     <!-- View controllers -->
     <script src="views/main/main.controller.js"></script>
-
+    <script src="views/dropdown/dropdown.controller.js"></script>
     <script src="views/editor/editor.controller.js"></script>
     <script src="views/forms/forms.controller.js"></script>
     <script src="views/forms/fields.controller.js"></script>
@@ -46,10 +47,7 @@
 <body>
     <div class="container" ng-controller="MainController">
         <div ng-include="'./views/header/header.view.html'"></div>
-        <div class="col-sm-3 col-md-2 sidebar devils-red">
-            <div ng-include="'./views/sidebar/sidebar.view.html'"></div>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
+        <div class="col-sm-9 col-md-12">
             <div ng-view class="mainView"></div>
         </div>
 
