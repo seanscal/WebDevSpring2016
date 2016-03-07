@@ -5,27 +5,22 @@
         .controller("RosterController", RosterController);
 
     function RosterController($rootScope, $scope, RosterService) {
-        $scope.players = RosterService.players;
-
+        var model = this
+        $scope.players = [];
         $scope.addPlayer = addPlayer;
         $scope.updatePlayer = updatePlayer;
         $scope.deletePlayer = deletePlayer;
         $scope.selectPlayer = selectPlayer;
         $scope.fetchPlayers = fetchPlayers;
 
-        function init() {
-            fetchPlayers(function(res){
-                $scope.players = RosterService.players;
-                console.log("Goalies Now", $scope.players);
-            });
-        }
-        init();
 
         function fetchPlayers(callback) {
-            var players = RosterService.updatePlayers(function(res){
-                callback(players);
+            RosterService.fetchPlayers().then(function(response){
+                model.results = response;
+                console.log(model.results)
             });
         }
+        fetchPlayers();
 
         function addPlayer() {
             RosterService.createPlayer({

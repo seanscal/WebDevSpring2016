@@ -3,7 +3,7 @@
         .module("DevilsFanApp")
         .config(Configure);
 
-    function Configure($routeProvider) {
+    function Configure($routeProvider,$httpProvider) {
         $routeProvider
             .when("/home",{
                 templateUrl: "./views/home/home.view.html",

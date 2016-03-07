@@ -1,16 +1,16 @@
 (function(){
     'use strict';
 
-    var URL = 'http://cors.io/?u=http://nhlwc.cdnak.neulion.com/fs1/nhl/league/teamroster/NJD/iphone/clubroster.json';
+    var URL = 'http://nhlwc.cdnak.neulion.com/fs1/nhl/league/teamroster/NJD/iphone/clubroster.json';
 
     angular
         .module("DevilsFanApp")
         .factory("RosterService", RosterService);
 
-    function RosterService($rootScope) {
+    function RosterService($rootScope, $http, $q) {
         var model = {
             players: [],
-            updatePlayers: updatePlayers,
+            fetchPlayers: fetchPlayers,
             setCurrentPlayer: setCurrentPlayer,
             getCurrentPlayer: getCurrentPlayer,
             findPlayerByName: findPlayerByName,
@@ -22,11 +22,11 @@
         };
         return model;
 
-        function setCurrentPlayer (player) {
+        function setCurrentPlayer(player) {
             $rootScope.currentPlayer = player;
         }
 
-        function getCurrentPlayer () {
+        function getCurrentPlayer() {
             return $rootScope.currentPlayer;
         }
 
@@ -34,7 +34,7 @@
             return callback(model.players);
         }
 
-        function createPlayer (player, callback) {
+        function createPlayer(player, callback) {
             var player = {
                 _id: (new Date).getTime(),
                 name: player.name,
@@ -50,7 +50,7 @@
             callback(player);
         }
 
-        function findPlayerByName (name) {
+        function findPlayerByName(name) {
             for (var p in model.players) {
                 if (model.players[p].name === name) {
                     return model.players[p];
@@ -59,7 +59,7 @@
             return null;
         }
 
-        function findPlayerById (id) {
+        function findPlayerById(id) {
             for (var p in model.players) {
                 if (model.players[p]._id === id) {
                     return model.players[p];
@@ -68,7 +68,7 @@
             return null;
         }
 
-        function updatePlayer (playerId, updates, callback) {
+        function updatePlayer(playerId, updates, callback) {
             var player = model.findPlayerById(playerId);
             if (player != null) {
                 player.name = updates.name;
@@ -87,7 +87,7 @@
 
         function deletePlayerById(playerId, callback) {
             var player = model.findPlayerById(playerId);
-            if(player != null) {
+            if (player != null) {
                 var playerIndex = model.players.indexOf(player);
                 model.players.splice(playerIndex, 1);
                 callback(model.players);
@@ -95,35 +95,34 @@
             callback(null);
         }
 
-        function updatePlayers(callback){
-            $.ajax({
-                url: URL,
-                dataType: 'json',
-                type: 'GET',
-            }).done(function(response) {
-                var data = angular.fromJson(response);
-                for (var g = 0; g < data.goalie.length; g++) {
-                    var player = model.findPlayerByName(data.goalie[g].name);
-                    if (player == null) {
-                        var newPlayer = {
-                            _id: (new Date).getTime(),
-                            name: data.goalie[g].name,
-                            position: data.goalie[g].position,
-                            height: data.goalie[g].height,
-                            weight: data.goalie[g].weight,
-                            birthday: data.goalie[g].birthdate,
-                            age: 25,
-                            birthPlace: data.goalie[g].birthplace,
-                            number: data.goalie[g].number
-                        };
-                        model.players.push(newPlayer);
+        function fetchPlayers(callback) {
+
+            var deferred = $q.defer();
+
+            $http.get(URL)
+                .success(function (response) {
+                    var data = angular.fromJson(response);
+                    for (var g = 0; g < data.goalie.length; g++) {
+                        var player = model.findPlayerByName(data.goalie[g].name);
+                        if (player == null) {
+                            var newPlayer = {
+                                _id: (new Date).getTime(),
+                                name: data.goalie[g].name,
+                                position: data.goalie[g].position,
+                                height: data.goalie[g].height,
+                                weight: data.goalie[g].weight,
+                                birthday: data.goalie[g].birthdate,
+                                age: 25,
+                                birthPlace: data.goalie[g].birthplace,
+                                number: data.goalie[g].number
+                            };
+                            model.players.push(newPlayer);
+                        }
                     }
-                    else{
-                        callback(null)
-                    }
-                }
-                return callback(model.players)
-            });
+                    deferred.resolve(model.players);
+                });
+
+            return deferred.promise;
         }
     }
 })();
