@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    var URL = 'http://nhlwc.cdnak.neulion.com/fs1/nhl/league/teamroster/NJD/iphone/clubroster.json';
+    var URL = '../../assets/clubroster.json';
 
     angular
         .module("DevilsFanApp")
@@ -95,6 +95,12 @@
             callback(null);
         }
 
+        function calculateAge(birthday) { // birthday is a date
+            var ageDifMs = Date.now() - birthday.getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
+        }
+
         function fetchPlayers(callback) {
 
             var deferred = $q.defer();
@@ -102,8 +108,10 @@
             $http.get(URL)
                 .success(function (response) {
                     var data = angular.fromJson(response);
+                    console.log(data.defensemen[0])
                     for (var g = 0; g < data.goalie.length; g++) {
                         var player = model.findPlayerByName(data.goalie[g].name);
+                        var age = calculateAge(new Date(data.goalie[g].birthdate));
                         if (player == null) {
                             var newPlayer = {
                                 _id: (new Date).getTime(),
@@ -112,9 +120,45 @@
                                 height: data.goalie[g].height,
                                 weight: data.goalie[g].weight,
                                 birthday: data.goalie[g].birthdate,
-                                age: 25,
+                                age: age,
                                 birthPlace: data.goalie[g].birthplace,
                                 number: data.goalie[g].number
+                            };
+                            model.players.push(newPlayer);
+                        }
+                    }
+                    for (var d = 0; d < data.defensemen.length; d++) {
+                        var player = model.findPlayerByName(data.defensemen[d].name);
+                        var age = calculateAge(new Date(data.defensemen[d].birthdate));
+                        if (player == null) {
+                            var newPlayer = {
+                                _id: (new Date).getTime(),
+                                name: data.defensemen[d].name,
+                                position: data.defensemen[d].position,
+                                height: data.defensemen[d].height,
+                                weight: data.defensemen[d].weight,
+                                birthday: data.defensemen[d].birthdate,
+                                age: age,
+                                birthPlace: data.defensemen[d].birthplace,
+                                number: data.defensemen[d].number
+                            };
+                            model.players.push(newPlayer);
+                        }
+                    }
+                    for (var f = 0; f < data.forwards.length; f++) {
+                        var player = model.findPlayerByName(data.forwards[f].name);
+                        var age = calculateAge(new Date(data.forwards[f].birthdate));
+                        if (player == null) {
+                            var newPlayer = {
+                                _id: (new Date).getTime(),
+                                name: data.forwards[f].name,
+                                position: data.forwards[f].position,
+                                height: data.forwards[f].height,
+                                weight: data.forwards[f].weight,
+                                birthday: data.forwards[f].birthdate,
+                                age: age,
+                                birthPlace: data.forwards[f].birthplace,
+                                number: data.forwards[f].number
                             };
                             model.players.push(newPlayer);
                         }

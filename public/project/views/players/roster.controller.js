@@ -16,8 +16,8 @@
 
         function fetchPlayers(callback) {
             RosterService.fetchPlayers().then(function(response){
-                model.results = response;
-                console.log(model.results)
+                $scope.players = response;
+                console.log($scope.players)
             });
         }
         fetchPlayers();
