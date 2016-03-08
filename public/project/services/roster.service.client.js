@@ -108,7 +108,6 @@
             $http.get(URL)
                 .success(function (response) {
                     var data = angular.fromJson(response);
-                    console.log(data.defensemen[0])
                     for (var g = 0; g < data.goalie.length; g++) {
                         var player = model.findPlayerByName(data.goalie[g].name);
                         var age = calculateAge(new Date(data.goalie[g].birthdate));
@@ -165,7 +164,6 @@
                     }
                     deferred.resolve(model.players);
                 });
-
             return deferred.promise;
         }
     }

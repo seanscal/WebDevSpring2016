@@ -9,21 +9,28 @@
             $rootScope.$location.url('/login')
         }
 
+        if($rootScope.currentUser.favoritePlayer)
+        {
+            $rootScope.favoritePlayer = $rootScope.currentUser.favoritePlayer
+        }
+
         $scope.display = {
             username: $rootScope.currentUser.username,
             password: $rootScope.currentUser.password,
             firstName: $rootScope.currentUser.firstName,
             lastName: $rootScope.currentUser.lastName,
-            email: $rootScope.currentUser.email
+            email: $rootScope.currentUser.email,
+            favoritePlayer: $rootScope.currentUser.favoritePlayer
         };
 
         $scope.update = update;
 
         function update() {
-            UserService.updateUser($rootScope.currentUser._id, $scope.updates, callback);
+            UserService.updateUser($rootScope.currentUser._id, $scope.display, callback);
 
             function callback(user){
                 $scope.message = "Information update successful"
+                console.log($rootScope.currentUser)
             }
         }
     }

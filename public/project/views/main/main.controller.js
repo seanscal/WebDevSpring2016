@@ -6,7 +6,7 @@
     function MainController($rootScope, $location) {
         $rootScope.$location = $location;
         $rootScope.currentUser = null;
-        $rootScope.dropdown = "Home";
+        $rootScope.favoritePlayer = "None";
     }
 })();
 

@@ -34,9 +34,17 @@
                             <input ng-model="display.email" type="email" class="form-control" id="email" placeholder="Email Address">
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="favoritePlayer" class = "col-sm-2 control-label">Favorite Player:</label>
+                        <div class = "col-sm-5">
+                            <div id = "favoritePlayer" ng-model="display.favoritePlayer" ng-include="'./views/dropdown/playerDropdown.view.html'"></div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-5">
-                            <a class="btn btn-primary btn-block" href="./profile.view.html" role="button">Update</a>
+                            <a class="btn btn-primary btn-block" ng-click="update()" role="button">Update</a>
                         </div>
                     </div>
                 </form>

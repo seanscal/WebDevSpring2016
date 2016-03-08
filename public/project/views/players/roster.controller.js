@@ -5,7 +5,6 @@
         .controller("RosterController", RosterController);
 
     function RosterController($rootScope, $scope, RosterService) {
-        var model = this
         $scope.players = [];
         $scope.addPlayer = addPlayer;
         $scope.updatePlayer = updatePlayer;
@@ -17,7 +16,6 @@
         function fetchPlayers(callback) {
             RosterService.fetchPlayers().then(function(response){
                 $scope.players = response;
-                console.log($scope.players)
             });
         }
         fetchPlayers();

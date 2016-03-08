@@ -1,0 +1,16 @@
+<div ng-controller="playerDropdownController">
+    <div class="dropdown">
+        <button id="ddmenu" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
+                data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="true">
+            {{favoritePlayer}}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="page">
+            <li ng-repeat="player in players" ng-class="{'active': dropdownitemselected==player.name}"
+                class="top-element">
+                <a href="#/profile" ng-click="dropboxitemselected(player.name)">{{player.name}}</a>
+            </li>
+        </ul>
+    </div>
+</div>

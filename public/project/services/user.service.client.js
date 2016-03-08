@@ -9,7 +9,7 @@
         var model = {
             users: [
                 {	"_id":123, "firstName":"Alice",            "lastName":"Wonderland",
-                    "username":"alice",  "password":"alice",   "roles": ["editor"]		},
+                    "username":"alice",  "password":"alice",   "roles": ["editor"], favoritePlayer:"Travis Zajac"		},
                 {	"_id":234, "firstName":"Bob",              "lastName":"Hope",
                     "username":"bob",    "password":"bob",     "roles": [""]		},
                 {	"_id":345, "firstName":"Charlie",          "lastName":"Brown",
@@ -88,6 +88,8 @@
                 user.firstName = updates.firstName;
                 user.lastName = updates.lastName;
                 user.password = updates.password;
+                user.email = updates.email;
+                user.favoritePlayer = $rootScope.favoritePlayer;
                 callback(user);
             } else {
                 callback(null);

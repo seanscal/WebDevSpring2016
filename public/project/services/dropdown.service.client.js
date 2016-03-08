@@ -12,7 +12,7 @@
         return model;
 
         function dropdownitemselected(item) {
-            $rootScope.dropdown = item;
+            $rootScope.favoritePlayer = item;
         }
     }
 })();
