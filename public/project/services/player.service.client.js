@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var URL = '../../assets/playerstatsline.json';
+    var URL = '/api/playerStats';
 
     angular
         .module("DevilsFanApp")
@@ -122,7 +122,6 @@
                         var singleSkater = data.skaterData[x].data.split(',');
                         var player = model.findPlayerByName(singleSkater[2]);
                         if (player == null) {
-                            console.log(singleSkater)
                             var newPlayer = {
                                 _id: (new Date).getTime(),
                                 name: singleSkater[2],

@@ -1,7 +1,7 @@
 (function(){
     'use strict';
 
-    var URL = '../../assets/clubroster.json';
+    var URL = '/api/playerInfo';
 
     angular
         .module("DevilsFanApp")

@@ -23,6 +23,7 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
+    "angular-spinner": "^0.8.1",
     "bootstrap": "^3.3.6",
     "cors": "^2.7.1",
     "express": "^3.4.8",

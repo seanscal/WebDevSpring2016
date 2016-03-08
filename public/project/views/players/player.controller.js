@@ -4,7 +4,7 @@
     angular.module("DevilsFanApp")
         .controller("PlayerController", PlayerController);
 
-    function PlayerController($rootScope, $scope, PlayerService) {
+    function PlayerController($http, $rootScope, $scope, PlayerService) {
         $scope.players = [];
         $scope.addPlayer = addPlayer;
         $scope.updatePlayer = updatePlayer;
@@ -14,6 +14,14 @@
 
 
         function fetchStats(callback) {
+            $http.get("/api/playerStats")
+                .success(function (response){
+                    console.log(response);
+                });
+            $http.get("/hello")
+                .success(function (response){
+                    console.log(response);
+                });
             PlayerService.fetchStats().then(function(response){
                 $scope.players = response;
             });
@@ -24,7 +32,7 @@
             _id: (new Date).getTime(),
             PlayerService.createPlayer({
                     name: $scope.name, games: $scope.games, goals: $scope.goals, assists: $scope.assists,
-                    points: $scope.goals + $scope.assists, plusminus: $scope.plusminus, pim: $scope.pim,
+                    points: $scope.points, plusminus: $scope.plusminus, pim: $scope.pim,
                     shots: $scope.shots, timeonice: $scope.timeonice, PP: $scope.PP, SH: $scope.SH, GWG: $scope.GWG,
                     OT: $scope.OT
                 },
