@@ -1,7 +1,7 @@
 <table class="table title table-striped table-bordered">
     <thead>
     <tr>
-        <th>Players</th>
+        <th>Sample Data that will be put onto the individual pages</th>
     </tr>
     </thead>
 </table>
@@ -10,6 +10,7 @@
 <table class="table table-striped table-bordered">
     <thead>
     <tr>
+        <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Name</th>
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>GP</th>
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>G</th>
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>A</th>
@@ -28,47 +29,51 @@
     <tbody>
     <tr>
         <td>
-            <input ng-model="games" type="text" class="form-control" id="inputNumber" placeholder="Games">
+            <input ng-model="name" type="text" class="form-control" id="inputNumber" placeholder="Name">
         </td>
 
         <td>
-            <input ng-model="goals" type="text" class="form-control" id="inputName" placeholder="Goals">
+            <input ng-model="games" type="text" class="form-control" id="inputGames" placeholder="Games">
         </td>
 
         <td>
-            <input ng-model="assists" type="text" class="form-control" id="inputPosition" placeholder="Assists">
+            <input ng-model="goals" type="text" class="form-control" id="inputGoals" placeholder="Goals">
         </td>
 
         <td>
-            <input ng-model="points" type="text" class="form-control" id="inputHeight" placeholder="P" disabled=true>
+            <input ng-model="assists" type="text" class="form-control" id="inputAssists" placeholder="Assists">
         </td>
 
         <td>
-            <input ng-model="plusminus" type="text" class="form-control" id="inputWeight" placeholder="+/-">
+            <input ng-model="points" type="text" class="form-control" id="inputPoints" placeholder="Points">
         </td>
 
         <td>
-            <input ng-model="pim" type="text" class="form-control" id="inputBirthdate" placeholder="PIM">
+            <input ng-model="plusminus" type="text" class="form-control" id="inputplusminus" placeholder="+/-">
         </td>
 
         <td>
-            <input ng-model="shots" type="text" class="form-control" id="inputAge" placeholder="Shots">
+            <input ng-model="pim" type="text" class="form-control" id="inputPIM" placeholder="PIM">
         </td>
 
         <td>
-            <input ng-model="timeonice" type="text" class="form-control" id="inputBirthPlace" placeholder="TOI/G">
+            <input ng-model="shots" type="text" class="form-control" id="inputShots" placeholder="Shots">
+        </td>
+
+        <td>
+            <input ng-model="timeonice" type="text" class="form-control" id="inputTOI" placeholder="TOI/G">
         </td>
         <td>
-            <input ng-model="PP" type="text" class="form-control" id="inputAge" placeholder="Powerplay Goals">
+            <input ng-model="PP" type="text" class="form-control" id="inputPP" placeholder="Powerplay Goals">
         </td>
         <td>
-            <input ng-model="SH" type="text" class="form-control" id="inputAge" placeholder="Shorthanded Goals">
+            <input ng-model="SH" type="text" class="form-control" id="inputSH" placeholder="Shorthanded Goals">
         </td>
         <td>
-            <input ng-model="GWG" type="text" class="form-control" id="inputAge" placeholder="GWG">
+            <input ng-model="GWG" type="text" class="form-control" id="inputGWG" placeholder="GWG">
         </td>
         <td>
-            <input ng-model="OT" type="text" class="form-control" id="inputAge" placeholder="OT">
+            <input ng-model="OT" type="text" class="form-control" id="inputOT" placeholder="OT">
         </td>
 
 
@@ -89,7 +94,8 @@
         </td>
     </tr>
 
-    <tr>
+    <tr ng-repeat="player in players">
+        <td>{{player.name}}</td>
         <td>{{player.games}}</td>
         <td>{{player.goals}}</td>
         <td>{{player.assists}}</td>
@@ -97,11 +103,11 @@
         <td>{{player.plusminus}}</td>
         <td>{{player.pim}}</td>
         <td>{{player.shots}}</td>
-        <td>{{player.toi}}</td>
-        <td>{{player.pp}}</td>
-        <td>{{player.sh}}</td>
-        <td>{{player.gwg}}</td>
-        <td>{{player.ot}}</td>
+        <td>{{player.timeonice}}</td>
+        <td>{{player.PP}}</td>
+        <td>{{player.SH}}</td>
+        <td>{{player.GWG}}</td>
+        <td>{{player.OT}}</td>
         <td>
             <div class="col-sm-4 btn-group">
                 <button ng-click="deletePlayer($index)" type="button" class="btn btn-table">
