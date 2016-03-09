@@ -53,4 +53,55 @@ app.get('/api/playerInfo', function(req, res){
     request.end();
 });
 
+
+
+app.get('/api/gameInfo', function(req, res){
+    var str = "";
+    var count = 0
+        var options = {
+            host: 'live.nhle.com',
+            path: '/GameData/20152016/201502' + str + '/gc/gcbx.jsonp?=JSON_CALLBACK',
+            method: 'GET'
+        }
+
+        var request = http.request(options, function (response) {
+            var body = ""
+            response.on('data', function (data) {
+                body += data;
+            });
+            response.on('end', function () {
+                var y = body.replace("GCBX.load(", "");
+                var data = JSON.parse(y.replace("})", "}"));
+                if (data.shotSummary[0].shots[0].ht == "NJD" || data.shotSummary[0].shots[0].at == "NJD") {
+                    console.log(data.gid);
+                    if(arr.indexOf(data.gid) == -1) {
+                        arr.push(data.gid);
+                        console.log("FOUND IT" + data.gid);
+                        console.log(arr.indexOf(data.gid));
+                        console.log(arr.length + " games");
+                    }
+                }
+            });
+        });
+        request.on('error', function (e) {
+            console.log('Problem with request: ' + e.message);
+        });
+        request.end();
+    }
+    console.log(arr);
+});
+
 app.listen(port, ipaddress);
+
+
+// This code was used to get the game id's that the Devils participated in
+/*            response.on('end', function () {
+ var y = body.replace("GCBX.load(", "");
+ var data = JSON.parse(y.replace("})", "}"));
+ if (data.shotSummary[0].shots[0].ht == "NJD" || data.shotSummary[0].shots[0].at == "NJD") {
+ arr.push(data.gid);
+ console.log(arr);
+ console.log(arr.length + " games");
+ }
+ });
+    */

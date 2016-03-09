@@ -101,6 +101,9 @@
             return Math.abs(ageDate.getUTCFullYear() - 1970);
         }
 
+
+
+
         function fetchPlayers(callback) {
 
             var deferred = $q.defer();

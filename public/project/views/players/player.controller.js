@@ -14,14 +14,6 @@
 
 
         function fetchStats(callback) {
-            $http.get("/api/playerStats")
-                .success(function (response){
-                    console.log(response);
-                });
-            $http.get("/hello")
-                .success(function (response){
-                    console.log(response);
-                });
             PlayerService.fetchStats().then(function(response){
                 $scope.players = response;
             });
