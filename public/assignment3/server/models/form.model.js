@@ -3,8 +3,8 @@ var uuid = require('node-uuid');
 var formsMock = require("./form.mock.json");
 
 module.exports = function(mongoose) {
-    var FormSchema = require("./form.server.schema.js")(mongoose);
-    var FormModel = mongoose.model("FormModel", FormSchema);
+    //var FormSchema = require("./form.server.schema.js")(mongoose);
+    //var FormModel = mongoose.model("FormModel", FormSchema);
     var api = {
         createForm: createForm,
         findAllForms: findAllForms,

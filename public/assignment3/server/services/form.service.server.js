@@ -6,8 +6,8 @@ module.exports = function (app) {
     app.get("/api/assignment/user/:userId/form", getAllFormsForUser);
     app.get("/api/assignment/form", getAllForms);
     app.get("/api/assignment/form/:formId", getSingleForm);
-    app.put("/api/assignment/form/:formId", updateUser);
-    app.delete("/api/assignment/form/:formId", removeUser);
+    app.put("/api/assignment/form/:formId", updateForm);
+    app.delete("/api/assignment/form/:formId", removeForm);
 
 
     function getAllForms(req, res) {

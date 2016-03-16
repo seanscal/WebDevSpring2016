@@ -1,7 +1,7 @@
 module.exports = function (mongoose) {
-    var UserSchema = mongoose.Schema({
+    var FormSchema = mongoose.Schema({
         title: String,
-        userId: Integer,
+        userId: Number,
         fields: {
             type: {
                 label: String,
@@ -11,5 +11,5 @@ module.exports = function (mongoose) {
             }
         }
     });
-    return UserSchema;
+    return FormSchema;
 };

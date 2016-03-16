@@ -47,7 +47,7 @@ var Course = mongoose.model("Course", CourseSchema);
 app.use(express.static(__dirname + '/public'));
 
 
-require("./assignment3/server/app.js")(app, db, mongoose);
+require("./public/assignment3/server/app.js")(app, db, mongoose);
 
 
 
