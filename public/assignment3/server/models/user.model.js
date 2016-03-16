@@ -23,7 +23,7 @@ module.exports = function (mongoose) {
     }
 
     function findUserById(userId) {
-        for (var i in usersMock) {
+        for (var i =0; i < usersMock.length; i++)  {
             if (usersMock[i]._id === userId) {
                 return usersMock[i];
             }
@@ -40,7 +40,7 @@ module.exports = function (mongoose) {
     }
 
     function updateUser(userId, user) {
-        for (var i in usersMock) {
+        for (var i =0; i < usersMock.length; i++)  {
             if (usersMock[i]._id === userId) {
                 usersMock[i].firstName = user.firstName;
                 usersMock[i].lastName = user.lastName;
@@ -52,9 +52,9 @@ module.exports = function (mongoose) {
     }
 
     function deleteUser(userId) {
-        for (var i in usersMock) {
+        for (var i =0; i < usersMock.length; i++) {
             if (usersMock[i].username === userId) {
-                usersMock.pop(user);
+                usersMock.splice(i,1);
             }
         }
         return user;
@@ -62,7 +62,7 @@ module.exports = function (mongoose) {
 
     function findUserByCredentials(credentials) {
         var deferred = q.defer();
-        for (var i in usersMock) {
+        for (var i =0; i < usersMock.length; i++)  {
             if (usersMock[i].username === userId && usersMock[i].password == credentials.password) {
                 return usersMock[i];
             }
@@ -71,7 +71,7 @@ module.exports = function (mongoose) {
     }
 
     function findUserByUsername(username) {
-        for (var i in usersMock) {
+        for (var i =0; i < usersMock.length; i++)  {
             if (usersMock[i].id === username) {
                 return usersMock[i];
             }

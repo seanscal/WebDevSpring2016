@@ -12,8 +12,15 @@ module.exports = function(mongoose) {
         deleteForm: deleteForm,
         findFormById: findFormById,
         findFormByTitle: findFormByTitle,
+
         findAllFormsForUser: findAllFormsForUser,
-        createFormForUser: createFormForUser
+        createFormForUser: createFormForUser,
+
+        findAllFieldsForForm: findAllFieldsForForm,
+        findFieldForForm: findFieldForForm,
+        deleteField: deleteField,
+        createField: createField,
+        updateField: updateField
     };
     return api;
 
@@ -31,7 +38,7 @@ module.exports = function(mongoose) {
     }
 
     function findFormById(formId) {
-        for (var i in formsMock) {
+        for (var i =0; i < formsMock.length; i++) {
             if (formsMock[i]._id === formId) {
                 return formsMock[i];
             }
@@ -41,7 +48,7 @@ module.exports = function(mongoose) {
 
     function findAllForms() {
         var forms = [];
-        for (var i in formsMock) {
+        for (var i =0; i < formsMock.length; i++) {
             forms.push(formsMock[i])
         }
         return forms;
@@ -49,7 +56,7 @@ module.exports = function(mongoose) {
 
     function findAllFormsForUser(userId) {
         var forms = [];
-        for (var i in formsMock) {
+        for (var i =0; i < formsMock.length; i++) {
             if(formsMock[i].userId = userId) {
                 forms.push(formsMock[i])
             }
@@ -58,7 +65,7 @@ module.exports = function(mongoose) {
     }
 
     function updateForm(formId, form) {
-        for(var i in formsMock) {
+        for (var i =0; i < formsMock.length; i++) {
             if (formsMock[i]._id === formId) {
                 formsMock[i].title = form.title;
                 formsMock[i].userId = form.userId;
@@ -68,9 +75,9 @@ module.exports = function(mongoose) {
     }
 
     function deleteForm(formId) {
-        for(var i in formsMock) {
+        for (var i =0; i < formsMock.length; i++) {
             if (formsMock[i].formname === formId) {
-                formsMock.pop(formsMock[i]);
+                formsMock.splice(i,1);
             }
         }
         return form;
@@ -78,11 +85,76 @@ module.exports = function(mongoose) {
 
 
     function findFormByTitle(title) {
-        for (var i in formsMock) {
+        for (var i =0; i < formsMock.length; i++) {
             if (formsMock[i].title === title) {
                 return formsMock[i];
             }
         }
         return null;
+    }
+
+    function findAllFieldsForForm(formId){
+        for (var i =0; i < formsMock.length; i++) {
+            if (formsMock[i]._id === formId) {
+                return formsMock[i].fields;
+            }
+        }
+        return null;
+    }
+
+    function findFieldForForm(formId, fieldId){
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                for (var j =0; j < formsMock[i].fields.length; j++)
+                {
+                    if (formsMock[i].fields[j] === fieldId) {
+                        return formsMock[i].fields[j];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function deleteField(formId) {
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                for (var j =0; j < formsMock[i].fields.length; j++)
+                {
+                    if (formsMock[i].fields[j] === fieldId) {
+                        return formsMock[i].fields.splice(j,1);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function createField(formId, field) {
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                field._id = uuid.v4();
+                formsMock[i].fields.push(field);
+                return field;
+            }
+        }
+        return null;
+    }
+
+    function updateField(formId, fieldId, field) {
+        for (var i =0; i < formsMock.length; i++)  {
+            if (formsMock[i]._id === formId) {
+                for (var j =0; j < formsMock[i].fields.length; j++)
+                {
+                    if (formsMock[i].fields[j] === fieldId) {
+                        formsMock[i].fields[j].label = field.label;
+                        formsMock[i].fields[j].type = field.type;
+                        formsMock[i].fields[j].placeholder = field.placeholder;
+                        formsMock[i].fields[j].options = field.options;
+                    }
+                }
+            }
+        }
+        return form;
     }
 };
