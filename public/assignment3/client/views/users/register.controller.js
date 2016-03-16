@@ -15,12 +15,10 @@
             else {
                 $scope.passwordVerification = null;
 
-                UserService.createUser($scope.user, callback);
-
-                function callback(user) {
-                    $rootScope.currentUser = user;
+                UserService.createUser($scope.user).then(function(res){
+                    $rootScope.currentUser = res;
                     $rootScope.$location.url('/profile');
-                }
+                });
             }
         }
     }

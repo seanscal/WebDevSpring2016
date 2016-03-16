@@ -13,30 +13,24 @@
         $scope.selectForm = selectForm;
 
         function addForm() {
-            FormService.createFormForUser($rootScope.currentUser._id, { title: $scope.formTitle }, callback);
-
-            function callback(form) {
+            FormService.createFormForUser($rootScope.currentUser._id, { title: $scope.formTitle }).then(function(res){
                 $scope.formTitle = null;
-            }
+            });
         }
 
         function updateForm() {
             $scope.selectedForm.title = $scope.formTitle;
-            FormService.updateFormById($scope.selectedForm._id, $scope.selectedForm, callback);
-
-            function callback(form) {
+            FormService.updateFormById($scope.selectedForm._id, $scope.selectedForm).then(function(res){
                 $scope.selectedForm = null;
                 $scope.formTitle = null;
-            }
+            });
         }
 
         function deleteForm(index) {
-            FormService.deleteFormById(FormService.forms[index]._id, callback);
-
-            function callback() {
+            FormService.deleteFormById(FormService.forms[index]._id).then(function(res){
                 $scope.selectedForm = null;
                 $scope.formTitle = null;
-            }
+            });
         }
 
         function selectForm(index) {

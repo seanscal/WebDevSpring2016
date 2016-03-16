@@ -34,7 +34,7 @@
                 controller: "FormsController"
             })
             .when("/fields", {
-                templateUrl: "./views/forms/fields.view.html",
+                templateUrl: "./views/forms/field.view.html",
                 controller: "FieldsController"
             })
             .when("/player", {

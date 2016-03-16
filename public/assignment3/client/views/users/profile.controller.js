@@ -20,11 +20,9 @@
         $scope.updateUser = updateUser;
 
         function updateUser() {
-            UserService.updateUser($rootScope.currentUser._id, $scope.display, callback);
-
-            function callback(user){
-                $scope.message = "Information update successful"
-            }
+            UserService.updateUser($rootScope.currentUser._id, $scope.display).then(function(res){
+                $scope.message = "Information update successful";
+            });
         }
     }
 })();
