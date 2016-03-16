@@ -10,13 +10,14 @@
         function register() {
             if ($scope.user.password !== $scope.user.verifyPassword) {
                 $scope.passwordVerification = "Your passwords do not match";
-                return;
             }
             else {
+                console.log($scope.user);
                 $scope.passwordVerification = null;
 
                 UserService.createUser($scope.user).then(function(res){
-                    $rootScope.currentUser = res;
+                    console.log(res);
+                    UserService.setCurrentUser(res);
                     $rootScope.$location.url('/profile');
                 });
             }

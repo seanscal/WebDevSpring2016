@@ -10,6 +10,7 @@ module.exports = function (app) {
     app.put("/api/assignment/user/:id", updateUser);
     app.delete("/api/assignment/user/:id", removeUser);
 
+
     function addUser(req, res) {
         var user = req.body;
         res.json(model.createUser(user));
@@ -32,10 +33,9 @@ module.exports = function (app) {
     function getUserByCredentials(req, res) {
         var username = req.query.username;
         var password = req.query.password;
-        var credentials;
-        credentials.username = username;
-        credentials.password = password;
-        res.json(model.findUserByCredentials(credentials));
+        console.log(username);
+        console.log(password);
+        res.json(model.findUserByCredentials(username,password));
     }
 
     function updateUser(req, res) {

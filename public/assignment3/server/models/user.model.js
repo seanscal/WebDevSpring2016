@@ -1,6 +1,6 @@
 var q = require("q");
 var usersMock = require("./user.mock.json");
-
+var currentUser;
 
 module.exports = function (mongoose) {
     //var UserSchema = require("./user.server.schema.js")(mongoose);
@@ -17,7 +17,13 @@ module.exports = function (mongoose) {
     return api;
 
     function createUser(user) {
-        user._id = "ID_" + (new Date()).getTime();
+        var user = {
+            _id: (new Date).getTime(),
+            username: user.username,
+            password: user.password,
+            email: user.email
+        }
+
         usersMock.push(user);
         return user;
     }
@@ -60,11 +66,11 @@ module.exports = function (mongoose) {
         return user;
     }
 
-    function findUserByCredentials(credentials) {
+    function findUserByCredentials(username, password) {
         var deferred = q.defer();
         for (var i =0; i < usersMock.length; i++)  {
-            if (usersMock[i].username === userId && usersMock[i].password == credentials.password) {
-                return usersMock[i];
+            if (usersMock[i].username === username && usersMock[i].password == password) {
+                return usersMock[i].username;
             }
         }
         return null;

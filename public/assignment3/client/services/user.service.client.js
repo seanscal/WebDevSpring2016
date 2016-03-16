@@ -3,7 +3,7 @@
     angular.module("FormBuilderApp")
         .factory("UserService", UserService);
 
-    function UserService($http, $q){
+    function UserService($http, $q, $rootScope){
 
         var service = {
             findUserByUsername: findUserByUsername,
@@ -12,7 +12,9 @@
             findSingleUser: findSingleUser,
             deleteUserById: deleteUserById,
             createUser: createUser,
-            updateUser: updateUser
+            updateUser: updateUser,
+            setCurrentUser: setCurrentUser,
+            getCurrentUser: getCurrentUser
         };
 
         return service;
@@ -77,6 +79,14 @@
                 deferred.resolve(response);
             });
             return deferred.promise;
+        }
+
+        function setCurrentUser (user) {
+            $rootScope.currentUser = user;
+        }
+
+        function getCurrentUser () {
+            return $rootScope.currentUser;
         }
 
     }
