@@ -28,6 +28,7 @@
     "cors": "^2.7.1",
     "express": "^3.4.8",
     "mongoose": "^4.4.7",
+    "node-uuid": "^1.4.7",
     "request": "^2.69.0",
     "require": "^2.4.20"
   },

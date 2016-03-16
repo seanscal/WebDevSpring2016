@@ -1,7 +1,7 @@
 module.exports = function (mongoose) {
     var UserSchema = mongoose.Schema({
         title: String,
-        userid: Integer,
+        userId: Integer,
         fields: {
             type: {
                 label: String,

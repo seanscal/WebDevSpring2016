@@ -7,22 +7,22 @@ module.exports = function (mongoose) {
     var UserModel = mongoose.model("UserModel", UserSchema);
     var api = {
         createUser: createUser,
-        getUser: getUser,
+        findUserById: findUserById,
         findUserByUsername: findUserByUsername,
         updateUser: updateUser,
         findUserByCredentials: findUserByCredentials,
         deleteUser: deleteUser,
-        getAllUsers: getAllUsers
+        findAllUsers: findAllUsers
     };
     return api;
 
     function createUser(user) {
         user._id = "ID_" + (new Date()).getTime();
-        mock.push(user);
+        usersMock.push(user);
         return user;
     }
 
-    function getUser(userId) {
+    function findUserById(userId) {
         for (var i in usersMock) {
             if (usersMock[i]._id === userId) {
                 return usersMock[i];
@@ -31,7 +31,7 @@ module.exports = function (mongoose) {
         return null;
     }
 
-    function getAllUsers() {
+    function findAllUsers() {
         var users = [];
         for (var i in usersMock) {
             users.push(usersMock[i])
@@ -39,22 +39,22 @@ module.exports = function (mongoose) {
         return users;
     }
 
-    function updateUser(userId, doc) {
-        for (var i in mock) {
+    function updateUser(userId, user) {
+        for (var i in usersMock) {
             if (usersMock[i]._id === userId) {
-                usersMock[i].firstName = doc.firstName;
-                usersMock[i].lastName = doc.lastName;
-                usersMock[i].username = doc.username;
-                usersMock[i].password = doc.password;
-                usersMock[i].email = doc.email;
+                usersMock[i].firstName = user.firstName;
+                usersMock[i].lastName = user.lastName;
+                usersMock[i].username = user.username;
+                usersMock[i].password = user.password;
+                usersMock[i].email = user.email;
             }
         }
     }
 
     function deleteUser(userId) {
-        for (var i in mock) {
+        for (var i in usersMock) {
             if (usersMock[i].username === userId) {
-                mock.pop(user);
+                usersMock.pop(user);
             }
         }
         return user;
@@ -62,18 +62,18 @@ module.exports = function (mongoose) {
 
     function findUserByCredentials(credentials) {
         var deferred = q.defer();
-        for (var i in mock) {
+        for (var i in usersMock) {
             if (usersMock[i].username === userId && usersMock[i].password == credentials.password) {
-                return mock[usersMock];
+                return usersMock[i];
             }
         }
         return null;
     }
 
     function findUserByUsername(username) {
-        for (var i in mock) {
+        for (var i in usersMock) {
             if (usersMock[i].id === username) {
-                return mock[i];
+                return usersMock[i];
             }
         }
         return null;

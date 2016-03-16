@@ -108,9 +108,9 @@
 
             var deferred = $q.defer();
 
-            $http.get(URL)
-                .success(function (response) {
-                    var data = angular.fromJson(response);
+            return $http.get(URL)
+                .then(function (response) {
+                    var data = angular.fromJson(response.data);
                     for (var g = 0; g < data.goalie.length; g++) {
                         var player = model.findPlayerByName(data.goalie[g].name);
                         var age = calculateAge(new Date(data.goalie[g].birthdate));
@@ -165,9 +165,8 @@
                             model.players.push(newPlayer);
                         }
                     }
-                    deferred.resolve(model.players);
+                    return model.players;
                 });
-            return deferred.promise;
         }
     }
 })();

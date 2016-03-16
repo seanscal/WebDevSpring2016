@@ -1,4 +1,5 @@
 var q = require("q");
+var uuid = require('node-uuid');
 var formsMock = require("./form.mock.json");
 
 module.exports = function(mongoose) {
@@ -6,52 +7,82 @@ module.exports = function(mongoose) {
     var FormModel = mongoose.model("FormModel", FormSchema);
     var api = {
         createForm: createForm,
-        getAllForms: getAllForms,
+        findAllForms: findAllForms,
         updateForm: updateForm,
         deleteForm: deleteForm,
-        getForm:getForm
+        findFormById: findFormById,
+        findFormByTitle: findFormByTitle,
+        findAllFormsForUser: findAllFormsForUser,
+        createFormForUser: createFormForUser
     };
     return api;
 
     function createForm(form) {
-        form._id = "ID_" + (new Date()).getTime();
-        mock.push(form);
+        form._id = uuid.v4();
+        formsMock.push(form);
         return form;
     }
 
-    function getForm(formId) {
+    function createFormForUser(form, userId) {
+        form._id = uuid.v4();
+        form.userId = userId;
+        formsMock.push(form);
+        return form;
+    }
+
+    function findFormById(formId) {
         for (var i in formsMock) {
-            if (usersMock[i]._id === formId) {
+            if (formsMock[i]._id === formId) {
                 return formsMock[i];
             }
         }
         return null;
     }
 
-    function getAllForms() {
-        var users = [];
+    function findAllForms() {
+        var forms = [];
         for (var i in formsMock) {
-            users.push(formsMock[i])
+            forms.push(formsMock[i])
         }
-        return users;
+        return forms;
     }
-    function updateForm(formId, doc) {
+
+    function findAllFormsForUser(userId) {
+        var forms = [];
+        for (var i in formsMock) {
+            if(formsMock[i].userId = userId) {
+                forms.push(formsMock[i])
+            }
+        }
+        return forms;
+    }
+
+    function updateForm(formId, form) {
         for(var i in formsMock) {
             if (formsMock[i]._id === formId) {
-                formsMock[i].title = doc.title;
-                formsMock[i].userId = doc.userId;
-                formsMock[i].fields = doc.fields;
+                formsMock[i].title = form.title;
+                formsMock[i].userId = form.userId;
+                formsMock[i].fields = form.fields;
             }
         }
     }
 
-    function deleteForm(form) {
-        for(var i in mock) {
+    function deleteForm(formId) {
+        for(var i in formsMock) {
             if (formsMock[i].formname === formId) {
-                mock.pop(formsMock[i]);
+                formsMock.pop(formsMock[i]);
             }
         }
         return form;
     }
 
+
+    function findFormByTitle(title) {
+        for (var i in formsMock) {
+            if (formsMock[i].title === title) {
+                return formsMock[i];
+            }
+        }
+        return null;
+    }
 };

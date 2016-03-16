@@ -4,7 +4,7 @@ module.exports = function(mongoose) {
         lastName: String,
         username: String,
         password: String,
-        email: String
+        email: {type: String, default: ""}
     });
     return UserSchema;
 };
