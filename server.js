@@ -47,10 +47,7 @@ var Course = mongoose.model("Course", CourseSchema);
 app.use(express.static(__dirname + '/public'));
 
 
-//FORM CRUD
-app.get('/form', function(req,res){
-
-})
+require("./assignment3/server/app.js")(app, db, mongoose);
 
 
 
