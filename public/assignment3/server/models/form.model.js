@@ -1,17 +1,15 @@
 var q = require("q");
 var formsMock = require("./form.mock.json");
 
-
 module.exports = function(mongoose) {
     var FormSchema = require("./form.server.schema.js")(mongoose);
     var FormModel = mongoose.model("FormModel", FormSchema);
     var api = {
         createForm: createForm,
         getAllForms: getAllForms,
-        findFormByFormname: findFormByFormname,
         updateForm: updateForm,
-        findFormByCredentials: findFormByCredentials,
-        deleteForm: deleteForm
+        deleteForm: deleteForm,
+        getForm:getForm
     };
     return api;
 
@@ -21,35 +19,36 @@ module.exports = function(mongoose) {
         return form;
     }
 
-    function getAllForms() {
-        var deferred = q.defer();
-
-        setTimeout(
-            function() {
-                deferred.resolve(formsMock);
-            },
-            100
-        );
-
-        return deferred.promise;
+    function getForm(formId) {
+        for (var i in formsMock) {
+            if (usersMock[i]._id === formId) {
+                return formsMock[i];
+            }
+        }
+        return null;
     }
 
+    function getAllForms() {
+        var users = [];
+        for (var i in formsMock) {
+            users.push(formsMock[i])
+        }
+        return users;
+    }
     function updateForm(formId, doc) {
-        for(var i in mock) {
+        for(var i in formsMock) {
             if (formsMock[i]._id === formId) {
-                formsMock[i].firstName = doc.firstName;
-                formsMock[i].lastName = doc.lastName;
-                formsMock[i].formname = doc.formname;
-                formsMock[i].password = doc.password;
-                formsMock[i].email = doc.email;
+                formsMock[i].title = doc.title;
+                formsMock[i].userId = doc.userId;
+                formsMock[i].fields = doc.fields;
             }
         }
     }
 
     function deleteForm(form) {
         for(var i in mock) {
-            if (formsMock[i].formname === formId && formsMock[i].password == credentials.password) {
-                mock.pop(form);
+            if (formsMock[i].formname === formId) {
+                mock.pop(formsMock[i]);
             }
         }
         return form;
