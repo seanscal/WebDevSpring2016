@@ -2,7 +2,7 @@ var model = require("../models/form.model.js")();
 
 module.exports = function (app) {
 
-    app.post("/api/assignment/form/:formId/field", addFormForUser);
+    app.post("/api/assignment/form/:formId/field", addField);
     app.get("/api/assignment/form/:formId/field", getAllFieldsForForm);
     app.get("/api/assignment/form/:formId/field/:fieldId", getSingleFieldFromForm);
     app.put("/api/assignment/form/:formId/field/:fieldId", updateField);
