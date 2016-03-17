@@ -12,6 +12,14 @@
         $scope.deleteForm = deleteForm;
         $scope.selectForm = selectForm;
 
+        function getAllForms(userId){
+            FormService.findAllFormsForUser(userId).then(function(res){
+                console.log(res);
+                $scope.forms = res;
+            });
+        }
+        getAllForms($rootScope.currentUser._id);
+
         function addForm() {
             FormService.createFormForUser($rootScope.currentUser._id, { title: $scope.formTitle }).then(function(res){
                 $scope.formTitle = null;

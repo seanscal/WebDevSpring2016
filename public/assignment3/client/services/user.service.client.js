@@ -39,7 +39,7 @@
 
         function findAllUsers(){
             var deferred = $q.defer();
-            $http.get("/api/assignment/user").success(function(response){
+            $http.get("/api/assignment/user/").success(function(response){
                 deferred.resolve(response);
             });
             return deferred.promise;
@@ -47,7 +47,7 @@
 
         function findSingleUser(userId){
             var deferred = $q.defer();
-            $http.get("/api/assignment/user/"+userId).success(function(response){
+            $http.get("/api/assignment/user/"+userId+"/").success(function(response){
                 deferred.resolve(response);
             });
             return deferred.promise;
@@ -55,7 +55,7 @@
 
         function createUser(user){
             var deferred = $q.defer();
-            $http.post("/api/assignment/user", user).success(function(response){
+            $http.post("/api/assignment/user/", user).success(function(response){
                 deferred.resolve(response);
             });
             return deferred.promise;
@@ -63,7 +63,7 @@
 
         function deleteUserById(userId){
             var deferred = $q.defer();
-            $http.delete("/api/assignment/user/" +userId).success(function(response){
+            $http.delete("/api/assignment/user/" +userId+"/").success(function(response){
                 if (res.ok == 1) {
                     $http.get("/api/assignment/user").success(function (users) {
                         deferred.resolve(users);
@@ -75,7 +75,7 @@
 
         function updateUser(userId, user){
             var deferred = $q.defer();
-            $http.put("/api/assignment/user/" + userId, user).success(function(response){
+            $http.put("/api/assignment/user/" + userId +"/", user).success(function(response){
                 deferred.resolve(response);
             });
             return deferred.promise;

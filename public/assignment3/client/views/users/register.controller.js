@@ -15,6 +15,7 @@
                 console.log($scope.user);
                 $scope.passwordVerification = null;
 
+
                 UserService.createUser($scope.user).then(function(res){
                     console.log(res);
                     UserService.setCurrentUser(res);

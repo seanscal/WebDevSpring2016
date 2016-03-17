@@ -2,12 +2,12 @@ var model = require("../models/form.model.js")();
 
 module.exports = function (app) {
 
-    app.post("/api/assignment/user/:userId/form", addFormForUser);
-    app.get("/api/assignment/user/:userId/form", getAllFormsForUser);
-    app.get("/api/assignment/form", getAllForms);
-    app.get("/api/assignment/form/:formId", getSingleForm);
-    app.put("/api/assignment/form/:formId", updateForm);
-    app.delete("/api/assignment/form/:formId", removeForm);
+    app.post("/api/assignment/user/:userId/form/", addFormForUser);
+    app.get("/api/assignment/user/:userId/form/", getAllFormsForUser);
+    app.get("/api/assignment/form/", getAllForms);
+    app.get("/api/assignment/form/:formId/", getSingleForm);
+    app.put("/api/assignment/form/:formId/", updateForm);
+    app.delete("/api/assignment/form/:formId/", removeForm);
 
 
     function getAllForms(req, res) {

@@ -2,7 +2,7 @@ var q = require("q");
 var uuid = require('node-uuid');
 var formsMock = require("./form.mock.json");
 
-module.exports = function(db) {
+module.exports = function(mongoose) {
     //var FormSchema = require("./form.server.schema.js")(mongoose);
     //var FormModel = mongoose.model("FormModel", FormSchema);
     var api = {
@@ -57,7 +57,7 @@ module.exports = function(db) {
     function findAllFormsForUser(userId) {
         var forms = [];
         for (var i =0; i < formsMock.length; i++) {
-            if(formsMock[i].userId = userId) {
+            if(formsMock[i].userId == userId) {
                 forms.push(formsMock[i])
             }
         }

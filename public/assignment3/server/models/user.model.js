@@ -70,7 +70,7 @@ module.exports = function (db) {
         var deferred = q.defer();
         for (var i =0; i < usersMock.length; i++)  {
             if (usersMock[i].username === username && usersMock[i].password == password) {
-                return usersMock[i].username;
+                return usersMock[i];
             }
         }
         return null;

@@ -30,6 +30,7 @@
     "mongoose": "^4.4.7",
     "node-uuid": "^1.4.7",
     "q": "^1.4.1",
+    "querystring": "^0.2.0",
     "request": "^2.69.0",
     "require": "^2.4.20"
   },

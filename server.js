@@ -11,6 +11,10 @@ var STATURL = "http://nhlwc.cdnak.neulion.com/fs1/nhl/league/playerstatsline/201
 // create a default connection string
 var connectionString = 'mongodb://127.0.0.1:27017/cs5200';
 var db = connectionString;
+
+
+
+
 // use remote connection string
 // if running in remote server
 //if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
@@ -47,32 +51,6 @@ app.use(express.static(__dirname + '/public'));
 
 
 require("./public/assignment3/server/app.js")(app, db);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //bring in project api
 app.get('/api/playerStats', function (req, res) {

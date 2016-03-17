@@ -2,13 +2,12 @@ var model = require("../models/user.model.js")();
 
 module.exports = function (app) {
 
-    app.post("/api/assignment/user", addUser);
-    app.get("/api/assignment/user", getAllUsers);
-    app.get("/api/assignment/user/:id", getSingleUser);
-    app.get("/api/assignment/user?username=username", getUserByUsername);
-    app.get("/api/assignment/user?username=username&password=password", getUserByCredentials);
-    app.put("/api/assignment/user/:id", updateUser);
-    app.delete("/api/assignment/user/:id", removeUser);
+    app.post("/api/assignment/user/", addUser);
+    app.get("/api/assignment/user/", getAllUsers);
+    app.get("/api/assignment/user/:id/", getSingleUser);
+    app.get("/api/assignment/user", getUserQuery);
+    app.put("/api/assignment/user/:id/", updateUser);
+    app.delete("/api/assignment/user/:id/", removeUser);
 
 
     function addUser(req, res) {
@@ -25,17 +24,16 @@ module.exports = function (app) {
         res.json(model.findUserById(id));
     }
 
-    function getUserByUsername(req, res) {
-        var username = req.query.username;
-        res.json(model.findUserByUsername(username));
-    }
-
-    function getUserByCredentials(req, res) {
+    function getUserQuery(req, res) {
         var username = req.query.username;
         var password = req.query.password;
-        console.log(username);
-        console.log(password);
-        res.json(model.findUserByCredentials(username,password));
+
+        if (password){
+            res.json(model.findUserByCredentials(username,password));
+        }
+        else{
+            res.json(model.findUserByUsername(username));
+        }
     }
 
     function updateUser(req, res) {
