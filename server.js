@@ -7,34 +7,33 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 var domain = "http://localhost:3000/";
 var STATURL = "http://nhlwc.cdnak.neulion.com/fs1/nhl/league/playerstatsline/20152016/2/NJD/iphone/playerstatsline.json"
-var mongoose = require('mongoose');
 
 // create a default connection string
 var connectionString = 'mongodb://127.0.0.1:27017/cs5200';
 
 // use remote connection string
 // if running in remote server
-if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
-    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
-        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
-        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
-        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-        process.env.OPENSHIFT_APP_NAME;
-
-    var domain = "http://kevinscalabrini-webdev2016.rhcloud.com/";
-}
-
-// connect to the database
-var db = mongoose.connect(connectionString);
-
-
-var CourseSchema = new mongoose.Schema({
-    title: String,
-    seats: {type: Number, default: 25},
-    starts: {type: Date, default: Date.now}
-});
-
-var Course = mongoose.model("Course", CourseSchema);
+//if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+//    connectionString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+//        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+//        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+//        process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+//        process.env.OPENSHIFT_APP_NAME;
+//
+//    var domain = "http://kevinscalabrini-webdev2016.rhcloud.com/";
+//}
+//
+//// connect to the database
+//var db = mongoose.connect(connectionString);
+//
+//
+//var CourseSchema = new mongoose.Schema({
+//    title: String,
+//    seats: {type: Number, default: 25},
+//    starts: {type: Date, default: Date.now}
+//});
+//
+//var Course = mongoose.model("Course", CourseSchema);
 
 //Course.create({title: "NEW", seats: 32},
 //    function(err, results){
