@@ -81,11 +81,11 @@ module.exports = function(mongoose) {
 
     function deleteForm(formId) {
         for (var i =0; i < formsMock.length; i++) {
-            if (formsMock[i].formname === formId) {
-                formsMock.splice(i,1);
+            if (formsMock[i]._id === formId) {
+                return formsMock.splice(i,1);
             }
         }
-        return form;
+        return null;
     }
 
 

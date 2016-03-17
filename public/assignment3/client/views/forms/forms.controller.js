@@ -37,19 +37,23 @@
             FormService.updateFormById($scope.selectedForm._id, $scope.selectedForm).then(function(res){
                 $scope.selectedForm = null;
                 $scope.formTitle = null;
+                getAllForms($rootScope.currentUser._id);
             });
         }
 
-        function deleteForm(index) {
-            FormService.deleteFormById(FormService.forms[index]._id).then(function(res){
+        function deleteForm(id) {
+            FormService.deleteFormById(id).then(function(res){
                 $scope.selectedForm = null;
                 $scope.formTitle = null;
+                getAllForms($rootScope.currentUser._id);
             });
         }
 
-        function selectForm(index) {
-            $scope.selectedForm = $.extend(true, {}, FormService.forms[index]);
-            $scope.formTitle = $scope.selectedForm.title;
+        function selectForm(id) {
+            FormService.getFormById(id).then(function(res){
+                $scope.selectedForm = res;
+                $scope.formTitle = $scope.selectedForm.title;
+            });
         }
     }
 })();
