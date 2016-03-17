@@ -9,8 +9,7 @@
         function login (user) {
             UserService.findUserByCredentials(user.username, user.password).then(function(res){
                 if (res){
-                    console.log(res);
-                    $rootScope.currentUser = res[0];
+                    $rootScope.currentUser = res;
                     UserService.setCurrentUser(res);
                     $rootScope.$location.url("/profile");
                 }

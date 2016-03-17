@@ -22,7 +22,8 @@ module.exports = function (app) {
 
     function addFormForUser(req, res) {
         var userId = req.params.userId;
-        res.json(model.createFormForUser(userId));
+        var form = req.body;
+        res.json(model.createFormForUser(userId, form));
     }
 
     function getSingleForm(req, res) {
@@ -38,6 +39,6 @@ module.exports = function (app) {
 
     function removeForm(req, res) {
         var formId = req.params.formId;
-        res.json(model.deleteForm(id));
+        res.json(model.deleteForm(formId));
     }
 };

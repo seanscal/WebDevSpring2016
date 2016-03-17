@@ -30,11 +30,16 @@ module.exports = function(mongoose) {
         return form;
     }
 
-    function createFormForUser(form, userId) {
-        form._id = uuid.v4();
-        form.userId = userId;
-        formsMock.push(form);
-        return form;
+    function createFormForUser(userId, form) {
+
+        var newForm = {
+            _id: uuid.v4(),
+            userId: userId,
+            title: form.title,
+            fields: form.fields
+        };
+        formsMock.push(newForm);
+        return newForm;
     }
 
     function findFormById(formId) {
