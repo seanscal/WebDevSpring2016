@@ -10,7 +10,7 @@ var STATURL = "http://nhlwc.cdnak.neulion.com/fs1/nhl/league/playerstatsline/201
 
 // create a default connection string
 var connectionString = 'mongodb://127.0.0.1:27017/cs5200';
-
+var db = connectionString;
 // use remote connection string
 // if running in remote server
 //if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
