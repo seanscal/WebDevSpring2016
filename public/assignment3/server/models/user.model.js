@@ -2,7 +2,7 @@ var q = require("q");
 var usersMock = require("./user.mock.json");
 var currentUser;
 
-module.exports = function (mongoose) {
+module.exports = function (db) {
     //var UserSchema = require("./user.server.schema.js")(mongoose);
     //var UserModel = mongoose.model("UserModel", UserSchema);
     var api = {
