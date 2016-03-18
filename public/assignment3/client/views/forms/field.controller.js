@@ -50,7 +50,7 @@
                 $scope.field.placeholder = "DD/MM/YYYY"
             }
 
-            if ($scope.field.options) {
+            if ($scope.field.options != "" || $scope.field.options != null) {
                 $scope.field.options = parseData($scope.field.options);
             }
             var newField = $scope.field;
@@ -61,8 +61,9 @@
         }
 
         function updateField(fieldId, field) {
-
-            field.options = parseData(field.options);
+            if (field.options){
+                field.options = parseData(field.options);
+            }
             console.log(field.options);
             console.log(field)
 
@@ -99,7 +100,7 @@
         function edit(field) {
 
             var str ="";
-            if (field.options){
+            if (field.options != "" || field.options!=null){
                 for (var x = 0; x<field.options.length; x++){
                     str = str + "value:" + field.options[x].value + ",label:"+field.options[x].label+"\n";
                 }
