@@ -34,7 +34,9 @@
         function createFieldForForm(formId, field){
             var deferred = $q.defer();
             $http.post("/api/assignment/form/"+formId+"/field/", field).success(function(response){
-                deferred.resolve(response);
+                $http.get("/api/assignment/form/"+formId+"/field/").success(function (forms) {
+                    deferred.resolve(forms);
+                });
             });
             return deferred.promise;
         }
@@ -42,8 +44,8 @@
         function deleteFieldFromForm(formId, fieldId){
             var deferred = $q.defer();
             $http.delete("/api/assignment/form/"+formId+"/field/"+fieldId+"/").success(function(response){
-                if (res.ok == 1) {
-                    $http.get("/api/assignment/form").success(function (forms) {
+                if (response) {
+                    $http.get("/api/assignment/form/"+formId+"/field/").success(function (forms) {
                         deferred.resolve(forms);
                     });
                 }

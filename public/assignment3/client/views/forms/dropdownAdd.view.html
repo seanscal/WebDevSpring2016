@@ -1,0 +1,20 @@
+<form>
+    <div class="form-group col-sm-8">
+        <label for="single">Label:</label>
+        <input ng-model="field.label" class="form-control" id="single">
+        <label for="options">Options:</label>
+        <textarea class="form-control" id="options" placeholder="value:value,label:label" ng-model="field.options"></textarea>
+        <div class="top-spacing">
+            <button ng-show="model.addOrEdit == 'add'" ng-click="addField(model.fieldType)" class="btn btn-primary btn-block">Add
+            </button>
+        </div>
+        <div class="top-spacing">
+            <button ng-show="model.addOrEdit == 'edit'" ng-click="updateField(field._id, field)" class="btn btn-primary btn-block">Update
+            </button>
+        </div>
+        <div class="top-spacing">
+            <button ng-show="model.addOrEdit == 'edit'" ng-click="cancel()" class="btn btn-primary btn-block" >Cancel
+            </button>
+        </div>
+    </div>
+</form>

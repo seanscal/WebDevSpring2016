@@ -121,12 +121,13 @@ module.exports = function(mongoose) {
         return null;
     }
 
-    function deleteField(formId) {
+    function deleteField(formId,fieldId) {
+
         for (var i =0; i < formsMock.length; i++)  {
             if (formsMock[i]._id === formId) {
                 for (var j =0; j < formsMock[i].fields.length; j++)
                 {
-                    if (formsMock[i].fields[j] === fieldId) {
+                    if (formsMock[i].fields[j]._id === fieldId) {
                         return formsMock[i].fields.splice(j,1);
                     }
                 }
@@ -151,7 +152,7 @@ module.exports = function(mongoose) {
             if (formsMock[i]._id === formId) {
                 for (var j =0; j < formsMock[i].fields.length; j++)
                 {
-                    if (formsMock[i].fields[j] === fieldId) {
+                    if (formsMock[i].fields[j]._id === fieldId) {
                         formsMock[i].fields[j].label = field.label;
                         formsMock[i].fields[j].type = field.type;
                         formsMock[i].fields[j].placeholder = field.placeholder;
@@ -160,6 +161,6 @@ module.exports = function(mongoose) {
                 }
             }
         }
-        return form;
+        return null;
     }
 };

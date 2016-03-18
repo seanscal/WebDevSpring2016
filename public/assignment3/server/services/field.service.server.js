@@ -10,7 +10,7 @@ module.exports = function (app) {
 
     function getAllFieldsForForm(req, res) {
         var formId = req.params.formId;
-        res.json(model.findFieldsForForm(formId));
+        res.json(model.findAllFieldsForForm(formId));
     }
 
     function getSingleFieldFromForm(req, res) {
@@ -29,7 +29,7 @@ module.exports = function (app) {
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
         var field = req.body;
-        res.json(model.update(formId, fieldId, field));
+        res.json(model.updateField(formId, fieldId, field));
     }
 
     function addField(req, res) {

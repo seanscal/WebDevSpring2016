@@ -2,10 +2,10 @@
 
 
 <ul id="myTabs" class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#" id="forms-tab" role="tab" data-toggle="tab"
-                                              aria-controls="forms" aria-expanded="true">Forms</a></li>
-    <li role="presentation"><a href="field.view.html" role="tab" id="fields-tab" data-toggle="tab"
-                               aria-controls="fields">Fields</a></li>
+    <li role="presentation" ng-class="{'active': $location.url()=='/forms'}"><a ng-click="displayForms()" id="forms-tab"
+                                                                                role="tab" data-toggle="tab"
+                                                                                aria-controls="forms"
+                                                                                aria-expanded="true">Forms</a></li>
 </ul>
 <div id="myTabContent" class="tab-content">
     <div role="formspanel" class="tab-pane fade in active" id="forms" aria-labelledby="forms-tab">
@@ -37,7 +37,7 @@
                 </tr>
 
                 <tr ng-repeat="form in forms" ng-class="{'selectedRow' : form._id === selectedForm._id }">
-                    <td>{{form.title}}</td>
+                    <td><a ng-click="displayFields(form._id)">{{form.title}}</a></td>
                     <td>
                         <div class="btn-group">
                             <button ng-click="deleteForm(form._id)" type="button" class="btn btn-default">

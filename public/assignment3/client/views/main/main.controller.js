@@ -6,5 +6,7 @@
     function MainController($rootScope, $location) {
         $rootScope.$location = $location;
         $rootScope.currentUser = null;
+        $rootScope.formParam =0;
+        $rootScope.fields=false;
     }
 })();

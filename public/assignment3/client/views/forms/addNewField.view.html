@@ -1,0 +1,34 @@
+<div ng-show="model.addOrEdit == 'add'" class="form-group col-sm-8">
+    <label for="addNewField">Add New Field:</label>
+    <select id="addNewField" class="form-control" ng-model="model.fieldType">
+        <option value="TEXT">Single Line Text</option>
+        <option value="TEXTAREA">Multiple Lines Text</option>
+        <option value="DATE">Date</option>
+        <option value="OPTIONS">Dropdown</option>
+        <option value="CHECKBOXES">Checkboxes</option>
+        <option value="RADIOS">Radio Buttons</option>
+    </select>
+</div>
+
+
+<div ng-show="model.fieldType" class="animate-switch-container"
+     ng-switch on="model.fieldType">
+    <div class="animate-switch" ng-switch-when="TEXT">
+        <div ng-include="'./views/forms/singleLineAdd.view.html'"></div>
+    </div>
+    <div class="animate-switch" ng-switch-when="TEXTAREA">
+        <div ng-include="'./views/forms/multiLineAdd.view.html'"></div>
+    </div>
+    <div class="animate-switch" ng-switch-when="DATE">
+        <div ng-include="'./views/forms/dateAdd.view.html'"></div>
+    </div>
+    <div class="animate-switch" ng-switch-when="OPTIONS">
+        <div ng-include="'./views/forms/dropdownAdd.view.html'"></div>
+    </div>
+    <div class="animate-switch" ng-switch-when="CHECKBOXES">
+        <div ng-include="'./views/forms/checkBoxAdd.view.html'"></div>
+    </div>
+    <div class="animate-switch" ng-switch-when="RADIOS">
+        <div ng-include="'./views/forms/radioButtonAdd.view.html'"></div>
+    </div>
+</div>

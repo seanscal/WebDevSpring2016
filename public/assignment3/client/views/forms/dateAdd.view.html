@@ -1,0 +1,18 @@
+<form>
+    <div class="form-group col-sm-8">
+        <label for="label">Label:</label>
+        <input ng-model="field.label" type="text" class="form-control" id="label">
+        <div class="top-spacing">
+            <button ng-show="model.addOrEdit == 'add'" ng-click="addField(model.fieldType)" class="btn btn-primary btn-block">Add
+            </button>
+        </div>
+        <div class="top-spacing">
+            <button ng-show="model.addOrEdit == 'edit'" ng-click="updateField(field._id, field)" class="btn btn-primary btn-block">Update
+            </button>
+        </div>
+        <div class="top-spacing">
+            <button ng-show="model.addOrEdit == 'edit'" ng-click="cancel()" class="btn btn-primary btn-block" >Cancel
+            </button>
+        </div>
+    </div>
+</form>
