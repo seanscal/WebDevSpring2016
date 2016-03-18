@@ -1,105 +1,120 @@
-<div class="form-group col-sm-11" ng-repeat="field in fields" ng-switch on="field.type"
-     ng-class="{'selectedRow' : field._id === selectedField._id }">
-    <div class="animate-switch" ng-switch-when="TEXT">
-        <div class="form-group col-sm-7">
-            <label for="single">{{field.label}}</label>
-            <input class="form-control" id="single" placeholder={{field.placeholder}}>
-        </div>
-        <div class="form-group col-sm-3 editors">
-            <button ng-click="edit(field)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-    <div class="animate-switch" ng-switch-when="TEXTAREA">
-        <div class="form-group col-sm-7">
-            <label for="multi">{{field.label}}</label>
-            <textarea class="form-control" id="multi" placeholder={{field.placeholder}}></textarea>
-        </div>
-        <div class="form-group col-sm-3 editors">
-            <button ng-click="edit(field)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-    <div class="animate-switch" ng-switch-when="OPTIONS">
-        <div class="form-group col-sm-7">
-            <label for="options">{{field.label}}</label>
-            <select id="options" class="form-control">
-                <option ng-repeat="option in field.options" value={{option.value}}>{{option.label}}</option>
-            </select>
-        </div>
-        <div class="form-group col-sm-3 editors">
-            <button ng-click="edit(field)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-
-    <div class="animate-switch" ng-switch-when="CHECKBOXES">
-        <div class="form-group col-sm-7">
-            <label for="check">{{field.label}}</label>
-            <div id="check" class="checkbox">
-                <label ng-repeat="check in field.options">
-                    <input type="checkbox" value={{check.value}}>
-                    {{check.label}}
-                    <br>
-                </label>
+<ul class="sortable">
+    <div class="form-group col-sm-11" ng-repeat="field in fields" ng-switch on="field.type"
+         ng-class="{'selectedRow' : field._id === selectedField._id }">
+        <div class="animate-switch" ng-switch-when="TEXT">
+            <div class="form-group col-sm-7">
+                <label for="single">{{field.label}}</label>
+                <input class="form-control" id="single" placeholder={{field.placeholder}}>
+            </div>
+            <div class="form-group col-sm-3 editors">
+                <button ng-click="edit(field)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button ng-click="" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
-        <div class="form-group col-sm-3 editors">
-            <button ng-click="edit(field)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-
-    <div class="animate-switch" ng-switch-when="RADIOS">
-        <div class="form-group col-sm-7">
-            <label for="radio" class="radio">{{field.label}}</label>
-            <div id="radio" class="radio">
-                <label ng-repeat="radio in field.options">
-                    <input type="radio" name="optionsRadios" id={{radio.value}} value={{radio.value}}>
-                    {{radio.label}}
-                </label>
+        <div class="animate-switch" ng-switch-when="TEXTAREA">
+            <div class="form-group col-sm-7">
+                <label for="multi">{{field.label}}</label>
+                <textarea class="form-control" id="multi" placeholder={{field.placeholder}}></textarea>
+            </div>
+            <div class="form-group col-sm-3 editors">
+                <button ng-click="edit(field)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button ng-click="" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                </button>
             </div>
         </div>
-        <div class="form-group col-sm-3 editors">
-            <button ng-click="edit(field)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
+        <div class="animate-switch" ng-switch-when="OPTIONS">
+            <div class="form-group col-sm-7">
+                <label for="options">{{field.label}}</label>
+                <select id="options" class="form-control">
+                    <option ng-repeat="option in field.options" value={{option.value}}>{{option.label}}</option>
+                </select>
+            </div>
+            <div class="form-group col-sm-3 editors">
+                <button ng-click="edit(field)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button ng-click="" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="animate-switch" ng-switch-when="CHECKBOXES">
+            <div class="form-group col-sm-7">
+                <label for="check">{{field.label}}</label>
+                <div id="check" class="checkbox">
+                    <label ng-repeat="check in field.options">
+                        <input type="checkbox" value={{check.value}}>
+                        {{check.label}}
+                        <br>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-sm-3 editors">
+                <button ng-click="edit(field)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="animate-switch" ng-switch-when="RADIOS">
+            <div class="form-group col-sm-7">
+                <label for="radio" class="radio">{{field.label}}</label>
+                <div id="radio" class="radio">
+                    <label ng-repeat="radio in field.options">
+                        <input type="radio" name="optionsRadios" id={{radio.value}} value={{radio.value}}>
+                        {{radio.label}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-group col-sm-3 editors">
+                <button ng-click="edit(field)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button ng-click="" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="animate-switch" ng-switch-default>
+            <div class="form-group col-sm-7">
+                <label for="dOB">{{field.label}}</label>
+                <input type="text" class="form-control" id="dOB" placeholder={{field.placeholder}}>
+            </div>
+            <div class="form-group col-sm-3 editors">
+                <button ng-click="edit(field)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                </button>
+                <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button ng-click="" type="button" class="btn btn-default">
+                    <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                </button>
+            </div>
         </div>
     </div>
-
-    <div class="animate-switch" ng-switch-default>
-        <div class="form-group col-sm-7">
-            <label for="dOB">{{field.label}}</label>
-            <input type="text" class="form-control" id="dOB" placeholder={{field.placeholder}}>
-        </div>
-        <div class="form-group col-sm-3 editors">
-            <button ng-click="edit(field)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button ng-click="deleteField(field._id)" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-
-
-</div>
+</ul>

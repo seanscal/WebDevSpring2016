@@ -6,6 +6,7 @@
 
     function FieldController($rootScope, $scope, $routeParams, FieldService) {
 
+        $(".sortable").sortable({ handle: '.handle' });
         $scope.fields = [];
         $scope.title = "";
         $scope.model = {
