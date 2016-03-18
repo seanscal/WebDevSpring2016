@@ -50,7 +50,7 @@
                 $scope.field.placeholder = "DD/MM/YYYY"
             }
 
-            if ($scope.field.options != "" || $scope.field.options != null) {
+            if ($scope.field.options.length>0) {
                 $scope.field.options = parseData($scope.field.options);
             }
             var newField = $scope.field;
