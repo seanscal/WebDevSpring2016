@@ -29,12 +29,9 @@
                 templateUrl: "./views/forms/forms.view.html",
                 controller: "FormsController"
             })
-            .when("/form/:formId/fields", {
+            .when("/forms/:formId/fields", {
                 templateUrl: "./views/forms/field.view.html",
                 controller: "FieldController"
             })
-            .otherwise({
-                redirectTo: "/home"
-            });
     }
 })();

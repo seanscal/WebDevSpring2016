@@ -10,3 +10,7 @@
 .editors{
     margin-top: 24px;
 }
+
+#modals {
+    display: none;
+}

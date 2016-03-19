@@ -67,7 +67,6 @@ module.exports = function (db) {
     }
 
     function findUserByCredentials(username, password) {
-        var deferred = q.defer();
         for (var i =0; i < usersMock.length; i++)  {
             if (usersMock[i].username === username && usersMock[i].password == password) {
                 return usersMock[i];

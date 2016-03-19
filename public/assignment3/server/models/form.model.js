@@ -2,49 +2,41 @@ var q = require("q");
 var uuid = require('node-uuid');
 var formsMock = require("./form.mock.json");
 
-module.exports = function(mongoose) {
-    //var FormSchema = require("./form.server.schema.js")(mongoose);
-    //var FormModel = mongoose.model("FormModel", FormSchema);
+module.exports = function() {
+    "use strict";
     var api = {
         createForm: createForm,
         findAllForms: findAllForms,
+        findFormBy: findFormBy,
+        findFormByTitle: findFormByTitle,
+        findFormByUser: findFormByUser,
         updateForm: updateForm,
         deleteForm: deleteForm,
-        findFormById: findFormById,
-        findFormByTitle: findFormByTitle,
 
-        findAllFormsForUser: findAllFormsForUser,
-        createFormForUser: createFormForUser,
-
-        findAllFieldsForForm: findAllFieldsForForm,
-        findFieldForForm: findFieldForForm,
+        findAllFieldsByForm: findAllFieldsByForm,
+        findFieldByForm: findFieldByForm,
         deleteField: deleteField,
-        createField: createField,
         updateField: updateField,
+        createField: createField,
         updateAllFields: updateAllFields
     };
     return api;
 
     function createForm(form) {
-        form._id = uuid.v4();
+        form._id = (new Date).getTime().toString();
+        form.label = null;
+        form.type = null;
+        form.fields = []
         formsMock.push(form);
         return form;
     }
 
-    function createFormForUser(userId, form) {
-
-        var newForm = {
-            _id: uuid.v4(),
-            userId: userId,
-            title: form.title,
-            fields: form.fields
-        };
-        formsMock.push(newForm);
-        return newForm;
+    function findAllForms() {
+        return formsMock;
     }
 
-    function findFormById(formId) {
-        for (var i =0; i < formsMock.length; i++) {
+    function findFormBy(formId) {
+        for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
                 return formsMock[i];
             }
@@ -52,46 +44,8 @@ module.exports = function(mongoose) {
         return null;
     }
 
-    function findAllForms() {
-        var forms = [];
-        for (var i =0; i < formsMock.length; i++) {
-            forms.push(formsMock[i])
-        }
-        return forms;
-    }
-
-    function findAllFormsForUser(userId) {
-        var forms = [];
-        for (var i =0; i < formsMock.length; i++) {
-            if(formsMock[i].userId == userId) {
-                forms.push(formsMock[i])
-            }
-        }
-        return forms;
-    }
-
-    function updateForm(formId, form) {
-        for (var i =0; i < formsMock.length; i++) {
-            if (formsMock[i]._id === formId) {
-                formsMock[i].title = form.title;
-                formsMock[i].userId = form.userId;
-                formsMock[i].fields = form.fields;
-            }
-        }
-    }
-
-    function deleteForm(formId) {
-        for (var i =0; i < formsMock.length; i++) {
-            if (formsMock[i]._id === formId) {
-                return formsMock.splice(i,1);
-            }
-        }
-        return null;
-    }
-
-
     function findFormByTitle(title) {
-        for (var i =0; i < formsMock.length; i++) {
+        for (var i in formsMock) {
             if (formsMock[i].title === title) {
                 return formsMock[i];
             }
@@ -99,21 +53,78 @@ module.exports = function(mongoose) {
         return null;
     }
 
-    function findAllFieldsForForm(formId){
-        for (var i =0; i < formsMock.length; i++) {
+    function findFormByUser(userId) {
+        var userForms = [];
+        for (var i in formsMock) {
+            if (formsMock[i].userId === userId) {
+                userForms.push(formsMock[i])
+            }
+        }
+        return userForms;
+    }
+
+    function updateForm(formId, form) {
+        for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
+                formsMock[i] = form;
+                return formsMock[i];
+            }
+        }
+        return null;
+    }
+
+    function deleteForm(formId) {
+        var newForms = [];
+        for (var i in formsMock) {
+            if (formsMock[i]._id !== formId) {
+                newForms.push(formsMock[i]);
+            }
+        }
+        formsMock = newForms;
+    }
+
+    function findAllFieldsByForm(formId) {
+        var form = findFormBy(formId)
+        if (form) {
+            return form.fields;
+        }
+        return null;
+    }
+
+    function findFieldByForm(formId, fieldId) {
+        var fields = findAllFieldsByForm(formId);
+        for (var i in fields) {
+            if (fields[i]._id === fieldId) {
+                return fields[i];
+            }
+        }
+        return null;
+    }
+
+    function deleteField(formId, fieldId) {
+        var newFields = [];
+        var currentFields = findAllFieldsByForm(formId);
+        for (var i in currentFields) {
+            if (currentFields[i]._id !== fieldId) {
+                newFields.push(currentFields[i]);
+            }
+        }
+
+        for (var i in formsMock) {
+            if (formsMock[i]._id === formId) {
+                formsMock[i].fields = newFields;
                 return formsMock[i].fields;
             }
         }
         return null;
     }
 
-    function findFieldForForm(formId, fieldId){
-        for (var i =0; i < formsMock.length; i++)  {
+    function updateField(formId, fieldId, newField) {
+        for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
-                for (var j =0; j < formsMock[i].fields.length; j++)
-                {
-                    if (formsMock[i].fields[j] === fieldId) {
+                for (var j in formsMock[i].fields) {
+                    if (formsMock[i].fields[j]._id === fieldId) {
+                        formsMock[i].fields[j] = newField;
                         return formsMock[i].fields[j];
                     }
                 }
@@ -122,57 +133,25 @@ module.exports = function(mongoose) {
         return null;
     }
 
-    function deleteField(formId,fieldId) {
-
-        for (var i =0; i < formsMock.length; i++)  {
+    function updateAllFields(formId, newFields) {
+        for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
-                for (var j =0; j < formsMock[i].fields.length; j++)
-                {
-                    if (formsMock[i].fields[j]._id === fieldId) {
-                        return formsMock[i].fields.splice(j,1);
-                    }
-                }
+                formsMock[i].fields = newFields;
+                return formsMock[i].fields;
             }
         }
         return null;
     }
 
-    function createField(formId, field) {
-        for (var i =0; i < formsMock.length; i++)  {
+    function createField(formId, newField) {
+        newField._id = (new Date).getTime().toString();
+        for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
-                field._id = uuid.v4();
-                formsMock[i].fields.push(field);
-                return field;
+                formsMock[i].fields.push(newField);
+                return formsMock[i].fields;
+
             }
         }
         return null;
-    }
-
-    function updateField(formId, fieldId, field) {
-        for (var i =0; i < formsMock.length; i++)  {
-            if (formsMock[i]._id === formId) {
-                for (var j =0; j < formsMock[i].fields.length; j++)
-                {
-                    if (formsMock[i].fields[j]._id === fieldId) {
-                        formsMock[i].fields[j].label = field.label;
-                        formsMock[i].fields[j].type = field.type;
-                        formsMock[i].fields[j].placeholder = field.placeholder;
-                        formsMock[i].fields[j].options = field.options;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    function updateAllFields(formId, fields) {
-
-        var deferred = q.defer();
-
-        findFormById(formId).then(function(form) {
-            form.fields = fields;
-            deferred.resolve(fields);
-        });
-
-        return deferred.promise;
     }
 };

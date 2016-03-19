@@ -1,66 +1,81 @@
-(function () {
-    'use strict';
-
-    angular.module("FormBuilderApp")
+(function() {
+    "use strict";
+    angular
+        .module('FormBuilderApp')
         .controller("FormsController", FormsController);
 
-    function FormsController($rootScope, $scope, FormService, FieldService) {
-
-        if (!$rootScope.currentUser) {
-            $rootScope.$location.url('/login')
+    function FormsController($rootScope, $scope, FormService) {
+        if(!$rootScope.currentUser){
+            $scope.$location.url('/login');
         }
 
-        $scope.forms = FormService.forms;
+        FormService.findAllFormsForUser($rootScope.currentUser._id).then(
+            function(res) {
+                $scope.forms = res.data;
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
 
-        $scope.addForm = addForm;
-        $scope.updateForm = updateForm;
-        $scope.deleteForm = deleteForm;
-        $scope.selectForm = selectForm;
-        $scope.displayFields = displayFields;
+        $scope.currentSelection = null;
 
-        function getAllForms(userId) {
-            FormService.findAllFormsForUser(userId).then(function (res) {
-                $scope.forms = res;
-            });
-        }
+        $scope.addForm = function() {
+            if ($scope.formTitle === undefined) return;
 
-        getAllForms($rootScope.currentUser._id);
+            var form = {
+                title: $scope.formTitle
+            };
+            FormService.createFormForUser($rootScope.currentUser._id, form).then(
+                function(res) {
+                    $scope.forms.push(res.data);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            )
+        };
 
-        function addForm() {
-            FormService.createFormForUser($rootScope.currentUser._id, {title: $scope.formTitle}).then(function (res) {
-                $scope.formTitle = null;
-                getAllForms($rootScope.currentUser._id);
-            });
-        }
+        $scope.updateForm = function() {
+            if ($scope.currentSelection === null || $scope.formTitle === undefined) return;
+            var formId = $scope.forms[$scope.currentSelection]._id;
+            var form = {
+                _id: formId,
+                title: $scope.formTitle,
+                userId: $rootScope.currentUser
+            };
 
-        function updateForm() {
-            $scope.selectedForm.title = $scope.formTitle;
+            FormService.updateFormById(formId, form).then(
+                function(res) {
+                    $scope.forms[$scope.currentSelection] = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        };
 
-            FormService.updateFormById($scope.selectedForm._id, $scope.selectedForm).then(function (res) {
-                $scope.selectedForm = null;
-                $scope.formTitle = null;
-                getAllForms($rootScope.currentUser._id);
-            });
-        }
+        $scope.deleteForm = function(idx) {
+            FormService.deleteFormById($scope.forms[idx]._id).then(
+                function() {
+                    FormService.findAllFormsForUser($rootScope.currentUser._id).then(
+                        function(res) {
+                            $scope.forms = res.data;
+                        },
+                        function(error) {
+                            console.log(error);
+                        }
+                    );
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        };
 
-        function deleteForm(id) {
-            FormService.deleteFormById(id).then(function (res) {
-                $scope.selectedForm = null;
-                $scope.formTitle = null;
-                getAllForms($rootScope.currentUser._id);
-            });
-        }
-
-        function selectForm(id) {
-            FormService.getFormById(id).then(function (res) {
-                $scope.selectedForm = res;
-                $scope.formTitle = $scope.selectedForm.title;
-            });
-        }
-
-        function displayFields(id) {
-            $rootScope.fields = true;
-            $rootScope.$location.url('/form/' + id + '/fields');
-        }
+        $scope.selectForm = function(idx) {
+            $scope.currentSelection = idx;
+            $scope.formTitle = $scope.forms[idx].title;
+        };
     }
 })();

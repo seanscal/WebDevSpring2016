@@ -1,70 +1,37 @@
-(function(){
+(function() {
     "use strict";
-    angular.module("FormBuilderApp")
+    angular
+        .module('FormBuilderApp')
         .factory("FieldService", FieldService);
 
-    function FieldService($http, $q){
+    function FieldService($http) {
 
-        var service = {
-            createFieldForForm: createFieldForForm,
-            getFieldsForForm: getFieldsForForm,
-            getFieldForForm: getFieldForForm,
-            deleteFieldFromForm: deleteFieldFromForm,
-            updateField: updateField,
-            updateAllFields: updateAllFields
+        var factory = {};
+
+        factory.createFieldForForm = function(formId, field) {
+            return $http.post("/api/assignment/form/" + formId + "/field", field);
         };
 
-        return service;
+        factory.getFieldsForForm = function(formId) {
+            return $http.get("/api/assignment/form/" + formId + "/field");
+        };
 
-        function getFieldsForForm(formId){
-            var deferred = $q.defer();
-            $http.get("/api/assignment/form/"+formId+"/field/").success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
+        factory.getFieldForForm = function(formId, fieldId) {
+            return $http.get("/api/assignment/form/" + formId + "/field/" + fieldId);
+        };
 
-        function getFieldForForm(formId, fieldId){
-            var deferred = $q.defer();
-            $http.get("/api/assignment/form/"+formId+"/field/"+fieldId+"/").success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
+        factory.deleteFieldFromForm = function(formId, fieldId) {
+            return $http.delete("/api/assignment/form/" + formId + "/field/" + fieldId);
+        };
 
-        function createFieldForForm(formId, field){
-            var deferred = $q.defer();
-            $http.post("/api/assignment/form/"+formId+"/field/", field).success(function(response){
-                $http.get("/api/assignment/form/"+formId+"/field/").success(function (forms) {
-                    deferred.resolve(forms);
-                });
-            });
-            return deferred.promise;
-        }
+        factory.updateField = function(formId, fieldId, field) {
+            return $http.put("/api/assignment/form/" + formId + "/field/" + fieldId, field);
+        };
 
-        function deleteFieldFromForm(formId, fieldId){
-            var deferred = $q.defer();
-            $http.delete("/api/assignment/form/"+formId+"/field/"+fieldId+"/").success(function(response){
-                if (response) {
-                    $http.get("/api/assignment/form/"+formId+"/field/").success(function (forms) {
-                        deferred.resolve(forms);
-                    });
-                }
-            });
-            return deferred.promise;
-        }
+        factory.updateAllFields = function(formId, fields) {
+            return $http.put("/api/assignment/form/" + formId + "/field", fields);
+        };
 
-        function updateField(formId, fieldId, field){
-            var deferred = $q.defer();
-            $http.put("/api/assignment/form/"+formId+"/field/"+fieldId+"/", field).success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
-
-        function updateAllFields(formId, fields) {
-            return $http.put('/api/assignment/form/'+formId+'/fields/', fields);
-        }
-
+        return factory;
     }
 })();

@@ -1,63 +1,29 @@
-(function(){
+(function() {
     "use strict";
-    angular.module("FormBuilderApp")
+    angular
+        .module('FormBuilderApp')
         .factory("FormService", FormService);
 
-    function FormService($http, $q){
+    function FormService($http) {
 
-        var service = {
-            createFormForUser: createFormForUser,
-            findAllFormsForUser: findAllFormsForUser,
-            deleteFormById: deleteFormById,
-            updateFormById: updateFormById,
-            getFormById: getFormById
+        var factory = {};
+
+        factory.createFormForUser = function(userId, form) {
+            return $http.post("/api/assignment/user/" + userId + "/form", form);
         };
 
-        return service;
+        factory.findAllFormsForUser = function(userId) {
+            return $http.get("/api/assignment/user/" + userId + "/form");
+        };
 
-        function findAllFormsForUser(userId){
-            var deferred = $q.defer();
-            $http.get("/api/assignment/user/"+ userId +"/form/").success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
+        factory.deleteFormById = function(formId) {
+            return $http.delete("/api/assignment/form/" + formId);
+        };
 
-        function createFormForUser(userId, form){
-            var deferred = $q.defer();
-            $http.post("/api/assignment/user/"+ userId +"/form/", form).success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
+        factory.updateFormById = function(formId, newForm) {
+            return $http.put("/api/assignment/form/" + formId, newForm);
+        };
 
-        function deleteFormById(formId){
-            var deferred = $q.defer();
-            $http.delete("/api/assignment/form/" + formId+"/").success(function(response){
-                if (response) {
-                    $http.get("/api/assignment/form/").success(function (forms) {
-                        deferred.resolve(forms);
-                    });
-                }
-            });
-            return deferred.promise;
-        }
-
-        function updateFormById(formId, form){
-            var deferred = $q.defer();
-            $http.put("/api/assignment/form/" + formId+"/", form).success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
-
-        function getFormById(formId){
-            var deferred = $q.defer();
-            $http.get("/api/assignment/form/" + formId+"/").success(function(response){
-                deferred.resolve(response);
-            });
-            return deferred.promise;
-        }
-
+        return factory;
     }
 })();

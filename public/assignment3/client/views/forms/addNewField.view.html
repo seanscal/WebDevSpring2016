@@ -1,34 +1,67 @@
-<div ng-show="model.addOrEdit == 'add'" class="form-group col-sm-7">
-    <label for="addNewField">Add New Field:</label>
-    <select id="addNewField" class="form-control" ng-model="model.fieldType">
-        <option value="TEXT">Single Line Text</option>
-        <option value="TEXTAREA">Multiple Lines Text</option>
-        <option value="DATE">Date</option>
-        <option value="OPTIONS">Dropdown</option>
-        <option value="CHECKBOXES">Checkboxes</option>
-        <option value="RADIOS">Radio Buttons</option>
-    </select>
-</div>
+<form class="form-horizontal">
+    <div class="form-group">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Add New Field</label>
+        <div class="col-sm-5">
+            <select class="form-control" ng-model="fieldType">
+                <option value="TEXT">Single Line Text</option>
+                <option value="DATE">Date</option>
+                <option value="OPTIONS">Dropdown</option>
+                <option value="CHECKBOXES">Checkboxes</option>
+                <option value="RADIOS">Radio Buttons</option>
+                <option value="TEXTAREA">Paragraph Text Field</option>
+            </select>
+        </div>
+        <div class="col-sm-3" ng-click="addField(fieldType)">
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</form>
 
+<!-- HIDDEN -->
+<div id="modals">
+    <div id="TEXTmodal" title="Single Line Field">
+        <div>Label</div>
+        <input id="TEXTlabel" ng-model="TEXTlabel" type="text"/>
+        <div>Placeholder</div>
+        <input id="TEXTplaceholder" ng-model="TEXTplaceholder" type="text"/>
+    </div>
 
-<div ng-show="model.fieldType" class="animate-switch-container"
-     ng-switch on="model.fieldType">
-    <div class="animate-switch" ng-switch-when="TEXT">
-        <div ng-include="'./views/forms/singleLineAdd.view.html'"></div>
+    <div id="TEXTAREAmodal" title="Multiple Lines Field">
+        <div>Label</div>
+        <input id="TEXTAREAlabel" ng-model="TEXTAREAlabel" type="text"/>
+        <div>Placeholder</div>
+        <input id="TEXTAREAplaceholder" ng-model="TEXTAREAplaceholder" type="text"/>
     </div>
-    <div class="animate-switch" ng-switch-when="TEXTAREA">
-        <div ng-include="'./views/forms/multiLineAdd.view.html'"></div>
+    >
+
+    <div id="DATEmodal" title="Date Field">
+        <div>Label</div>
+        <input id="DATElabel" ng-model="DATElabel" type="text"/>
     </div>
-    <div class="animate-switch" ng-switch-when="DATE">
-        <div ng-include="'./views/forms/dateAdd.view.html'"></div>
+
+    <div id="OPTIONSmodal" title="Dropdown Field">
+        <div>Label</div>
+        <input id="OPTIONSlabel" ng-model="OPTIONSlabel" type="text"/>
+        <div>Options</div>
+        <textarea id="OPTIONSoptions" ng-model="OPTIONSoptions" rows="4" cols="25"></textarea>
     </div>
-    <div class="animate-switch" ng-switch-when="OPTIONS">
-        <div ng-include="'./views/forms/dropdownAdd.view.html'"></div>
+
+    <div id="CHECKBOXESmodal" title="Checkbox Field">
+        <div>Label</div>
+        <input id="CHECKBOXESlabel" ng-model="CHECKBOXESlabel" type="text"/>
+        <div>Options</div>
+        <textarea id="CHECKBOXESoptions" ng-model="CHECKBOXESoptions" rows="4" cols="25"></textarea>
     </div>
-    <div class="animate-switch" ng-switch-when="CHECKBOXES">
-        <div ng-include="'./views/forms/checkBoxAdd.view.html'"></div>
-    </div>
-    <div class="animate-switch" ng-switch-when="RADIOS">
-        <div ng-include="'./views/forms/radioButtonAdd.view.html'"></div>
+
+    <div id="RADIOSmodal" title="Radio Button Field">
+        <div>Label</div>
+        <input id="RADIOSlabel" ng-model="RADIOSlabel" type="text"/>
+        <div>Options</div>
+        <textarea id="RADIOSoptions" ng-model="RADIOSoptions" rows="4" cols="25"></textarea>
     </div>
 </div>
