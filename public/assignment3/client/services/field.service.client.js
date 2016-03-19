@@ -10,7 +10,8 @@
             getFieldsForForm: getFieldsForForm,
             getFieldForForm: getFieldForForm,
             deleteFieldFromForm: deleteFieldFromForm,
-            updateField: updateField
+            updateField: updateField,
+            updateAllFields: updateAllFields
         };
 
         return service;
@@ -59,6 +60,10 @@
                 deferred.resolve(response);
             });
             return deferred.promise;
+        }
+
+        function updateAllFields(formId, fields) {
+            return $http.put('/api/assignment/form/'+formId+'/fields/', fields);
         }
 
     }

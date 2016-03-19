@@ -6,7 +6,25 @@
 
     function FieldController($rootScope, $scope, $routeParams, FieldService) {
 
-        $(".sortable").sortable({ handle: '.handle' });
+
+        var startIndex = 0;
+        var endIndex = 0;
+        $("#sortable").sortable({ handle: '.handle', cancel: '' });
+        $("#sortable").on( "sortstop", function( event, ui ) {
+            endIndex = ui.item.index();
+            reorderFields();
+        } );
+        $("#sortable").on( "sortstart", function( event, ui ) {
+            startIndex = ui.item.index();
+        } );
+
+        function reorderFields() {
+            $scope.fields.splice(endIndex, 0, $scope.fields.splice(startIndex, 1)[0]);
+            FieldService.updateAllFields(formId, $scope.fields).then(function(res) {
+                $scope.fields = res.data;
+            });
+        }
+
         $scope.fields = [];
         $scope.title = "";
         $scope.model = {
@@ -101,7 +119,8 @@
         function edit(field) {
 
             var str ="";
-            if (field.options != "" || field.options!=null){
+            if (field.options){
+                console.log(field);
                 for (var x = 0; x<field.options.length; x++){
                     str = str + "value:" + field.options[x].value + ",label:"+field.options[x].label+"\n";
                 }

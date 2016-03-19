@@ -20,7 +20,8 @@ module.exports = function(mongoose) {
         findFieldForForm: findFieldForForm,
         deleteField: deleteField,
         createField: createField,
-        updateField: updateField
+        updateField: updateField,
+        updateAllFields: updateAllFields
     };
     return api;
 
@@ -162,5 +163,16 @@ module.exports = function(mongoose) {
             }
         }
         return null;
+    }
+    function updateAllFields(formId, fields) {
+
+        var deferred = q.defer();
+
+        findFormById(formId).then(function(form) {
+            form.fields = fields;
+            deferred.resolve(fields);
+        });
+
+        return deferred.promise;
     }
 };
