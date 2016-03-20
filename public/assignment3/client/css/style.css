@@ -13,3 +13,7 @@
 #modals {
     display: none;
 }
+
+.bold-font{
+    font-weight: bold;
+}
