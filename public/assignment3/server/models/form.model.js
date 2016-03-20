@@ -26,7 +26,7 @@ module.exports = function() {
         form._id = (new Date).getTime().toString();
         form.label = null;
         form.type = null;
-        form.fields = []
+        form.fields = [];
         formsMock.push(form);
         return form;
     }

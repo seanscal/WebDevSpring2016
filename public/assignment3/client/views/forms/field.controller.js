@@ -46,6 +46,7 @@
                 field.placeholder = "New Field";
             } else if (fieldType === "DATE") {
                 field.label = "New Date Field";
+                field.placeholder = "MM/DD/YYYY";
             } else if (fieldType === "OPTIONS") {
                 field.label = "New Dropdown";
                 field.options = [
@@ -104,7 +105,6 @@
                 var optionsString="";
 
                 for (var x = 0; x <options.length; x++) {
-                    console.log(options[x]);
                     optionsString += (options[x].label + ":" + options[x].value + "\n");
                 }
                 $scope[fieldType + "options"] = optionsString;
@@ -134,9 +134,7 @@
                 field.placeholder = $scope[fieldType + "placeholder"];
             } else if (fieldType !== "DATE") {
                 var optionsString = $scope[fieldType + "options"];
-                console.log("OPTIONSSTRING\n"+optionsString);
                 var options = optionsString.split("\n");
-                console.log("OPTIONS\n"+options);
                 field.options = parseData(options);
             }
 
