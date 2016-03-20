@@ -134,9 +134,9 @@
                 field.placeholder = $scope[fieldType + "placeholder"];
             } else if (fieldType !== "DATE") {
                 var optionsString = $scope[fieldType + "options"];
-                console.log(optionsString);
+                console.log("OPTIONSSTRING\n"+optionsString);
                 var options = optionsString.split("\n");
-                console.log(options);
+                console.log("OPTIONS\n"+options);
                 field.options = parseData(options);
             }
 
@@ -161,12 +161,11 @@
         function parseData(options) {
             var newArr = [];
             var str;
-            for (var x = 0; x < options.length-1; x++) {
+            for (var x = 0; x < options.length; x++) {
                 var helper = options[x].split(':');
-
-                newArr.push(JSON.parse('{"value":"' + helper[1] + '","label":"' + helper[0] + '"}'));
-
-                console.log(JSON.parse('{"value":"' + helper[1] + '","label":"' + helper[0] + '"}'));
+                if (helper[1] && helper[0]) {
+                    newArr.push(JSON.parse('{"value":"' + helper[1] + '","label":"' + helper[0] + '"}'));
+                }
             }
             return newArr;
         };

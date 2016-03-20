@@ -23,6 +23,50 @@
                 </div>
             </form>
             <div ng-include="'./views/forms/addNewField.view.html'"></div>
+
+            <!--These modals are all hidden until edit is selected, then one displays depending on the type-->
+            <div id="modals">
+                <div id="TEXTmodal" title="Single Line Field">
+                    <div>Label</div>
+                    <input id="TEXTlabel" ng-model="TEXTlabel" type="text"/>
+                    <div>Placeholder</div>
+                    <input id="TEXTplaceholder" ng-model="TEXTplaceholder" type="text"/>
+                </div>
+
+                <div id="TEXTAREAmodal" title="Multiple Lines Field">
+                    <div>Label</div>
+                    <input id="TEXTAREAlabel" ng-model="TEXTAREAlabel" type="text"/>
+                    <div>Placeholder</div>
+                    <input id="TEXTAREAplaceholder" ng-model="TEXTAREAplaceholder" type="text"/>
+                </div>
+                >
+
+                <div id="DATEmodal" title="Date Field">
+                    <div>Label</div>
+                    <input id="DATElabel" ng-model="DATElabel" type="text"/>
+                </div>
+
+                <div id="OPTIONSmodal" title="Dropdown Field">
+                    <div>Label</div>
+                    <input id="OPTIONSlabel" ng-model="OPTIONSlabel" type="text"/>
+                    <div>Options</div>
+                    <textarea id="OPTIONSoptions" ng-model="OPTIONSoptions" rows="4" cols="25"></textarea>
+                </div>
+
+                <div id="CHECKBOXESmodal" title="Checkbox Field">
+                    <div>Label</div>
+                    <input id="CHECKBOXESlabel" ng-model="CHECKBOXESlabel" type="text"/>
+                    <div>Options</div>
+                    <textarea id="CHECKBOXESoptions" ng-model="CHECKBOXESoptions" rows="4" cols="25"></textarea>
+                </div>
+
+                <div id="RADIOSmodal" title="Radio Button Field">
+                    <div>Label</div>
+                    <input id="RADIOSlabel" ng-model="RADIOSlabel" type="text"/>
+                    <div>Options</div>
+                    <textarea id="RADIOSoptions" ng-model="RADIOSoptions" rows="4" cols="25"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>
