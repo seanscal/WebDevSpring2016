@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="FormBuilderApp">
+<html lang="en" ng-app="DevilsFanApp">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,63 +9,58 @@
     <meta name="author" content="">
 
     <link rel="icon" href="../../favicon.ico">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.0/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0-beta.0/angular-route.js"></script>
-    <script src="app.js"></script>
+    <script src="../app.js"></script>
     <script src="config.js"></script>
-    <link href="./css/dashboard.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
+
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+
 
     <!-- Services -->
     <script src="services/user.service.client.js"></script>
-    <script src="services/form.service.client.js"></script>
-    <script src="services/field.service.client.js"></script>
+    <script src="services/player.service.client.js"></script>
+    <script src="services/roster.service.client.js"></script>
+    <script src="services/dropdown.service.client.js"></script>
 
     <!-- View controllers -->
     <script src="views/main/main.controller.js"></script>
-
-    <script src="views/admin/admin.controller.js"></script>
-    <script src="views/forms/forms.controller.js"></script>
-    <script src="views/forms/field.controller.js"></script>
+    <script src="views/dropdown/dropdown.controller.js"></script>
+    <script src="views/dropdown/playerDropdown.controller.js"></script>
+    <script src="views/editor/editor.controller.js"></script>
     <script src="views/header/header.controller.js"></script>
     <script src="views/home/home.controller.js"></script>
     <script src="views/sidebar/sidebar.controller.js"></script>
     <script src="views/users/login.controller.js"></script>
     <script src="views/users/profile.controller.js"></script>
     <script src="views/users/register.controller.js"></script>
+    <script src="views/players/player.controller.js"></script>
+    <script src="views/players/roster.controller.js"></script>
 
 
     <title>Form Builder</title>
-</head>
 
+</head>
 <body>
-<div class="container" ng-controller="MainController">
-    <div ng-include="'./views/header/header.view.html'"></div>
-    <div class="col-sm-3 col-md-2 sidebar">
-        <div ng-include="'./views/sidebar/sidebar.view.html'"></div>
-    </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <div ng-view class="mainView"></div>
-            </div>
+<div ng-app="DevilsFanApp">
+    <div class="container" ng-controller="MainController">
+        <div ng-include="'./views/header/header.view.html'"></div>
+        <div class="col-sm-9 col-md-12">
+            <div ng-view class="mainView"></div>
         </div>
     </div>
 </div>
-</body>
 
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>
-<script   src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
-<script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
 </body>
