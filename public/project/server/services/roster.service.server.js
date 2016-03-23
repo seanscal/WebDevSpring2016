@@ -7,10 +7,10 @@ module.exports = function (app) {
     app.post("/api/project/players", checkForNewPlayers);
 
     app.get("/api/project/player/", getAllPlayers);
-    app.get("/api/project/player/:id/", getPlayer);
+    app.get("/api/project/player/:id", getPlayer);
     app.get("/api/project/player", getPlayerQuery);
-    app.put("/api/project/player/:id/", updatePlayer);
-    app.delete("/api/project/player/:id/", removePlayer);
+    app.put("/api/project/player/:id", updatePlayer);
+    app.delete("/api/project/player/:id", removePlayer);
     app.get("/api/playerInfo", fetchPlayers);
 
 
@@ -30,12 +30,16 @@ module.exports = function (app) {
 
     function updatePlayer(req, res) {
         var id = req.params.id;
-        var user = req.body;
-        res.json(model.updatePlayer(id, user));
+        var player = req.body;
+        console.log(id);
+        console.log(player);
+        console.log(model.updatePlayer(id, player));
+        res.json(model.updatePlayer(id, player));
     }
 
     function removePlayer(req, res) {
         var id = req.params.id;
+        console.log("Deleted: " + model.deletePlayer(id).name);
         res.json(model.deletePlayer(id));
     }
 

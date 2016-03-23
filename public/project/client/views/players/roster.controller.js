@@ -4,7 +4,7 @@
     angular.module("DevilsFanApp")
         .controller("RosterController", RosterController);
 
-    function RosterController($rootScope, $scope, RosterService) {
+    function RosterController($scope, RosterService) {
         $scope.players = [];
         $scope.addPlayer = addPlayer;
         $scope.updatePlayer = updatePlayer;
@@ -37,7 +37,7 @@
             });
         }
 
-        function updatePlayer() {
+        function updatePlayer(index) {
             $scope.selectedPlayer.number = $scope.number;
             $scope.selectedPlayer.name = $scope.name;
             $scope.selectedPlayer.position = $scope.position;
@@ -47,7 +47,12 @@
             $scope.selectedPlayer.age = $scope.age;
             $scope.selectedPlayer.birthPlace = $scope.birthPlace;
 
-            RosterService.updatePlayer($scope.selectedPlayer._id, $scope.selectedPlayer).then(function (res) {
+            RosterService.updatePlayer($scope.selectedPlayer).then(function (res) {
+                RosterService.players[index] = res.data;
+                console.log(RosterService.players[index]);
+                RosterService.findAllPlayers().then(function(response){
+                    $scope.players = response.data;
+                });
                 $scope.selectedPlayer = null;
                 $scope.number = null;
                 $scope.name = null;
@@ -61,13 +66,16 @@
         }
 
         function deletePlayer(index) {
-            RosterService.deletePlayerById(RosterService.players[index]._id).then(function (res) {
-
+            var player = $scope.players[index];
+            RosterService.deletePlayerById(player._id).then(function (res) {
+                RosterService.findAllPlayers().then(function(response){
+                    $scope.players = response.data;
+                })
             });
         }
 
         function selectPlayer(index) {
-            $scope.selectedPlayer = $.extend(true, {}, RosterService.players[index]);
+            $scope.selectedPlayer = RosterService.players[index];
             $scope.number = $scope.selectedPlayer.number;
             $scope.name = $scope.selectedPlayer.name;
             $scope.position = $scope.selectedPlayer.position;
