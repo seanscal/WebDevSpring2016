@@ -4,6 +4,8 @@ var http = require('http');
 module.exports = function (app) {
 
     app.post("/api/project/player/", addPlayer);
+    app.post("/api/project/players", checkForNewPlayers);
+
     app.get("/api/project/player/", getAllPlayers);
     app.get("/api/project/player/:id/", getPlayer);
     app.get("/api/project/player", getPlayerQuery);
@@ -14,32 +16,37 @@ module.exports = function (app) {
 
     function addPlayer(req, res) {
         var user = req.body;
-        res.json(model.createUser(user));
+        res.json(model.createPlayer(user));
     }
 
     function getAllPlayers(req, res) {
-        res.json(model.findAllUsers());
+        res.json(model.findAllPlayers());
     }
 
     function getPlayer(req, res) {
         var id = req.params.id;
-        res.json(model.findUserById(id));
+        res.json(model.findPlayerById(id));
     }
 
     function updatePlayer(req, res) {
         var id = req.params.id;
         var user = req.body;
-        res.json(model.updateUser(id, user));
+        res.json(model.updatePlayer(id, user));
     }
 
     function removePlayer(req, res) {
         var id = req.params.id;
-        res.json(model.deleteUser(id));
+        res.json(model.deletePlayer(id));
     }
 
     function getPlayerQuery(req, res) {
         var name = req.query.name;
         res.json(model.findPlayerByPlayername(name));
+    }
+
+    function checkForNewPlayers(req, res){
+        var players = req.body;
+        res.json(model.checkForNewPlayers(players));
     }
 
     function fetchPlayers(req, res){
@@ -55,7 +62,6 @@ module.exports = function (app) {
                 body += data;
             });
             response.on('end', function () {
-                console.log("SERVICE\n"+ JSON.parse(body).goalie[0].position);
                 res.send(JSON.parse(body));
             });
         });

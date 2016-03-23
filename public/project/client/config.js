@@ -29,15 +29,7 @@
                 templateUrl: "views/players/roster.view.html",
                 controller: "RosterController"
             })
-            .when("/forms", {
-                templateUrl: "views/forms/forms.view.html",
-                controller: "FormsController"
-            })
-            .when("/fields", {
-                templateUrl: "client/views/forms/field.view.html",
-                controller: "FieldsController"
-            })
-            .when("/player", {
+            .when("/player/:id", {
                 templateUrl: "views/players/player.view.html",
                 controller: "PlayerController"
             })

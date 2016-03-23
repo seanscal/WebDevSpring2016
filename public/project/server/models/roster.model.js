@@ -1,5 +1,6 @@
 var q = require("q");
 var rosterMock = require("./roster.mock.json");
+var uuid = require('node-uuid');
 
 module.exports = function (db) {
     //var PlayerSchema = require("./player.server.schema.js")(mongoose);
@@ -10,13 +11,14 @@ module.exports = function (db) {
         findPlayerByPlayername: findPlayerByPlayername,
         updatePlayer: updatePlayer,
         deletePlayer: deletePlayer,
-        findAllPlayers: findAllPlayers
+        findAllPlayers: findAllPlayers,
+        checkForNewPlayers: checkForNewPlayers
     };
     return api;
 
     function createPlayer(player) {
         var player = {
-            _id: (new Date).getTime(),
+            _id: uuid.v4(),
             playername: player.playername,
             password: player.password,
             email: player.email
@@ -27,7 +29,7 @@ module.exports = function (db) {
     }
 
     function findPlayerById(playerId) {
-        for (var i =0; i < rosterMock.length; i++)  {
+        for (var i = 0; i < rosterMock.length; i++) {
             if (rosterMock[i]._id === playerId) {
                 return rosterMock[i];
             }
@@ -43,8 +45,47 @@ module.exports = function (db) {
         return players;
     }
 
+    function calculateAge(birthday) { // birthday is a date
+        var x = new Date(birthday);
+        var ageDifMs = Date.now() - x.getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
+    function checkForNewPlayers(players)
+    {
+        var newPlayers = [];
+        var exists = false;
+        for (var i = 0; i < players.length; i++){
+            exists = false;
+            for (var j =0; j < rosterMock.length; j++){
+                if (players[i].name == rosterMock[j].name){
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists){
+                var newPlayer = {
+                    _id: uuid.v4(),
+                    name: players[i].name,
+                    position: players[i].position,
+                    height: players[i].height,
+                    weight: players[i].weight,
+                    birthday: players[i].birthdate,
+                    age: calculateAge(players[i].birthdate),
+                    birthPlace: players[i].birthplace,
+                    number: players[i].number
+                };
+                rosterMock.push(newPlayer);
+                newPlayers.push(newPlayer);
+            }
+        }
+        console.log(newPlayers);
+        return newPlayers;
+    }
+
     function updatePlayer(playerId, player) {
-        for (var i =0; i < rosterMock.length; i++)  {
+        for (var i = 0; i < rosterMock.length; i++) {
             if (rosterMock[i]._id === playerId) {
                 rosterMock[i].firstName = player.firstName;
                 rosterMock[i].lastName = player.lastName;
@@ -56,9 +97,9 @@ module.exports = function (db) {
     }
 
     function deletePlayer(playerId) {
-        for (var i =0; i < rosterMock.length; i++) {
+        for (var i = 0; i < rosterMock.length; i++) {
             if (rosterMock[i].playername === playerId) {
-                rosterMock.splice(i,1);
+                rosterMock.splice(i, 1);
             }
         }
         return player;
@@ -66,7 +107,7 @@ module.exports = function (db) {
 
     function findPlayerByPlayername(name) {
         name.replace('_', ' ');
-        for (var i =0; i < rosterMock.length; i++)  {
+        for (var i = 0; i < rosterMock.length; i++) {
             if (rosterMock[i].name === name) {
                 return rosterMock[i];
             }

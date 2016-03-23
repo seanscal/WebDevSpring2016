@@ -12,7 +12,6 @@
             players: [],
             fetchPlayers: fetchPlayers,
             setCurrentPlayer: setCurrentPlayer,
-            getCurrentPlayer: getCurrentPlayer,
             findPlayerByName: findPlayerByName,
             findAllPlayers: findAllPlayers,
             createPlayer: createPlayer,
@@ -26,12 +25,8 @@
             $rootScope.currentPlayer = player;
         }
 
-        function getCurrentPlayer() {
-            return $rootScope.currentPlayer;
-        }
-
         function findAllPlayers(callback) {
-            return callback(model.players);
+            return $http.get("/api/project/player/");
         }
 
         function createPlayer(player, callback) {
@@ -81,7 +76,8 @@
             }
         }
 
-        function deletePlayerById(playerId, callback) {
+        function deletePlayerById(playerId) {
+            return $http.delete("/api/project/player/" + playerId);
             var player = model.findPlayerById(playerId);
             if (player != null) {
                 var playerIndex = model.players.indexOf(player);
@@ -91,10 +87,10 @@
             callback(null);
         }
 
-        function calculateAge(birthday) { // birthday is a date
-            var ageDifMs = Date.now() - birthday.getTime();
-            var ageDate = new Date(ageDifMs); // miliseconds from epoch
-            return Math.abs(ageDate.getUTCFullYear() - 1970);
+
+
+        function checkForNewPlayers(players) {
+            return $http.post("/api/project/players", players);
         }
 
 
@@ -102,67 +98,27 @@
             return $http.get('/api/playerInfo')
                 .then(function (response) {
                     var data = angular.fromJson(response.data);
-                    for (var g = 0; g < data.goalie.length-1; g++) {
-                        findPlayerByName(data.goalie[g].name).then(function(response) {
-                            console.log("PLAYER:\n" + response.data);
-                            console.log("INDEX" + g);
-                            console.log("SINGLE GOALIE: " + data.goalie[g].name);
-                            var age = calculateAge(new Date(data.goalie[g].birthdate));
-                            if (response == null) {
-                                var newPlayer = {
-                                    _id: (new Date).getTime(),
-                                    name: data.goalie[g].name,
-                                    position: data.goalie[g].position,
-                                    height: data.goalie[g].height,
-                                    weight: data.goalie[g].weight,
-                                    birthday: data.goalie[g].birthdate,
-                                    age: age,
-                                    birthPlace: data.goalie[g].birthplace,
-                                    number: data.goalie[g].number
-                                };
-                                createPlayer(newPlayer).then(function(response) {
-                                    console.log("NEW PLAYER:\n " + response);
-                                });
+                    return checkForNewPlayers(data.goalie).then(function(res){
+                        for (var x = 0; x < res.data.length; x++) {
+                            model.players.push(res.data[x]);
+                        }
+                        return checkForNewPlayers(data.defensemen).then(function(res){
+                            for (var x = 0; x < res.data.length; x++) {
+                                model.players.push(res.data[x]);
                             }
+                            return checkForNewPlayers(data.forwards).then(function(res){
+                                for (var x = 0; x < res.data.length; x++) {
+                                    model.players.push(res.data[x]);
+                                }
+                                return findAllPlayers().then(function(res){
+                                    if (res.data.length > 0) {
+                                        model.players = res.data;
+                                    }
+                                    return model.players;
+                                });
+                            });
                         });
-                    }
-                    for (var d = 0; d < data.defensemen.length; d++) {
-                        var player = findPlayerByName(data.defensemen[d].name);
-                        var age = calculateAge(new Date(data.defensemen[d].birthdate));
-                        if (player == null) {
-                            var newPlayer = {
-                                _id: (new Date).getTime(),
-                                name: data.defensemen[d].name,
-                                position: data.defensemen[d].position,
-                                height: data.defensemen[d].height,
-                                weight: data.defensemen[d].weight,
-                                birthday: data.defensemen[d].birthdate,
-                                age: age,
-                                birthPlace: data.defensemen[d].birthplace,
-                                number: data.defensemen[d].number
-                            };
-                            model.players.push(newPlayer);
-                        }
-                    }
-                    for (var f = 0; f < data.forwards.length; f++) {
-                        var player = findPlayerByName(data.forwards[f].name);
-                        var age = calculateAge(new Date(data.forwards[f].birthdate));
-                        if (player == null) {
-                            var newPlayer = {
-                                _id: (new Date).getTime(),
-                                name: data.forwards[f].name,
-                                position: data.forwards[f].position,
-                                height: data.forwards[f].height,
-                                weight: data.forwards[f].weight,
-                                birthday: data.forwards[f].birthdate,
-                                age: age,
-                                birthPlace: data.forwards[f].birthplace,
-                                number: data.forwards[f].number
-                            };
-                            model.players.push(newPlayer);
-                        }
-                    }
-                    return model.players;
+                    });
                 });
         }
     }

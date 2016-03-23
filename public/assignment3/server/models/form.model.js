@@ -23,7 +23,7 @@ module.exports = function() {
     return api;
 
     function createForm(form) {
-        form._id = (new Date).getTime().toString();
+        form._id = uuid.v4();
         form.label = null;
         form.type = null;
         form.fields = [];
@@ -144,7 +144,7 @@ module.exports = function() {
     }
 
     function createField(formId, newField) {
-        newField._id = (new Date).getTime().toString();
+        newField._id = uuid.v4();
         for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
                 formsMock[i].fields.push(newField);

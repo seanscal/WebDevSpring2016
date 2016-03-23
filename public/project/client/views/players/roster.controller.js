@@ -14,21 +14,18 @@
 
 
         function fetchPlayers(callback) {
-            RosterService.fetchPlayers().then(function(response){
+            RosterService.fetchPlayers().then(function (response) {
                 $scope.players = response;
-                console.log("CONTROLLER:\n" + response);
             });
         }
+
         fetchPlayers();
 
         function addPlayer() {
             RosterService.createPlayer({
-                    number: $scope.number, name: $scope.name, position: $scope.position, height: $scope.height,
-                    weight: $scope.weight, birthday: $scope.birthday, age: $scope.age, birthPlace: $scope.birthPlace
-                },
-                callback);
-
-            function callback(player) {
+                number: $scope.number, name: $scope.name, position: $scope.position, height: $scope.height,
+                weight: $scope.weight, birthday: $scope.birthday, age: $scope.age, birthPlace: $scope.birthPlace
+            }).then(function (res) {
                 $scope.number = null;
                 $scope.name = null;
                 $scope.position = null;
@@ -37,7 +34,7 @@
                 $scope.birthday = null;
                 $scope.age = null;
                 $scope.birthPlace = null;
-            }
+            });
         }
 
         function updatePlayer() {
@@ -50,9 +47,7 @@
             $scope.selectedPlayer.age = $scope.age;
             $scope.selectedPlayer.birthPlace = $scope.birthPlace;
 
-            RosterService.updatePlayer($scope.selectedPlayer._id, $scope.selectedPlayer, callback);
-
-            function callback(player) {
+            RosterService.updatePlayer($scope.selectedPlayer._id, $scope.selectedPlayer).then(function (res) {
                 $scope.selectedPlayer = null;
                 $scope.number = null;
                 $scope.name = null;
@@ -62,14 +57,13 @@
                 $scope.birthday = null;
                 $scope.age = null;
                 $scope.birthPlace = null;
-            }
+            });
         }
 
         function deletePlayer(index) {
-            RosterService.deletePlayerById(RosterService.players[index]._id, callback);
+            RosterService.deletePlayerById(RosterService.players[index]._id).then(function (res) {
 
-            function callback() {
-            }
+            });
         }
 
         function selectPlayer(index) {
