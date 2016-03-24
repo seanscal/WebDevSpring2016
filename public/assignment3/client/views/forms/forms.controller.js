@@ -29,7 +29,7 @@
             var form = {
                 title: vm.formTitle
             };
-            FormService.createFormForUser(main.currentUser._id, form).then(
+            FormService.createFormForUser($rootScope.currentUser._id, form).then(
                 function(res) {
                     vm.forms.push(res.data);
                     vm.formTitle = null;
@@ -63,7 +63,7 @@
         vm.deleteForm = function(idx) {
             FormService.deleteForm(vm.forms[idx]._id).then(
                 function() {
-                    FormService.findAllFormsForUser(main.currentUser._id).then(
+                    FormService.findAllFormsForUser($rootScope.currentUser._id).then(
                         function(res) {
                             vm.forms = res.data;
                         },

@@ -4,7 +4,7 @@
     angular.module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController(UserService){
+    function ProfileController($rootScope, UserService){
         var vm = this;
 
         if(!main.currentUser){
@@ -24,7 +24,7 @@
 
         function updateUser() {
 
-            UserService.updateUser(main.currentUser._id, vm.display).then(function(res){
+            UserService.updateUser($rootScope.currentUser._id, vm.display).then(function(res){
                 console.log(res.data);
                 vm.message = "Information update successful";
                 main.currentUser.username = res.data.username;

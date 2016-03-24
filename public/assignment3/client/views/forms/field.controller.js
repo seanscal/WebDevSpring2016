@@ -4,11 +4,11 @@
         .module('FormBuilderApp')
         .controller("FieldController", FieldController);
 
-    function FieldController($routeParams, FieldService) {
+    function FieldController($rootScope, $routeParams, FieldService) {
         var vm = this;
 
-        if(!main.currentUser){
-            main.$location.url('/login');
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login');
         }
 
         vm.formId = $routeParams.formId;

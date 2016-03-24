@@ -4,7 +4,7 @@
     angular.module("FormBuilderApp")
         .controller("RegisterController", RegisterController);
 
-    function RegisterController(UserService){
+    function RegisterController($rootScope, UserService){
         var vm = this;
         vm.register = register;
 
@@ -16,9 +16,8 @@
                 vm.passwordVerification = null;
 
                 UserService.createUser(vm.user).then(function(res){
-                    console.log(res);
-                    main.currentUser = res.data
-                    main.$location.url('/profile');
+                    $rootScope.currentUser = res.data
+                    $rootScope.$location.url('/profile');
                 });
             }
         }

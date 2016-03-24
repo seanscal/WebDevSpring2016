@@ -4,9 +4,9 @@
     angular.module("FormBuilderApp")
         .controller("AdminController", AdminController);
 
-    function AdminController($scope){
-        if(!main.currentUser.roles.indexOf('editor') > -1){
-            main.$location.url('/login')
+    function AdminController($rootScope){
+        if(!$rootScope.currentUser.roles.indexOf('editor') > -1){
+            $rootScope.$location.url('/login')
         }
     }
 })();
