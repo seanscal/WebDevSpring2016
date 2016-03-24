@@ -165,8 +165,10 @@
         }
 
         function printDate(date) {
+            console.log(date);
             date = new Date(date);
-            var dateStr = padStr(date.getMonth()) + '/' + padStr(1 + date.getDay())  + '/'+ padStr(date.getFullYear());
+            console.log(date);
+            var dateStr = padStr(1+date.getMonth()) + '/' + padStr(date.getDate())  + '/'+ padStr(date.getFullYear());
             return dateStr;
         }
     }
