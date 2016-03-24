@@ -10,9 +10,13 @@
     cursor: pointer;
 }
 
-.devils-red {
-    background-color: #b92c28;
-    color: #FFFFFF;
+.devils-red-back {
+     background-color: #b92c28;
+     color: #FFFFFF;
+ }
+
+.devils-red-text {
+    color: #b92c28;
 }
 
 .table-white{
@@ -30,4 +34,8 @@
 
 .border-left-black, .border-right-black{
     border-left-color: #000000;
+}
+
+.col-xs-offset-half {
+    margin-left: 4.13333333%;
 }
