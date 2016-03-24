@@ -12,8 +12,8 @@
         $scope.deletePlayer = deletePlayer;
         $scope.selectPlayer = selectPlayer;
         $scope.fetchPlayers = fetchPlayers;
-        $scope.setOrderProp = setOrderProp
-
+        $scope.setOrderProp = setOrderProp;
+        $scope.printDate = printDate;
 
 
         function fetchPlayers() {
@@ -157,6 +157,17 @@
             $scope.SH = $scope.selectedPlayer.SH;
             $scope.GWG = $scope.selectedPlayer.GWG;
             $scope.OT = $scope= $scope.selectedPlayer.OT;
+        }
+
+
+        function padStr(i) {
+            return (i < 10) ? "0" + i : "" + i;
+        }
+
+        function printDate(date) {
+            date = new Date(date);
+            var dateStr = padStr(date.getMonth()) + '/' + padStr(1 + date.getDay())  + '/'+ padStr(date.getFullYear());
+            return dateStr;
         }
     }
 })();

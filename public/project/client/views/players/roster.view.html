@@ -15,7 +15,7 @@
         <th ng-click="setOrderProp('height')"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Height</th>
         <th ng-click="setOrderProp('weight')"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Weight</th>
         <th ng-click="setOrderProp('birthday')"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Birthdate</th>
-        <th ng-click="setOrderProp('age')"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Age</th>
+        <th ng-click="setOrderProp('birthday')"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Age</th>
         <th ng-click="setOrderProp('birthplace')"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Birth Place</th>
     </tr>
     </thead>
@@ -27,7 +27,7 @@
         <td>{{player.position}}</td>
         <td>{{player.height}}</td>
         <td>{{player.weight}}</td>
-        <td>{{player.birthday}}</td>
+        <td>{{printDate(player.birthday)}}</td>
         <td>{{player.age}}</td>
         <td>{{player.birthPlace}}</td>
     </tr>

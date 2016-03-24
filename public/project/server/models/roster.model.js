@@ -25,8 +25,8 @@ module.exports = function (db) {
             position: player.position,
             height: player.height,
             weight: player.weight,
-            birthday: player.birthdate,
-            age: calculateAge(player.birthdate),
+            birthday: new Date(player.birthdate),
+            age: calculateAge(new Date(player.birthdate)),
             birthPlace: player.birthplace,
             number: player.number
         };
@@ -52,8 +52,7 @@ module.exports = function (db) {
     }
 
     function calculateAge(birthday) { // birthday is a date
-        var x = new Date(birthday);
-        var ageDifMs = Date.now() - x.getTime();
+        var ageDifMs = Date.now() - birthday.getTime();
         var ageDate = new Date(ageDifMs); // miliseconds from epoch
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
@@ -96,7 +95,6 @@ module.exports = function (db) {
                 rosterMock[i].name = rosterMock[i].name || player.name;
                 rosterMock[i].height = player.height || rosterMock[i].height;
                 rosterMock[i].weight = player.weight || rosterMock[i].weight;
-                rosterMock[i].birthday = player.birthday || rosterMock[i].birthday;
                 rosterMock[i].age = player.age || rosterMock[i].age ;
                 rosterMock[i].birthPlace = player.birthPlace || rosterMock[i].birthPlace;
                 rosterMock[i].number = player.number || rosterMock[i].number;
@@ -129,7 +127,6 @@ module.exports = function (db) {
                 //both types
                 rosterMock[i].games = player.games || rosterMock[i].games;
                 rosterMock[i].pim = player.pim || rosterMock[i].pim;
-
 
                 return rosterMock[i];
             }
