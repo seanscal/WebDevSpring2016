@@ -15,7 +15,8 @@
             createPlayer: createPlayer,
             deletePlayerById: deletePlayerById,
             updatePlayer: updatePlayer,
-            findPlayerById: findPlayerById
+            findPlayerById: findPlayerById,
+            fetchStats: fetchStats
         };
         return model;
 
@@ -45,15 +46,27 @@
         }
 
         function deletePlayerById(playerId) {
-            return $http.delete("/api/project/player/" + playerId);
+            return $http.delete("/api/project/player/" + playerId).then(function(res){
+                return findAllPlayers().then(function(res){
+                    if (res.data.length > 0) {
+                        model.players = res.data;
+                    }
+                    return model.players;
+                });
+            });
         }
-
-
 
         function checkForNewPlayers(players) {
             return $http.post("/api/project/players", players);
         }
 
+        function fetchStats() {
+            var deferred = $q.defer();
+            $http.get('/api/playerStats')
+                .then(function (response) {
+
+                });
+        }
 
         function fetchPlayers() {
             return $http.get('/api/playerInfo')

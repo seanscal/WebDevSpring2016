@@ -3,8 +3,9 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $rootScope, UserService) {
-        $scope.login = login;
+    function LoginController($rootScope, UserService) {
+        var vm = this;
+        vm.login = login;
 
         function login (user) {
             UserService.findUserByCredentials(user.username, user.password).then(function(res){
@@ -13,7 +14,7 @@
                     $rootScope.$location.url("/profile");
                 }
                 else {
-                    $scope.error = "Login failed: invalid credentials."
+                    vm.error = "Login failed: invalid credentials."
                 }
             });
         }

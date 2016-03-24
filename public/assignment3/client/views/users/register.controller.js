@@ -5,17 +5,19 @@
         .controller("RegisterController", RegisterController);
 
     function RegisterController($rootScope, $scope, UserService){
-        $scope.register = register;
+        var vm = this;
+        vm.register = register;
 
         function register() {
-            if ($scope.user.password !== $scope.user.verifyPassword) {
-                $scope.passwordVerification = "Your passwords do not match";
+            if (vm.user.password !== vm.user.verifyPassword) {
+                vm.passwordVerification = "Your passwords do not match";
             }
             else {
-                $scope.passwordVerification = null;
+                vm.passwordVerification = null;
 
-                UserService.createUser($scope.user).then(function(res){
-                    UserService.setCurrentUser(res);
+                UserService.createUser(vm.user).then(function(res){
+                    console.log(res);
+                    $rootScope.currentUser = res.data
                     $rootScope.$location.url('/profile');
                 });
             }

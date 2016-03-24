@@ -13,39 +13,12 @@
         $scope.fetchStats = fetchStats;
 
 
-        function fetchStats(callback) {
+        function fetchStats() {
             PlayerService.fetchStats().then(function(response){
                 $scope.players = response;
             });
         }
         fetchStats();
-
-        function addPlayer() {
-            _id: (new Date).getTime(),
-            PlayerService.createPlayer({
-                    name: $scope.name, games: $scope.games, goals: $scope.goals, assists: $scope.assists,
-                    points: $scope.points, plusminus: $scope.plusminus, pim: $scope.pim,
-                    shots: $scope.shots, timeonice: $scope.timeonice, PP: $scope.PP, SH: $scope.SH, GWG: $scope.GWG,
-                    OT: $scope.OT
-                },
-                callback);
-
-            function callback(player) {
-                $scope.name = null;
-                $scope.games = null;
-                $scope.goals = null;
-                $scope.assists = null;
-                $scope.points = null;
-                $scope.plusminus = null;
-                $scope.pim = null;
-                $scope.shots = null;
-                $scope.timeonice = null;
-                $scope.PP = null;
-                $scope.SH = null;
-                $scope.GWG = null;
-                $scope.OT = null;
-            }
-        }
 
         function updatePlayer() {
             $scope.selectedPlayer.name = $scope.name;
@@ -62,9 +35,7 @@
             $scope.selectedPlayer.GWG = $scope.GWG;
             $scope.selectedPlayer.OT = $scope.OT;
 
-            PlayerService.updatePlayer($scope.selectedPlayer._id, $scope.selectedPlayer, callback);
-
-            function callback(player) {
+            PlayerService.updatePlayer($scope.selectedPlayer._id, $scope.selectedPlayer).then(function(res){
                 $scope.selectedPlayer = null;
                 $scope.name = null;
                 $scope.games = null;
@@ -79,14 +50,16 @@
                 $scope.SH = null;
                 $scope.GWG = null;
                 $scope.OT = null;
-            }
+            });
         }
 
         function deletePlayer(index) {
-            PlayerService.deletePlayerById(PlayerService.players[index]._id, callback);
-
-            function callback() {
-            }
+            var player = $scope.players[index];
+            RosterService.deletePlayerById(player._id).then(function (res) {
+                RosterService.findAllPlayers().then(function(response){
+                    $scope.players = response.data;
+                })
+            });
         }
 
         function selectPlayer(index) {

@@ -5,44 +5,37 @@
 
     function UserService($http, $q, $rootScope){
 
-        var service = {
-            findUserByUsername: findUserByUsername,
-            findUserByCredentials: findUserByCredentials,
-            findAllUsers: findAllUsers,
-            findSingleUser: findSingleUser,
-            deleteUserById: deleteUserById,
-            createUser: createUser,
-            updateUser: updateUser
+        var factory = {
         };
 
-        return service;
-
-        function findUserByUsername(username){
+        factory.findUserByUsername = function(username){
             return $http.get("/api/assignment/user?username=" + username)
         }
 
-        function findUserByCredentials(username,password) {
+        factory.findUserByCredentials = function(username,password) {
             return $http.get("/api/assignment/user?username=" + username + "&password=" + password);
         }
 
-        function findAllUsers(){
+        factory.findAllUsers = function(){
             return $http.get("/api/assignment/user/");
         }
 
-        function findSingleUser(userId){
+        factory.findSingleUser = function(userId){
             return $http.get("/api/assignment/user/"+userId+"/");
         }
 
-        function createUser(user){
+        factory.createUser = function(user){
             return $http.post("/api/assignment/user/", user);
         }
 
-        function deleteUserById(userId) {
+        factory.deleteUserById = function(userId) {
             return $http.delete("/api/assignment/user/" + userId + "/");
         }
 
-        function updateUser(userId, user){
+        factory.updateUser = function(userId, user){
            return $http.put("/api/assignment/user/" + userId +"/", user);
         }
+
+        return factory;
     }
 })();

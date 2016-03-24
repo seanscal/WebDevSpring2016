@@ -65,8 +65,9 @@ module.exports = function() {
 
     function updateForm(formId, form) {
         for (var i in formsMock) {
+            console.log(formsMock[i]);
             if (formsMock[i]._id === formId) {
-                formsMock[i] = form;
+                formsMock[i].title = form.title;
                 return formsMock[i];
             }
         }
@@ -147,9 +148,9 @@ module.exports = function() {
         newField._id = uuid.v4();
         for (var i in formsMock) {
             if (formsMock[i]._id === formId) {
+                console.log(formsMock[i]);
                 formsMock[i].fields.push(newField);
                 return formsMock[i].fields;
-
             }
         }
         return null;

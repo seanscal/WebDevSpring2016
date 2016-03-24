@@ -31,9 +31,6 @@ module.exports = function (app) {
     function updatePlayer(req, res) {
         var id = req.params.id;
         var player = req.body;
-        console.log(id);
-        console.log(player);
-        console.log(model.updatePlayer(id, player));
         res.json(model.updatePlayer(id, player));
     }
 
@@ -53,7 +50,7 @@ module.exports = function (app) {
         res.json(model.checkForNewPlayers(players));
     }
 
-    function fetchPlayers(req, res){
+    function fetchPlayers(res){
         var options = {
             host: 'nhlwc.cdnak.neulion.com',
             path: '/fs1/nhl/league/teamroster/NJD/iphone/clubroster.json',

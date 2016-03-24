@@ -46,20 +46,24 @@ module.exports = function (db) {
     }
 
     function updateUser(userId, user) {
+        console.log(user.email);
         for (var i =0; i < usersMock.length; i++)  {
-            if (usersMock[i]._id === userId) {
+            if (usersMock[i]._id == userId) {
                 usersMock[i].firstName = user.firstName;
                 usersMock[i].lastName = user.lastName;
                 usersMock[i].username = user.username;
                 usersMock[i].password = user.password;
                 usersMock[i].email = user.email;
+                console.log("MODEL" + usersMock[i].name);
+                return usersMock[i];
+
             }
         }
     }
 
     function deleteUser(userId) {
         for (var i =0; i < usersMock.length; i++) {
-            if (usersMock[i].username === userId) {
+            if (usersMock[i]._id === userId) {
                 usersMock.splice(i,1);
             }
         }

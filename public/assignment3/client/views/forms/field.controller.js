@@ -4,13 +4,15 @@
         .module('FormBuilderApp')
         .controller("FieldController", FieldController);
 
-    function FieldController($rootScope, $scope, $routeParams, FieldService) {
-        //if(!$rootScope.currentUser){
-        //    $scope.$location.url('/login');
-        //}
+    function FieldController($rootScope, $routeParams, FieldService) {
+        var vm = this;
 
-        $scope.formId = $routeParams.formId;
-        $scope.fieldType = "TEXT";
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login');
+        }
+
+        vm.formId = $routeParams.formId;
+        vm.fieldType = "TEXT";
         refreshFields();
         jQuery("#sortable").sortable({
             handle: ".handle",
@@ -27,17 +29,17 @@
         });
 
         function refreshFields() {
-            FieldService.getFieldsForForm($scope.formId).then(
+            FieldService.getFieldsForForm(vm.formId).then(
                 function (res) {
-                    $scope.fields = res.data;
+                    vm.fields = res.data;
                 },
                 function (error) {
                     console.log(error);
                 }
             );
-        };
+        }
 
-        $scope.addField = function (fieldType) {
+        vm.addField = function (fieldType) {
             var field = {};
             field.type = fieldType;
 
@@ -72,19 +74,19 @@
                 return;
             }
 
-            FieldService.createFieldForForm($scope.formId, field).then(
+            FieldService.createFieldForForm(vm.formId, field).then(
                 function (res) {
-                    $scope.fields = res.data;
+                    vm.fields = res.data;
                 },
                 function (error) {
                     console.log(error);
                 }
             );
-        };
+        }
 
-        $scope.removeField = function (idx) {
-            var field = $scope.fields[idx];
-            FieldService.deleteFieldFromForm($scope.formId, field._id).then(
+        vm.removeField = function (idx) {
+            var field = vm.fields[idx];
+            FieldService.deleteFieldFromForm(vm.formId, field._id).then(
                 function (res) {
                     refreshFields();
                 },
@@ -92,23 +94,27 @@
                     console.log(error);
                 }
             );
-        };
+        }
 
-        $scope.createModal = function (fieldType, idx) {
-            var field = $scope.fields[idx]
-            var options = $scope.fields[idx].options;
-            // set popups values to fields currently set values
-            $scope[fieldType + "label"] = field.label;
+        vm.createModal = function (fieldType, idx) {
+            var field = vm.fields[idx];
+            var options = vm.fields[idx].options;
+            console.log(field);
+            console.log(options);
+            // set popups values to fields currently set value
+            var str = fieldType + "label";
+            vm[fieldType + "label"] = field.label;
+
             if (fieldType === "TEXT" || fieldType === "TEXTAREA") {
-                $scope[fieldType + "placeholder"] = field.placeholder;
+                vm[fieldType + "placeholder"] = field.placeholder;
             } else if (fieldType !== "DATE") {
                 var optionsString="";
 
                 for (var x = 0; x <options.length; x++) {
                     optionsString += (options[x].label + ":" + options[x].value + "\n");
                 }
-                $scope[fieldType + "options"] = optionsString;
-                console.log($scope[fieldType + "options"]);
+                vm[fieldType + "options"] = optionsString;
+                console.log(vm[fieldType + "options"]);
             }
             jQuery("#" + fieldType + "modal").dialog({
                 resizeable: false,
@@ -124,38 +130,37 @@
                     }
                 }
             });
-        };
+        }
 
         function updateField(fieldType, idx) {
-            var field = $scope.fields[idx];
-            field.label = $scope[fieldType + "label"];
+            var field = vm.fields[idx];
+            field.label = vm[fieldType + "label"];
 
             if (fieldType === "TEXT" || fieldType === "TEXTAREA") {
-                field.placeholder = $scope[fieldType + "placeholder"];
+                field.placeholder = vm[fieldType + "placeholder"];
             } else if (fieldType !== "DATE") {
-                var optionsString = $scope[fieldType + "options"];
+                var optionsString = vm[fieldType + "options"];
                 var options = optionsString.split("\n");
                 field.options = parseData(options);
             }
 
-            FieldService.updateField($scope.formId, field._id, field);
-        };
-
+            FieldService.updateField(vm.formId, field._id, field);
+        }
         function updateAllFields(order) {
             var newFields = [];
             for (var i in order) {
-                newFields.push($scope.fields[order[i]]);
+                newFields.push(vm.fields[order[i]]);
             }
 
-            FieldService.updateAllFields($scope.formId, newFields).then(
+            FieldService.updateAllFields(vm.formId, newFields).then(
                 function (res) {
-                    $scope.fields = res.data;
+                    vm.fields = res.data;
                 },
                 function (error) {
                     console.log(error);
                 }
             );
-        };
+        }
         function parseData(options) {
             var newArr = [];
             var str;
@@ -166,6 +171,6 @@
                 }
             }
             return newArr;
-        };
+        }
     }
 })();

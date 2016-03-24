@@ -1,8 +1,5 @@
 (function () {
     'use strict';
-
-    var URL = '/api/playerStats';
-
     angular
         .module("DevilsFanApp")
         .factory("PlayerService", PlayerService);
@@ -112,11 +109,9 @@
         }
 
         function fetchStats(callback) {
-
             var deferred = $q.defer();
-
-            $http.get(URL)
-                .success(function (response) {
+            $http.get('/api/playerStats')
+                .then(function (response) {
                     var data = angular.fromJson(response);
                     for (var x = 0; x < data.skaterData.length; x++) {
                         var singleSkater = data.skaterData[x].data.split(',');
@@ -136,7 +131,7 @@
                                 PP: singleSkater[11],
                                 SH: singleSkater[12],
                                 GWG: singleSkater[13],
-                                OT: singleSkater[14],
+                                OT: singleSkater[14]
                             };
                             model.players.push(newPlayer);
                         }

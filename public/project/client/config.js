@@ -11,27 +11,27 @@
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
-                controller: "RegisterController"
+                controller: "RegisterController as Register"
             })
             .when("/login", {
                 templateUrl: "views/users/login.view.html",
-                controller: "LoginController"
+                controller: "LoginController as Login"
             })
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
-                controller: "ProfileController"
+                controller: "ProfileController as Profile"
             })
             .when("/editor", {
                 templateUrl: "views/editor/editor.view.html",
-                controller: "EditorController"
+                controller: "EditorController as Editor"
             })
             .when("/roster", {
                 templateUrl: "views/players/roster.view.html",
-                controller: "RosterController"
+                controller: "RosterController as Roster"
             })
             .when("/player/:id", {
                 templateUrl: "views/players/player.view.html",
-                controller: "PlayerController"
+                controller: "RosterController as Roster"
             })
             .otherwise({
                 redirectTo: "/home"

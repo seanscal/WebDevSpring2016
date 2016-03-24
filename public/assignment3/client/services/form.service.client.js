@@ -16,11 +16,11 @@
             return $http.get("/api/assignment/user/" + userId + "/form");
         };
 
-        factory.deleteFormById = function(formId) {
+        factory.deleteForm = function(formId) {
             return $http.delete("/api/assignment/form/" + formId);
         };
 
-        factory.updateFormById = function(formId, newForm) {
+        factory.updateForm = function(formId, newForm) {
             return $http.put("/api/assignment/form/" + formId, newForm);
         };
 
