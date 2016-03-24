@@ -7,11 +7,11 @@
     function FormsController($rootScope, FormService) {
         var vm = this;
 
-        if(!main.currentUser){
-            main.$location.url('/login');
+        if(!$rootScope.currentUser){
+            $rootScope.$location.url('/login');
         }
 
-        FormService.findAllFormsForUser(main.currentUser._id).then(
+        FormService.findAllFormsForUser($rootScope.currentUser._id).then(
             function(res) {
                 console.log(res.data);
                 vm.forms = res.data;
