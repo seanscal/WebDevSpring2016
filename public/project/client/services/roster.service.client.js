@@ -5,24 +5,20 @@
         .module("DevilsFanApp")
         .factory("RosterService", RosterService);
 
-    function RosterService($rootScope, $http, $q) {
+    function RosterService($http, $routeParams) {
         var model = {
             players: [],
             fetchPlayers: fetchPlayers,
-            setCurrentPlayer: setCurrentPlayer,
             findPlayerByName: findPlayerByName,
             findAllPlayers: findAllPlayers,
             createPlayer: createPlayer,
             deletePlayerById: deletePlayerById,
             updatePlayer: updatePlayer,
             findPlayerById: findPlayerById,
-            fetchStats: fetchStats
+            fetchStats: fetchStats,
+            updateMultiplePlayers: updateMultiplePlayers
         };
         return model;
-
-        function setCurrentPlayer(player) {
-            $rootScope.currentPlayer = player;
-        }
 
         function findAllPlayers() {
             return $http.get("/api/project/player/");
@@ -46,8 +42,8 @@
         }
 
         function deletePlayerById(playerId) {
-            return $http.delete("/api/project/player/" + playerId).then(function(res){
-                return findAllPlayers().then(function(res){
+            return $http.delete("/api/project/player/" + playerId).then(function (res) {
+                return findAllPlayers().then(function (res) {
                     if (res.data.length > 0) {
                         model.players = res.data;
                     }
@@ -60,31 +56,82 @@
             return $http.post("/api/project/players", players);
         }
 
-        function fetchStats() {
-            var deferred = $q.defer();
-            $http.get('/api/playerStats')
-                .then(function (response) {
+        function updateMultiplePlayers(players) {
+            return $http.put("/api/project/players", players);
+        }
 
+
+
+        function fetchStats() {
+            var updaterArray = [];
+            return $http.get('/api/project/playerStats')
+                .then(function (response) {
+                    var data = angular.fromJson(response.data);
+                    for (var i in data.skaterData) {
+                        var skaterString = data.skaterData[i].data;
+                        var skateArray = skaterString.split(', ');
+                        var updater = {
+                            _id: data.skaterData[i].id,
+                            games: skateArray[3],
+                            goals: skateArray[4],
+                            assists: skateArray[5],
+                            points: skateArray[6],
+                            plusminus: skateArray[7],
+                            pim: skateArray[8],
+                            shots: skateArray[9],
+                            timeonice: skateArray[10],
+                            PP: skateArray[11],
+                            SH: skateArray[12],
+                            GWG: skateArray[13],
+                            OT: skateArray[14]
+                        };
+                        updaterArray.push(updater);
+                    }
+                    for (var i in data.goalieData) {
+                        var skaterString = data.goalieData[i].data;
+                        var skateArray = skaterString.split(', ');
+                        var updater = {
+                            _id: data.goalieData[i].id,
+                            games: skateArray[3],
+                            wins: skateArray[4],
+                            losses: skateArray[5],
+                            overtimeLosses: skateArray[6],
+                            goalsAgainst: skateArray[7],
+                            shotsAgainst: skateArray[8],
+                            saves: skateArray[9],
+                            savePercentage: skateArray[10],
+                            GAA: skateArray[11],
+                            shutouts: skateArray[12],
+                            pim: skateArray[13],
+                            minutes: skateArray[14]
+                        };
+                        updaterArray.push(updater);
+                    }
+                    return updateMultiplePlayers(updaterArray).then(function(res){
+                        return findPlayerById($routeParams.id).then(function(res){
+                           return res.data;
+                        });
+                    });
                 });
         }
 
         function fetchPlayers() {
-            return $http.get('/api/playerInfo')
+            return $http.get('/api/project/playerInfo')
                 .then(function (response) {
                     var data = angular.fromJson(response.data);
-                    return checkForNewPlayers(data.goalie).then(function(res){
+                    return checkForNewPlayers(data.goalie).then(function (res) {
                         for (var x = 0; x < res.data.length; x++) {
                             model.players.push(res.data[x]);
                         }
-                        return checkForNewPlayers(data.defensemen).then(function(res){
+                        return checkForNewPlayers(data.defensemen).then(function (res) {
                             for (var x = 0; x < res.data.length; x++) {
                                 model.players.push(res.data[x]);
                             }
-                            return checkForNewPlayers(data.forwards).then(function(res){
+                            return checkForNewPlayers(data.forwards).then(function (res) {
                                 for (var x = 0; x < res.data.length; x++) {
                                     model.players.push(res.data[x]);
                                 }
-                                return findAllPlayers().then(function(res){
+                                return findAllPlayers().then(function (res) {
                                     if (res.data.length > 0) {
                                         model.players = res.data;
                                     }
@@ -96,4 +143,4 @@
                 });
         }
     }
-})();
+}());

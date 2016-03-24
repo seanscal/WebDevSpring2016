@@ -29,7 +29,7 @@
                 templateUrl: "views/players/roster.view.html",
                 controller: "RosterController as Roster"
             })
-            .when("/player/:id", {
+            .when("/players/:id", {
                 templateUrl: "views/players/player.view.html",
                 controller: "RosterController as Roster"
             })

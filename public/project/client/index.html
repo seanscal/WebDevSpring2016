@@ -16,11 +16,11 @@
 
     <link href="css/dashboard.css" rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/style.css" rel="stylesheet"/>
 
 
     <!-- Services -->
     <script src="services/user.service.client.js"></script>
-    <script src="services/player.service.client.js"></script>
     <script src="services/roster.service.client.js"></script>
     <script src="services/dropdown.service.client.js"></script>
 
@@ -35,15 +35,14 @@
     <script src="views/users/login.controller.js"></script>
     <script src="views/users/profile.controller.js"></script>
     <script src="views/users/register.controller.js"></script>
-    <script src="views/players/player.controller.js"></script>
     <script src="views/players/roster.controller.js"></script>
 
 
     <title>Form Builder</title>
 
 </head>
-<body>
-<div ng-app="DevilsFanApp">
+<body class = "devils-black">
+<div ng-app="DevilsFanApp" class="devils-black">
     <div class="container" ng-controller="MainController">
         <div ng-include="'./views/header/header.view.html'"></div>
         <div class="col-sm-9 col-md-12">

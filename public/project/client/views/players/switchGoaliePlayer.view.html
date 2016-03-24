@@ -1,0 +1,77 @@
+<div ng-switch="currentPlayer.position">
+    <div ng-switch-when="Goalie">
+        <table class="table table-striped table-bordered table-white">
+            <thead>
+            <tr>
+                <th>GP</th>
+                <th>W</th>
+                <th>L</th>
+                <th>OT</th>
+                <th>GA</th>
+                <th>SA</th>
+                <th>S</th>
+                <th>Save %</th>
+                <th>GAA</th>
+                <th>SO</th>
+                <th>PIM</th>
+                <th>MIN</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr class="centered">
+                <td>{{currentPlayer.games}}</td>
+                <td>{{currentPlayer.wins}}</td>
+                <td>{{currentPlayer.losses}}</td>
+                <td>{{currentPlayer.overtimeLosses}}</td>
+                <td>{{currentPlayer.goalsAgainst}}</td>
+                <td>{{currentPlayer.shotsAgainst}}</td>
+                <td>{{currentPlayer.saves}}</td>
+                <td>{{currentPlayer.savePercentage}}</td>
+                <td>{{currentPlayer.GAA}}</td>
+                <td>{{currentPlayer.shutouts}}</td>
+                <td>{{currentPlayer.pim}}</td>
+                <td>{{currentPlayer.minutes}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div ng-switch-default>
+        <table class="table table-striped table-bordered table-white">
+            <thead>
+            <tr>
+                <th>GP</th>
+                <th>G</th>
+                <th>A</th>
+                <th>P</th>
+                <th>+/-</th>
+                <th>PIM</th>
+                <th>S</th>
+                <th>TOI/G</th>
+                <th>PP</th>
+                <th>SH</th>
+                <th>GWG</th>
+                <th>OT</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr class="centered">
+                <td>{{currentPlayer.games}}</td>
+                <td>{{currentPlayer.goals}}</td>
+                <td>{{currentPlayer.assists}}</td>
+                <td>{{currentPlayer.points}}</td>
+                <td>{{currentPlayer.plusminus}}</td>
+                <td>{{currentPlayer.pim}}</td>
+                <td>{{currentPlayer.shots}}</td>
+                <td>{{currentPlayer.timeonice}}</td>
+                <td>{{currentPlayer.PP}}</td>
+                <td>{{currentPlayer.SH}}</td>
+                <td>{{currentPlayer.GWG}}</td>
+                <td>{{currentPlayer.OT}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

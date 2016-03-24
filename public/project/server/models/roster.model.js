@@ -12,13 +12,14 @@ module.exports = function (db) {
         updatePlayer: updatePlayer,
         deletePlayer: deletePlayer,
         findAllPlayers: findAllPlayers,
-        checkForNewPlayers: checkForNewPlayers
+        checkForNewPlayers: checkForNewPlayers,
+        updateMultiplePlayers: updateMultiplePlayers
     };
     return api;
 
     function createPlayer(player) {
         var newPlayer = {
-            _id: uuid.v4(),
+            _id: player.id,
             name: player.name,
             position: player.position,
             height: player.height,
@@ -34,7 +35,7 @@ module.exports = function (db) {
 
     function findPlayerById(playerId) {
         for (var i = 0; i < rosterMock.length; i++) {
-            if (rosterMock[i]._id === playerId) {
+            if (rosterMock[i]._id == playerId) {
                 return rosterMock[i];
             }
         }
@@ -79,17 +80,59 @@ module.exports = function (db) {
     function updatePlayer(playerId, player) {
         for (var i = 0; i < rosterMock.length; i++) {
             if (rosterMock[i]._id === playerId) {
-                rosterMock[i].name = player.name;
-                rosterMock[i].height = player.height;
-                rosterMock[i].weight = player.weight;
-                rosterMock[i].birthday = player.birthday;
-                rosterMock[i].age = player.age;
-                rosterMock[i].birthPlace = player.birthPlace;
-                rosterMock[i].number = player.number;
+
+                //General Information
+                rosterMock[i].name = rosterMock[i].name || player.name;
+                rosterMock[i].height = player.height || rosterMock[i].height;
+                rosterMock[i].weight = player.weight || rosterMock[i].weight;
+                rosterMock[i].birthday = player.birthday || rosterMock[i].birthday;
+                rosterMock[i].age = player.age || rosterMock[i].age ;
+                rosterMock[i].birthPlace = player.birthPlace || rosterMock[i].birthPlace;
+                rosterMock[i].number = player.number || rosterMock[i].number;
+
+
+                //Player stats
+                rosterMock[i].goals = player.goals || rosterMock[i].goals;
+                rosterMock[i].assists = player.assists || rosterMock[i].assists;
+                rosterMock[i].points = player.points || rosterMock[i].points;
+                rosterMock[i].plusminus = player.plusminus || rosterMock[i].plusminus;
+                rosterMock[i].shots = player.shots || rosterMock[i].shots;
+                rosterMock[i].timeonice = player.timeonice || rosterMock[i].timeonice;
+                rosterMock[i].PP = player.PP || rosterMock[i].PP;
+                rosterMock[i].SH = player.SH || rosterMock[i].SH ;
+                rosterMock[i].GWG = player.GWG || rosterMock[i].GWG;
+                rosterMock[i].OT = player.OT || rosterMock[i].OT;
+
+                //Goalie Stats
+                rosterMock[i].wins = player.wins || rosterMock[i].wins;
+                rosterMock[i].losses = player.losses || rosterMock[i].losses;
+                rosterMock[i].overtimeLosses = player.overtimeLosses || rosterMock[i].overtimeLosses;
+                rosterMock[i].goalsAgainst = player.goalsAgainst || rosterMock[i].goalsAgainst;
+                rosterMock[i].shotsAgainst = player.shotsAgainst || rosterMock[i].shotsAgainst;
+                rosterMock[i].saves = player.saves || rosterMock[i].saves;
+                rosterMock[i].savePercentage = player.savePercentage || rosterMock[i].savePercentage;
+                rosterMock[i].GAA = player.GAA || rosterMock[i].GAA;
+                rosterMock[i].shutouts = player.shutouts || rosterMock[i].shutouts ;
+                rosterMock[i].minutes = player.minutes || rosterMock[i].minutes;
+
+                //both types
+                rosterMock[i].games = player.games || rosterMock[i].games;
+                rosterMock[i].pim = player.pim || rosterMock[i].pim;
+
+
                 return rosterMock[i];
             }
         }
         return null;
+    }
+
+
+    function updateMultiplePlayers(players) {
+        var updated = [];
+        for(x in players){
+            updated.push(updatePlayer(players[x]._id, players[x]));
+        }
+        return updated;
     }
 
     function deletePlayer(playerId) {

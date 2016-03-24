@@ -4,151 +4,154 @@
     angular.module("DevilsFanApp")
         .controller("RosterController", RosterController);
 
-    function RosterController($routeParams, RosterService) {
-        var vm = this;
-        vm.players = [];
-        vm.addPlayer = addPlayer;
-        vm.updatePlayer = updatePlayer;
-        vm.deletePlayer = deletePlayer;
-        vm.selectPlayer = selectPlayer;
-        vm.fetchPlayers = fetchPlayers;
+    function RosterController($scope, $routeParams, RosterService) {
+
+        $scope.players = [];
+        $scope.addPlayer = addPlayer;
+        $scope.updatePlayer = updatePlayer;
+        $scope.deletePlayer = deletePlayer;
+        $scope.selectPlayer = selectPlayer;
+        $scope.fetchPlayers = fetchPlayers;
 
 
 
         function fetchPlayers() {
             RosterService.fetchPlayers().then(function (response) {
-                vm.players = response;
+                $scope.players = response;
             });
         }
 
         if ($routeParams.id){
-
+            RosterService.findPlayerById($routeParams.id).then(function(res){
+                RosterService.fetchStats().then(function(res){
+                    $scope.currentPlayer = res;
+                });
+            });
         }
         else {
-
             fetchPlayers();
         }
 
         function addPlayer() {
             RosterService.createPlayer({
-                number: vm.number, name: vm.name, position: vm.position, height: vm.height,
-                weight: vm.weight, birthday: vm.birthday, age: vm.age, birthPlace: vm.birthPlace,
-                games: vm.games, goals: vm.goals, assists: vm.assists,
-                points: vm.points, plusminus: vm.plusminus, pim: vm.pim,
-                shots: vm.shots, timeonice: vm.timeonice, PP: vm.PP, SH: vm.SH, GWG: vm.GWG,
-                OT: vm.OT
+                number: $scope.number, name: $scope.name, position: $scope.position, height: $scope.height,
+                weight: $scope.weight, birthday: $scope.birthday, age: $scope.age, birthPlace: $scope.birthPlace,
+                games: $scope.games, goals: $scope.goals, assists: $scope.assists,
+                points: $scope.points, plusminus: $scope.plusminus, pim: $scope.pim,
+                shots: $scope.shots, timeonice: $scope.timeonice, PP: $scope.PP, SH: $scope.SH, GWG: $scope.GWG,
+                OT: $scope.OT
             }).then(function (res) {
-                vm.number = null;
-                vm.name = null;
-                vm.position = null;
-                vm.height = null;
-                vm.weight = null;
-                vm.birthday = null;
-                vm.age = null;
-                vm.birthPlace = null;
-                vm.selectedPlayer = null;
-                vm.name = null;
-                vm.games = null;
-                vm.goals = null;
-                vm.assists = null;
-                vm.points = null;
-                vm.plusminus = null;
-                vm.pim = null;
-                vm.shots = null;
-                vm.timeonice = null;
-                vm.PP = null;
-                vm.SH = null;
-                vm.GWG = null;
-                vm.OT = null;
+                $scope.number = null;
+                $scope.name = null;
+                $scope.position = null;
+                $scope.height = null;
+                $scope.weight = null;
+                $scope.birthday = null;
+                $scope.age = null;
+                $scope.birthPlace = null;
+                $scope.selectedPlayer = null;
+                $scope.name = null;
+                $scope.games = null;
+                $scope.goals = null;
+                $scope.assists = null;
+                $scope.points = null;
+                $scope.plusminus = null;
+                $scope.pim = null;
+                $scope.shots = null;
+                $scope.timeonice = null;
+                $scope.PP = null;
+                $scope.SH = null;
+                $scope.GWG = null;
+                $scope.OT = null;
             });
         }
 
         function updatePlayer(index) {
-            vm.selectedPlayer.number = vm.number;
-            vm.selectedPlayer.name = vm.name;
-            vm.selectedPlayer.position = vm.position;
-            vm.selectedPlayer.height = vm.height;
-            vm.selectedPlayer.weight = vm.weight;
-            vm.selectedPlayer.birthdate = vm.birthdate;
-            vm.selectedPlayer.age = vm.age;
-            vm.selectedPlayer.birthPlace = vm.birthPlace;
-            vm.selectedPlayer.name = vm.name;
-            vm.selectedPlayer.games = vm.games;
-            vm.selectedPlayer.goals = vm.goals;
-            vm.selectedPlayer.assists = vm.assists;
-            vm.selectedPlayer.birthdate = vm.birthdate;
-            vm.selectedPlayer.plusminus = vm.plusminus;
-            vm.selectedPlayer.pim = vm.pim;
-            vm.selectedPlayer.shots = vm.shots;
-            vm.selectedPlayer.timeonice = vm.timeonice;
-            vm.selectedPlayer.PP = vm.PP;
-            vm.selectedPlayer.SH = vm.SH;
-            vm.selectedPlayer.GWG = vm.GWG;
-            vm.selectedPlayer.OT = vm.OT;
+            $scope.selectedPlayer.number = $scope.number;
+            $scope.selectedPlayer.name = $scope.name;
+            $scope.selectedPlayer.position = $scope.position;
+            $scope.selectedPlayer.height = $scope.height;
+            $scope.selectedPlayer.weight = $scope.weight;
+            $scope.selectedPlayer.birthdate = $scope.birthdate;
+            $scope.selectedPlayer.age = $scope.age;
+            $scope.selectedPlayer.birthPlace = $scope.birthPlace;
+            $scope.selectedPlayer.name = $scope.name;
+            $scope.selectedPlayer.games = $scope.games;
+            $scope.selectedPlayer.goals = $scope.goals;
+            $scope.selectedPlayer.assists = $scope.assists;
+            $scope.selectedPlayer.birthdate = $scope.birthdate;
+            $scope.selectedPlayer.plusminus = $scope.plusminus;
+            $scope.selectedPlayer.pim = $scope.pim;
+            $scope.selectedPlayer.shots = $scope.shots;
+            $scope.selectedPlayer.timeonice = $scope.timeonice;
+            $scope.selectedPlayer.PP = $scope.PP;
+            $scope.selectedPlayer.SH = $scope.SH;
+            $scope.selectedPlayer.GWG = $scope.GWG;
+            $scope.selectedPlayer.OT = $scope.OT;
 
-            RosterService.updatePlayer(vm.selectedPlayer).then(function (res) {
+            RosterService.updatePlayer($scope.selectedPlayer).then(function (res) {
                 RosterService.players[index] = res.data;
                 console.log(RosterService.players[index]);
                 RosterService.findAllPlayers().then(function(response){
-                    vm.players = response.data;
+                    $scope.players = response.data;
                 });
-                vm.selectedPlayer = null;
-                vm.number = null;
-                vm.name = null;
-                vm.position = null;
-                vm.height = null;
-                vm.weight = null;
-                vm.birthday = null;
-                vm.age = null;
-                vm.birthPlace = null;
-                vm.name = null;
-                vm.games = null;
-                vm.goals = null;
-                vm.assists = null;
-                vm.birthdate = null;
-                vm.plusminus = null;
-                vm.pim = null;
-                vm.shots = null;
-                vm.timeonice = null;
-                vm.PP = null;
-                vm.SH = null;
-                vm.GWG = null;
-                vm.OT = null;
+                $scope.selectedPlayer = null;
+                $scope.number = null;
+                $scope.name = null;
+                $scope.position = null;
+                $scope.height = null;
+                $scope.weight = null;
+                $scope.birthday = null;
+                $scope.age = null;
+                $scope.birthPlace = null;
+                $scope.name = null;
+                $scope.games = null;
+                $scope.goals = null;
+                $scope.assists = null;
+                $scope.birthdate = null;
+                $scope.plusminus = null;
+                $scope.pim = null;
+                $scope.shots = null;
+                $scope.timeonice = null;
+                $scope.PP = null;
+                $scope.SH = null;
+                $scope.GWG = null;
+                $scope.OT = null;
             });
         }
 
         function deletePlayer(index) {
-            var player = vm.players[index];
+            var player = RosterService.players[index];
             RosterService.deletePlayerById(player._id).then(function (res) {
                 RosterService.findAllPlayers().then(function(response){
-                    vm.players = response.data;
+                    $scope.players = response.data;
                 })
             });
         }
 
         function selectPlayer(index) {
-            vm.selectedPlayer = RosterService.players[index];
-            vm.number = vm.selectedPlayer.number;
-            vm.name = vm.selectedPlayer.name;
-            vm.position = vm.selectedPlayer.position;
-            vm.height = vm.selectedPlayer.height;
-            vm.weight = vm.selectedPlayer.weight;
-            vm.birthday = vm.selectedPlayer.birthday;
-            vm.age = vm.selectedPlayer.age;
-            vm.birthPlace = vm.selectedPlayer.birthPlace;
-            vm.name = vm.selectedPlayer.name;
-            vm.games = vm.selectedPlayer.games;
-            vm.goals = vm.selectedPlayer.goals;
-            vm.assists = vm.selectedPlayer.assists;
-            vm.points = vm.selectedPlayer.points;
-            vm.plusminus = vm.selectedPlayer.plusminus;
-            vm.pim = vm.selectedPlayer.pim;
-            vm.shots = vm.selectedPlayer.pim;
-            vm.timeonice = vm.selectedPlayer.timeonice;
-            vm.PP = vm.selectedPlayer.PP;
-            vm.SH = vm.selectedPlayer.SH;
-            vm.GWG = vm.selectedPlayer.GWG;
-            vm.OT = vm= vm.selectedPlayer.OT;
+            $scope.selectedPlayer = RosterService.players[index];
+            $scope.number = $scope.selectedPlayer.number;
+            $scope.name = $scope.selectedPlayer.name;
+            $scope.position = $scope.selectedPlayer.position;
+            $scope.height = $scope.selectedPlayer.height;
+            $scope.weight = $scope.selectedPlayer.weight;
+            $scope.birthday = $scope.selectedPlayer.birthday;
+            $scope.age = $scope.selectedPlayer.age;
+            $scope.birthPlace = $scope.selectedPlayer.birthPlace;
+            $scope.name = $scope.selectedPlayer.name;
+            $scope.games = $scope.selectedPlayer.games;
+            $scope.goals = $scope.selectedPlayer.goals;
+            $scope.assists = $scope.selectedPlayer.assists;
+            $scope.points = $scope.selectedPlayer.points;
+            $scope.plusminus = $scope.selectedPlayer.plusminus;
+            $scope.pim = $scope.selectedPlayer.pim;
+            $scope.shots = $scope.selectedPlayer.pim;
+            $scope.timeonice = $scope.selectedPlayer.timeonice;
+            $scope.PP = $scope.selectedPlayer.PP;
+            $scope.SH = $scope.selectedPlayer.SH;
+            $scope.GWG = $scope.selectedPlayer.GWG;
+            $scope.OT = $scope= $scope.selectedPlayer.OT;
         }
     }
 })();

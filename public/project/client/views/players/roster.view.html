@@ -1,4 +1,4 @@
-<table class="table title table-striped table-bordered" >
+<table class="table title table-striped table-bordered table-white">
     <thead>
     <tr>
         <th style="width:800px">Roster</th>
@@ -7,7 +7,7 @@
 </table>
 
 
-<table class="table table-striped table-bordered">
+<table class="table table-striped table-bordered table-white">
     <thead>
     <tr>
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Number</th>
@@ -18,80 +18,18 @@
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Birthdate</th>
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Age</th>
         <th><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>Birth Place</th>
-        <th>Action</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>
-            <input ng-model="number" type="text" class="form-control" id="inputNumber" placeholder="Number">
-        </td>
-
-        <td>
-            <input ng-model="name" type="text" class="form-control" id="inputName" placeholder="Name">
-        </td>
-
-        <td>
-            <input ng-model="position" type="text" class="form-control" id="inputPosition" placeholder="Position">
-        </td>
-
-        <td>
-            <input ng-model="height" type="text" class="form-control" id="inputHeight" placeholder="Height">
-        </td>
-
-        <td>
-            <input ng-model="weight" type="text" class="form-control" id="inputWeight" placeholder="Weight">
-        </td>
-
-        <td>
-            <input ng-model="birthday" type="text" class="form-control" id="inputBirthdate" placeholder="Birthdate">
-        </td>
-
-        <td>
-            <input ng-model="age" type="text" class="form-control" id="inputAge" placeholder="Age">
-        </td>
-
-        <td>
-            <input ng-model="birthPlace" type="text" class="form-control" id="inputBirthPlace"
-                   placeholder="Birth Place">
-        </td>
-
-        <td>
-            <div class="col-sm-4 btn-group">
-                <button ng-disabled="selectedPlayer || !(number && name && position && height && weight && birthday && age && birthPlace)"
-                        ng-click="addPlayer()"
-                        type="button"
-                        class="btn btn-table border-right-left">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
-                <button ng-disabled="!selectedPlayer || !(number && name && position && height && weight && birthday && age && birthPlace)"
-                        ng-click="updatePlayer()" type="button"
-                        class="btn btn-table">
-                    <span class="glyphicon glyphicon-ok border-right-black" aria-hidden="true"></span>
-                </button>
-            </div>
-        </td>
-    </tr>
-
-    <tr ng-repeat="player in Roster.players">
+    <tr ng-repeat="player in players" class="right-justified">
         <td>{{player.number}}</td>
-        <td>{{player.name}}</td>
+        <td><a href="#/players/{{player._id}}">{{player.name}}</a></td>
         <td>{{player.position}}</td>
         <td>{{player.height}}</td>
         <td>{{player.weight}}</td>
         <td>{{player.birthday}}</td>
         <td>{{player.age}}</td>
         <td>{{player.birthPlace}}</td>
-        <td>
-            <div class="col-sm-4 btn-group">
-                <button ng-click="deletePlayer($index)" type="button" class="btn btn-table">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </button>
-                <button ng-click="selectPlayer($index)" type="button" class="btn btn-table">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                </button>
-            </div>
-        </td>
     </tr>
     </tbody>
 </table>
