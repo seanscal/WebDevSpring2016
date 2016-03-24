@@ -2,6 +2,14 @@
     text-align: right;
 }
 
+.left-justified{
+    text-align: left;
+}
+
+.player-photo{
+    margin-left: 150px;
+}
+
 .centered{
     text-align: center;
 }
@@ -21,6 +29,15 @@
 
 .table-white{
     background-color: #FFFFFF;
+}
+
+.inline{
+    float: left;
+}
+
+.player-info{
+    margin-left: 100px;
+    font-size: 13px;
 }
 
 .devils-black{

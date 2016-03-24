@@ -19,6 +19,12 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li ng-hide="currentUser">
+                    <a href="#/login" id="login" ng-click="logout()">Login</a>
+                </li>
+                <li ng-hide="currentUser">
+                    <a href="#/register" id="register" >Register</a>
+                </li>
                 <li ng-show="currentUser">
                     <a id="logout" ng-click="logout()">Logout</a>
                 </li>

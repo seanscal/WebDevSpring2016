@@ -15,7 +15,7 @@
                 $scope.passwordVerification = null;
 
                 UserService.createUser($scope.user).then(function(res){
-                    UserService.setCurrentUser(res);
+                    $rootScope.currentUser = res;
                     $rootScope.$location.url('/profile');
                 });
             }

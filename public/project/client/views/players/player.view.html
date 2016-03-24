@@ -1,7 +1,31 @@
 <table class="table title table-striped table-bordered table-white">
     <thead>
     <tr>
-        <th><h1>#{{currentPlayer.number}} {{currentPlayer.name}}</h1></th>
+        <th >
+            <img class="inline player-photo" src={{currentPlayer.pictureLink}} alt={{currentPlayer.name}} style="width:289px;height:289px;">
+            <div class="inline player-info">
+                <h1>#{{currentPlayer.number}} {{currentPlayer.name}}</h1>
+                <div class="left-justified">
+                    Position: {{currentPlayer.position}}
+                    <br>
+                    <br>
+                    Height: {{currentPlayer.height}}
+                    <br>
+                    <br>
+                    Weight: {{currentPlayer.weight}}
+                    <br>
+                    <br>
+                    Birthday: {{currentPlayer.birthday}}
+                    <br>
+                    <br>
+                    Age: {{currentPlayer.age}}
+                    <br>
+                    <br>
+                    Birthplace: {{currentPlayer.birthPlace}}
+                </div>
+
+            </div>
+        </th>
     </tr>
     </thead>
 </table>

@@ -13,7 +13,8 @@ module.exports = function (db) {
         deletePlayer: deletePlayer,
         findAllPlayers: findAllPlayers,
         checkForNewPlayers: checkForNewPlayers,
-        updateMultiplePlayers: updateMultiplePlayers
+        updateMultiplePlayers: updateMultiplePlayers,
+        getPicture: getPicture
     };
     return api;
 
@@ -77,9 +78,19 @@ module.exports = function (db) {
         return newPlayers;
     }
 
+    function getPicture(name){
+        var hyphs = name.replace(' ', '-');
+        var pers = hyphs.replace('.', '');
+        var apos = pers.replace("'", "");
+        return ("http://tsnimages.tsn.ca/ImageProvider/PlayerHeadshot?seoId=" +apos)
+    }
+
     function updatePlayer(playerId, player) {
         for (var i = 0; i < rosterMock.length; i++) {
             if (rosterMock[i]._id === playerId) {
+
+                rosterMock[i]._type = "player";
+
 
                 //General Information
                 rosterMock[i].name = rosterMock[i].name || player.name;
@@ -89,7 +100,7 @@ module.exports = function (db) {
                 rosterMock[i].age = player.age || rosterMock[i].age ;
                 rosterMock[i].birthPlace = player.birthPlace || rosterMock[i].birthPlace;
                 rosterMock[i].number = player.number || rosterMock[i].number;
-
+                rosterMock[i].pictureLink = getPicture(rosterMock[i].name);
 
                 //Player stats
                 rosterMock[i].goals = player.goals || rosterMock[i].goals;

@@ -12,6 +12,7 @@
         $scope.deletePlayer = deletePlayer;
         $scope.selectPlayer = selectPlayer;
         $scope.fetchPlayers = fetchPlayers;
+        $scope.setOrderProp = setOrderProp
 
 
 
@@ -19,6 +20,10 @@
             RosterService.fetchPlayers().then(function (response) {
                 $scope.players = response;
             });
+        }
+
+        function setOrderProp(prop){
+            $scope.orderProp = prop;
         }
 
         if ($routeParams.id){
