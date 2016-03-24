@@ -7,11 +7,11 @@
     function FormsController($rootScope, FormService) {
         var vm = this;
 
-        if(!$rootScope.currentUser){
-            $rootScope.$location.url('/login');
+        if(!main.currentUser){
+            main.$location.url('/login');
         }
 
-        FormService.findAllFormsForUser($rootScope.currentUser._id).then(
+        FormService.findAllFormsForUser(main.currentUser._id).then(
             function(res) {
                 console.log(res.data);
                 vm.forms = res.data;
@@ -29,7 +29,7 @@
             var form = {
                 title: vm.formTitle
             };
-            FormService.createFormForUser($rootScope.currentUser._id, form).then(
+            FormService.createFormForUser(main.currentUser._id, form).then(
                 function(res) {
                     vm.forms.push(res.data);
                     vm.formTitle = null;
@@ -63,7 +63,7 @@
         vm.deleteForm = function(idx) {
             FormService.deleteForm(vm.forms[idx]._id).then(
                 function() {
-                    FormService.findAllFormsForUser($rootScope.currentUser._id).then(
+                    FormService.findAllFormsForUser(main.currentUser._id).then(
                         function(res) {
                             vm.forms = res.data;
                         },

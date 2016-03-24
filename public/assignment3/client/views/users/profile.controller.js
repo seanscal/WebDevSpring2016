@@ -4,19 +4,19 @@
     angular.module("FormBuilderApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($rootScope, $scope, UserService){
+    function ProfileController(UserService){
         var vm = this;
 
-        if(!$rootScope.currentUser){
-            $rootScope.$location.url('/login')
+        if(!main.currentUser){
+            main.$location.url('/login')
         }
 
         vm.display = {
-            username: $rootScope.currentUser.username,
-            password: $rootScope.currentUser.password,
-            firstName: $rootScope.currentUser.firstName,
-            lastName: $rootScope.currentUser.lastName,
-            email: $rootScope.currentUser.email
+            username: main.currentUser.username,
+            password: main.currentUser.password,
+            firstName: main.currentUser.firstName,
+            lastName: main.currentUser.lastName,
+            email: main.currentUser.email
         };
 
         console.log(vm.display);
@@ -24,14 +24,14 @@
 
         function updateUser() {
 
-            UserService.updateUser($rootScope.currentUser._id, vm.display).then(function(res){
+            UserService.updateUser(main.currentUser._id, vm.display).then(function(res){
                 console.log(res.data);
                 vm.message = "Information update successful";
-                $rootScope.currentUser.username = res.data.username;
-                $rootScope.currentUser.password = res.data.password;
-                $rootScope.currentUser.firstName = res.data.firstName;
-                $rootScope.currentUser.lastName = res.data.lastName;
-                $rootScope.currentUser.email = res.data.email;
+                main.currentUser.username = res.data.username;
+                main.currentUser.password = res.data.password;
+                main.currentUser.firstName = res.data.firstName;
+                main.currentUser.lastName = res.data.lastName;
+                main.currentUser.email = res.data.email;
             });
         }
     }

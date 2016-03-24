@@ -3,13 +3,13 @@
         .module("FormBuilderApp")
         .controller("HeaderController", HeaderController);
 
-    function HeaderController($rootScope) {
+    function HeaderController() {
         var vm = this;
         vm.logout = logout;
 
         function logout() {
-            $rootScope.currentUser = null;
-            $rootScope.$location.url("/home");
+            main.currentUser = null;
+            main.$location.url("/home");
         }
     }
 })();
