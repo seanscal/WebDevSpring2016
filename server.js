@@ -68,3 +68,4 @@ app.use(express.static(__dirname + '/public'));
 require("./public/assignment3/server/app.js")(app, db);
 require("./public/project/server/app.js")(app, db);
 
+app.listen(port, ipaddress);
