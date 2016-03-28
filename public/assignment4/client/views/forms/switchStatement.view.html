@@ -1,0 +1,59 @@
+<div ng-switch="field.type">
+    <div ng-switch-when="TEXT">
+        <label ng-attr-for="{{'field' + $index}}"
+               class="col-sm-3 control-label">{{field.label}}</label>
+        <div class="col-sm-5">
+            <input type="text" class="form-control" ng-attr-id="{{'field' + $index}}"
+                   placeholder={{field.placeholder}}>
+        </div>
+    </div>
+
+    <div ng-switch-when="TEXTAREA">
+        <label ng-attr-for="{{'field' + $index}}"
+               class="col-sm-3 control-label">{{field.label}}</label>
+        <div class="col-sm-5">
+            <textarea type="text" class="form-control" ng-attr-id="{{'field' + $index}}"
+                   placeholder={{field.placeholder}}></textarea>
+        </div>
+    </div>
+
+    <div ng-switch-when="DATE">
+        <label class="col-sm-3 control-label">{{field.label}}</label>
+        <div class="col-sm-5">
+            <input type='date' class="form-control" placeholder={{field.placeholder}}/>
+        </div>
+    </div>
+
+    <div ng-switch-when="OPTIONS">
+        <label class="col-sm-3 control-label">{{field.label}}</label>
+        <div class="col-sm-5">
+            <select class="form-control">
+                <option ng-repeat="option in field.options" value={{option.value}}>
+                    {{option.label}}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div ng-switch-when="CHECKBOXES">
+        <label class="col-sm-3 control-label">{{field.label}}</label>
+        <div class="col-sm-5">
+            <div class="checkbox" ng-repeat="option in field.options">
+                <label><input type="checkbox" value={{option.value}}>{{option.label}}</label>
+            </div>
+        </div>
+    </div>
+
+    <div ng-switch-when="RADIOS">
+        <label class="col-sm-3 control-label">{{field.label}}</label>
+        <div class="col-sm-5">
+            <div class="radio">
+                <div ng-repeat="option in field.options">
+                    <label><input type="radio" ng-model="$parent.name" name="name"
+                                  value={{option.value}}>{{option.label}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

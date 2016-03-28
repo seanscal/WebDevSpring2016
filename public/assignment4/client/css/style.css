@@ -1,0 +1,19 @@
+#logout {
+    cursor: pointer;
+}
+
+.top-spacing-15{
+    margin-top: 15px;
+}
+
+.editors{
+    margin-top: 24px;
+}
+
+#modals {
+    display: none;
+}
+
+.bold-font{
+    font-weight: bold;
+}
