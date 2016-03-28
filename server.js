@@ -37,7 +37,7 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 }
 console.log(connectionString);
 // connect to the database
-var db = mongoose.connect(connectionString);
+//var db = mongoose.connect(connectionString);
 
 
 var CourseSchema = new mongoose.Schema({
