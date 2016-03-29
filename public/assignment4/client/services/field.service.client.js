@@ -25,6 +25,8 @@
         };
 
         factory.updateField = function(formId, fieldId, field) {
+            console.log("Updating fields");
+            console.log(formId, fieldId, field);
             return $http.put("/api/assignment4/form/" + formId + "/field/" + fieldId, field);
         };
 

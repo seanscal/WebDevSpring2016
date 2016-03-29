@@ -24,7 +24,6 @@
                         idsInOrder.push(parseInt(id));
                     }
                 });
-                updateAllFields(idsInOrder);
             }
         });
 
@@ -74,6 +73,8 @@
                 return;
             }
 
+            console.log(field);
+            console.log(vm.formId);
             FieldService.createFieldForForm(vm.formId, field).then(
                 function (res) {
                     vm.fields = res.data;
@@ -144,23 +145,16 @@
                 field.options = parseData(options);
             }
 
+            console.log("Updating controller");
+            console.log(vm.formId);
+            console.log(field);
+            console.log("Updating controller");
+
+
+
             FieldService.updateField(vm.formId, field._id, field);
         }
-        function updateAllFields(order) {
-            var newFields = [];
-            for (var i in order) {
-                newFields.push(vm.fields[order[i]]);
-            }
 
-            FieldService.updateAllFields(vm.formId, newFields).then(
-                function (res) {
-                    vm.fields = res.data;
-                },
-                function (error) {
-                    console.log(error);
-                }
-            );
-        }
         function parseData(options) {
             var newArr = [];
             var str;
