@@ -1,4 +1,4 @@
-(function(){
+(function () {
     angular
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
@@ -7,14 +7,14 @@
         var vm = this;
         vm.login = login;
 
-        function login (user) {
-            UserService.findUserByCredentials(user.username, user.password).then(function(res){
-                if (res){
-                    $rootScope.currentUser = res.data;
-                    $rootScope.$location.url("/profile");
+        function login(user) {
+            UserService.findUserByCredentials(user.username, user.password).then(function (res) {
+                if (res.data == null) {
+                    vm.error = "Login failed: Invalid credentials."
                 }
                 else {
-                    vm.error = "Login failed: invalid credentials."
+                    $rootScope.currentUser = res.data;
+                    $rootScope.$location.url("/profile");
                 }
             });
         }

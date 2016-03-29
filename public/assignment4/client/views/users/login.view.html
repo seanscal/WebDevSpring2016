@@ -22,5 +22,8 @@
             <button class="btn btn-primary btn-block" ng-click="Login.login(user)">Login</button>
         </div>
     </div>
+    <div ng-show="Login.error" class="alert alert-warning">
+        {{Login.error}}
+    </div>
 </form>
 </body>

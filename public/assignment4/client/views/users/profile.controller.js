@@ -16,13 +16,15 @@
             password: $rootScope.currentUser.password,
             firstName: $rootScope.currentUser.firstName,
             lastName: $rootScope.currentUser.lastName,
-            email: $rootScope.currentUser.email
+            newEmail: $rootScope.currentUser.newEmail
         };
 
-        console.log(vm.display);
+        vm.display.emails = $rootScope.currentUser.emails;
+
         vm.updateUser = updateUser;
 
         function updateUser() {
+            vm.display.emails.push(vm.display.newEmail);
             UserService.updateUser($rootScope.currentUser._id, vm.display).then(function(res){
                 console.log(res.data);
                 vm.message = "Information update successful";
@@ -30,7 +32,7 @@
                 $rootScope.currentUser.password = res.data.password;
                 $rootScope.currentUser.firstName = res.data.firstName;
                 $rootScope.currentUser.lastName = res.data.lastName;
-                $rootScope.currentUser.email = res.data.email;
+                $rootScope.currentUser.emails = res.data.emails;
             });
         }
     }

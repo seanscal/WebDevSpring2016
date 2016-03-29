@@ -4,7 +4,8 @@
     <div class="form-group">
         <label for="username" class="col-sm-2 control-label">Username:</label>
         <div class="col-sm-5">
-            <input ng-model="Profile.display.username" type="text" class="form-control" id="username" placeholder="Username">
+            <input ng-model="Profile.display.username" type="text" class="form-control" id="username"
+                   placeholder="Username">
         </div>
     </div>
     <div class="form-group">
@@ -24,15 +25,27 @@
     <div class="form-group">
         <label for="lastName" class="col-sm-2 control-label">Last Name:</label>
         <div class="col-sm-5">
-            <input ng-model="Profile.display.lastName" type="text" class="form-control" id="lastName" placeholder="Last Name">
+            <input ng-model="Profile.display.lastName" type="text" class="form-control" id="lastName"
+                   placeholder="Last Name">
         </div>
     </div>
     <div class="form-group">
-        <label for="email" class="col-sm-2 control-label">Email:</label>
+        <label for="email" class="col-sm-2 control-label">Current Emails:</label>
         <div class="col-sm-5">
-            <input ng-model="Profile.display.email" type="email" class="form-control" id="email" placeholder="Email Address">
+            <div ng-repeat="email in Profile.display.emails">
+                {{email}}
+            </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label">Add Email:</label>
+        <div class="col-sm-5">
+            <input ng-model="Profile.display.newEmail" type="email" class="form-control" id="email"
+                   placeholder="Email Address">
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-5">
             <a class="btn btn-primary btn-block" ng-click="Profile.updateUser(currentUser)" role="button">Update</a>

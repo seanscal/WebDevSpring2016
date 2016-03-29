@@ -1,12 +1,12 @@
 module.exports = function(app, FormModel) {
     "use strict";
 
-    app.get('/api/assignment/form/:formId/field', findFields);
-    app.get('/api/assignment/form/:formId/field/:fieldId', findField);
-    app.delete('/api/assignment/form/:formId/field/:fieldId', deleteField);
-    app.post('/api/assignment/form/:formId/field', createField);
-    app.put('/api/assignment/form/:formId/field/:fieldId', updateField);
-    app.put('/api/assignment/form/:formId/field', updateAllFields);
+    app.get('/api/assignment4/form/:formId/field', findFields);
+    app.get('/api/assignment4/form/:formId/field/:fieldId', findField);
+    app.delete('/api/assignment4/form/:formId/field/:fieldId', deleteField);
+    app.post('/api/assignment4/form/:formId/field', createField);
+    app.put('/api/assignment4/form/:formId/field/:fieldId', updateField);
+    app.put('/api/assignment4/form/:formId/field', updateAllFields);
 
     function findFields(req, res) {
         var fields = FormModel.findAllFieldsByForm(req.params.formId);

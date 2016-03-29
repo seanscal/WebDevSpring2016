@@ -3,7 +3,7 @@ module.exports = function (mongoose) {
         label: String,
         type: {type: String, enum: ["TEXT", "EMAIL", "PASSWORD", "OPTIONS", "DATE", "RADIOS", "CHECKBOXES"]},
         placeholder: String,
-        options: [{label:STRING, value:STRING}]
+        options: [{label:String, value:String}]
     });
     return FieldSchema;
 };

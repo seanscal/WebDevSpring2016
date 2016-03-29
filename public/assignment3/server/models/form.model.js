@@ -3,7 +3,6 @@ var uuid = require('node-uuid');
 var formsMock = require("./form.mock.json");
 
 module.exports = function() {
-    "use strict";
     var api = {
         createForm: createForm,
         findAllForms: findAllForms,
