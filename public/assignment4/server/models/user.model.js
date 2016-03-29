@@ -3,7 +3,7 @@ var uuid = require('node-uuid');
 
 module.exports = function (mongoose, db) {
     var UserSchema = require("./user.server.schema.js")(mongoose);
-    var User = mongoose.model("User", UserSchema);
+    var User = mongoose.model("AssignmentUser", UserSchema);
 
     var api = {
         createUser: createUser,

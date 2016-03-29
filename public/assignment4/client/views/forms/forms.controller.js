@@ -24,7 +24,13 @@
         vm.currentSelection = null;
 
         vm.addForm = function() {
-            if (vm.formTitle === undefined) return;
+            if (vm.formTitle === undefined) {
+                vm.error = "Enter a form title";
+                return;
+            }
+            else{
+                vm.error = null;
+            }
 
             var form = {
                 title: vm.formTitle
