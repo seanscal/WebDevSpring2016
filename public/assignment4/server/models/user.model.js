@@ -1,6 +1,5 @@
 var q = require("q");
 var uuid = require('node-uuid');
-//var usersMock = require("./user.mock.json");
 
 module.exports = function (mongoose, db) {
     var UserSchema = require("./user.server.schema.js")(mongoose);
