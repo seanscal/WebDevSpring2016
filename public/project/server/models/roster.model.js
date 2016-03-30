@@ -49,7 +49,7 @@ module.exports = function (mongoose, db) {
                         }
                     });
                 }
-                else{
+                else {
                     //deferred.resolve("NOT HERE");
                 }
             },
@@ -69,6 +69,23 @@ module.exports = function (mongoose, db) {
                 deferred.resolve(doc);
             }
         });
+        return deferred.promise;
+    }
+
+    function findPlayerByPlayerId(playerId) {
+        var deferred = q.defer();
+
+        PlayerModel.findOne(
+            {
+                playerId: playerId
+            },
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            });
         return deferred.promise;
     }
 
@@ -103,6 +120,8 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
+
+    //TODO: Check for if the player exists before creating it
     function checkForNewPlayers(players) {
         var deferred = q.defer();
         for (var i = 0; i < players.length; i++) {
@@ -123,8 +142,8 @@ module.exports = function (mongoose, db) {
     function updatePlayer(playerId, player) {
         var deferred = q.defer();
         delete player._id;
-        PlayerModel.update({playerId: playerId}, player, function(err, response){
-            findPlayerById(playerId).then(function(player){
+        PlayerModel.update({playerId: playerId}, player, function (err, response) {
+            findPlayerByPlayerId(playerId).then(function (player) {
                 deferred.resolve(player);
             });
         });
@@ -133,19 +152,14 @@ module.exports = function (mongoose, db) {
 
 
     function updateMultiplePlayers(players) {
+
         var deferred = q.defer();
         for (x in players) {
             players[x].updated = Date.now();
             updatePlayer(players[x]._id, players[x]).then(
-                function (err, doc) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    console.log("Update model");
-                    console.log(doc);
-                    deferred.resolve(doc);
-                }
-            });
+                function (res) {
+                    deferred.resolve(res);
+                });
         }
         return deferred.promise;
     }
@@ -168,4 +182,5 @@ module.exports = function (mongoose, db) {
         }
         return null;
     }
-};
+}
+;

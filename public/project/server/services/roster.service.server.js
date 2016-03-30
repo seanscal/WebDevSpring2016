@@ -101,6 +101,7 @@ module.exports = function (app, RosterModel) {
         var players = req.body;
         RosterModel.checkForNewPlayers(players).then(
             function (doc) {
+                console.log(doc);
                 res.json(doc);
             },
             function (err) {

@@ -3,7 +3,7 @@
     angular.module("DevilsFanApp")
         .factory("UserService", UserService);
 
-    function UserService($http, $q, $rootScope){
+    function UserService($http){
 
         var service = {
             findUserByUsername: findUserByUsername,

@@ -5,7 +5,7 @@
         .module("DevilsFanApp")
         .factory("RosterService", RosterService);
 
-    function RosterService($http, $routeParams) {
+    function RosterService($http) {
         var model = {
             players: [],
             fetchPlayers: fetchPlayers,
@@ -61,8 +61,6 @@
             return $http.put("/api/project/players", players);
         }
 
-
-
         function fetchStats() {
             console.log("fetch stats service");
             var updaterArray = [];
@@ -110,9 +108,6 @@
                         updaterArray.push(updater);
                     }
                     return updateMultiplePlayers(updaterArray).then(function(res){
-                        return findPlayerById($routeParams.id).then(function(res){
-                           return res.data;
-                        });
                     });
                 });
         }
@@ -121,10 +116,7 @@
             return $http.get('/api/project/playerInfo')
                 .then(function (response) {
                     var data = angular.fromJson(response.data);
-                    console.log("Fetching Players");
                     return checkForNewPlayers(data.goalie).then(function (res) {
-                        console.log("Goalies");
-                        console.log(res.data);
                         for (var x = 0; x < res.data.length; x++) {
                             model.players.push(res.data[x]);
                         }

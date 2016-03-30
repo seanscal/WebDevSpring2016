@@ -28,7 +28,7 @@ module.exports = function (mongoose) {
 
         wins: {type: String, default: null},
         losses: {type: String, default: null},
-        overtimelosses: {type: String, default: null},
+        overtimeLosses: {type: String, default: null},
         goalsAgainst: {type: String, default: null},
         shotsAgainst: {type: String, default: null},
         saves: {type: String, default: null},

@@ -31,7 +31,7 @@
             })
             .when("/players/:id", {
                 templateUrl: "views/players/player.view.html",
-                controller: "RosterController as Roster"
+                controller: "PlayerController as Player"
             })
             .when("/search", {
                 templateUrl: "views/search/search.view.html",
