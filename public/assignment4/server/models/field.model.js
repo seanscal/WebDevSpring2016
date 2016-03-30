@@ -10,7 +10,7 @@ module.exports = function (mongoose, db, FormModel) {
         findFieldByForm: findFieldByForm,
         deleteField: deleteField,
         updateField: updateField,
-        createField: createField,
+        createField: createField
     };
     return api;
 
@@ -36,10 +36,6 @@ module.exports = function (mongoose, db, FormModel) {
             }
         }
 
-        console.log("DELETED");
-        console.log(deleted);
-        console.log(form);
-
         form.save(function (err, saved) {
             Field.remove({_id: fieldId}, function (err, response) {
                 deferred.resolve(response);
@@ -57,16 +53,9 @@ module.exports = function (mongoose, db, FormModel) {
             if (err) {
                 deferred.reject(err);
             } else {
-                console.log("NEW FIELD");
-                console.log(newField);
-                console.log("NEW FIELD");
                 for (var i = 0; i < form.fields.length; i++) {
                     if (form.fields[i]._id == fieldId) {
                         form.fields[i] = newField;
-                        console.log("New Form");
-                        console.log(form);
-                        console.log("New Form");
-
                         FormModel.updateFormNoParse(form._id, form).then(
                             function (doc) {
                                 deferred.resolve(newField);
@@ -80,7 +69,6 @@ module.exports = function (mongoose, db, FormModel) {
         });
         return deferred.promise;
     }
-
 
     function createField(form, newField) {
         var deferred = q.defer();

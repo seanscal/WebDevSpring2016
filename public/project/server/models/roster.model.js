@@ -1,10 +1,10 @@
 var q = require("q");
-var rosterMock = require("./roster.mock.json");
 var uuid = require('node-uuid');
 
-module.exports = function (db) {
-    //var PlayerSchema = require("./player.server.schema.js")(mongoose);
-    //var PlayerModel = mongoose.model("PlayerModel", PlayerSchema);
+module.exports = function (mongoose, db) {
+    var PlayerSchema = require("./player.server.schema.js")(mongoose);
+    var PlayerModel = mongoose.model("Players", PlayerSchema);
+
     var api = {
         createPlayer: createPlayer,
         findPlayerById: findPlayerById,
@@ -20,7 +20,6 @@ module.exports = function (db) {
 
     function createPlayer(player) {
         var newPlayer = {
-            _id: player.id,
             name: player.name,
             position: player.position,
             height: player.height,
@@ -28,27 +27,57 @@ module.exports = function (db) {
             birthday: new Date(player.birthdate),
             age: calculateAge(new Date(player.birthdate)),
             birthPlace: player.birthplace,
-            number: player.number
+            number: player.number,
+            updated: Date.now(),
+            playerId: player.id,
+            pictureLink: getPicture(player.name)
         };
-        rosterMock.push(newPlayer);
-        return player;
+
+        var deferred = q.defer();
+
+        findPlayerByName(newPlayer.name).then(
+            function (doc) {
+                if (!doc) {
+                    PlayerModel.create(newPlayer, function (err, doc) {
+                        if (err) {
+                            console.log(err);
+                            deferred.reject(err);
+                        } else {
+                            //console.log("ADDED");
+                            //console.log(doc);
+                            deferred.resolve(doc);
+                        }
+                    });
+                }
+                else{
+                    //deferred.resolve("NOT HERE");
+                }
+            },
+            function (err) {
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
     }
 
     function findPlayerById(playerId) {
-        for (var i = 0; i < rosterMock.length; i++) {
-            if (rosterMock[i]._id == playerId) {
-                return rosterMock[i];
+        var deferred = q.defer();
+        PlayerModel.findById(playerId, function (err, doc) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
             }
-        }
-        return null;
+        });
+        return deferred.promise;
     }
 
     function findAllPlayers() {
-        var players = [];
-        for (var i in rosterMock) {
-            players.push(rosterMock[i])
-        }
-        return players;
+        var deferred = q.defer();
+        PlayerModel.find(function (err, players) {
+            deferred.resolve(players);
+        });
+        return deferred.promise;
     }
 
     function calculateAge(birthday) { // birthday is a date
@@ -57,90 +86,68 @@ module.exports = function (db) {
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
-    function checkForNewPlayers(players)
-    {
-        var newPlayers = [];
-        var exists = false;
-        for (var i = 0; i < players.length; i++){
-            exists = false;
-            for (var j =0; j < rosterMock.length; j++){
-                if (players[i].name == rosterMock[j].name){
-                    exists = true;
-                    break;
+    function findPlayerByName(name) {
+        var deferred = q.defer();
+
+        PlayerModel.findOne(
+            {
+                name: name
+            },
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
                 }
-            }
-            if (!exists){
-                var newPlayer = createPlayer(players[i]);
-                newPlayers.push(newPlayer);
-            }
-        }
-        return newPlayers;
+            });
+        return deferred.promise;
     }
 
-    function getPicture(name){
+    function checkForNewPlayers(players) {
+        var deferred = q.defer();
+        for (var i = 0; i < players.length; i++) {
+            createPlayer(players[i]).then(function (player) {
+                deferred.resolve(player);
+            });
+        }
+        return deferred.promise;
+    }
+
+    function getPicture(name) {
         var hyphs = name.replace(' ', '-');
         var pers = hyphs.replace('.', '');
         var apos = pers.replace("'", "");
-        return ("http://tsnimages.tsn.ca/ImageProvider/PlayerHeadshot?seoId=" +apos)
+        return ("http://tsnimages.tsn.ca/ImageProvider/PlayerHeadshot?seoId=" + apos)
     }
 
     function updatePlayer(playerId, player) {
-        for (var i = 0; i < rosterMock.length; i++) {
-            if (rosterMock[i]._id === playerId) {
-
-                rosterMock[i]._type = "player";
-
-
-                //General Information
-                rosterMock[i].name = rosterMock[i].name || player.name;
-                rosterMock[i].height = player.height || rosterMock[i].height;
-                rosterMock[i].weight = player.weight || rosterMock[i].weight;
-                rosterMock[i].age = player.age || rosterMock[i].age ;
-                rosterMock[i].birthPlace = player.birthPlace || rosterMock[i].birthPlace;
-                rosterMock[i].number = player.number || rosterMock[i].number;
-                rosterMock[i].pictureLink = getPicture(rosterMock[i].name);
-
-                //Player stats
-                rosterMock[i].goals = player.goals || rosterMock[i].goals;
-                rosterMock[i].assists = player.assists || rosterMock[i].assists;
-                rosterMock[i].points = player.points || rosterMock[i].points;
-                rosterMock[i].plusminus = player.plusminus || rosterMock[i].plusminus;
-                rosterMock[i].shots = player.shots || rosterMock[i].shots;
-                rosterMock[i].timeonice = player.timeonice || rosterMock[i].timeonice;
-                rosterMock[i].PP = player.PP || rosterMock[i].PP;
-                rosterMock[i].SH = player.SH || rosterMock[i].SH ;
-                rosterMock[i].GWG = player.GWG || rosterMock[i].GWG;
-                rosterMock[i].OT = player.OT || rosterMock[i].OT;
-
-                //Goalie Stats
-                rosterMock[i].wins = player.wins || rosterMock[i].wins;
-                rosterMock[i].losses = player.losses || rosterMock[i].losses;
-                rosterMock[i].overtimeLosses = player.overtimeLosses || rosterMock[i].overtimeLosses;
-                rosterMock[i].goalsAgainst = player.goalsAgainst || rosterMock[i].goalsAgainst;
-                rosterMock[i].shotsAgainst = player.shotsAgainst || rosterMock[i].shotsAgainst;
-                rosterMock[i].saves = player.saves || rosterMock[i].saves;
-                rosterMock[i].savePercentage = player.savePercentage || rosterMock[i].savePercentage;
-                rosterMock[i].GAA = player.GAA || rosterMock[i].GAA;
-                rosterMock[i].shutouts = player.shutouts || rosterMock[i].shutouts ;
-                rosterMock[i].minutes = player.minutes || rosterMock[i].minutes;
-
-                //both types
-                rosterMock[i].games = player.games || rosterMock[i].games;
-                rosterMock[i].pim = player.pim || rosterMock[i].pim;
-
-                return rosterMock[i];
-            }
-        }
-        return null;
+        var deferred = q.defer();
+        delete player._id;
+        PlayerModel.update({playerId: playerId}, player, function(err, response){
+            findPlayerById(playerId).then(function(player){
+                deferred.resolve(player);
+            });
+        });
+        return deferred.promise;
     }
 
 
     function updateMultiplePlayers(players) {
-        var updated = [];
-        for(x in players){
-            updated.push(updatePlayer(players[x]._id, players[x]));
+        var deferred = q.defer();
+        for (x in players) {
+            players[x].updated = Date.now();
+            updatePlayer(players[x]._id, players[x]).then(
+                function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    console.log("Update model");
+                    console.log(doc);
+                    deferred.resolve(doc);
+                }
+            });
         }
-        return updated;
+        return deferred.promise;
     }
 
     function deletePlayer(playerId) {

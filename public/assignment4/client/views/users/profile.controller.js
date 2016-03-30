@@ -7,7 +7,7 @@
     function ProfileController($rootScope, UserService){
         var vm = this;
 
-        if(!$rootScope.currentUser){
+        if(!UserService.loggedIn()){
             $rootScope.$location.url('/login')
         }
 

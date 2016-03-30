@@ -4,25 +4,35 @@
     angular.module("DevilsFanApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($rootScope, $scope, UserService){
+    function ProfileController($rootScope, UserService){
+        var vm = this;
+
         if(!$rootScope.currentUser){
-            $rootScope.$location.url('/login')
+            $rootScope.$location.url('/login');
         }
 
-        $scope.display = {
+        vm.display = {
             username: $rootScope.currentUser.username,
             password: $rootScope.currentUser.password,
             firstName: $rootScope.currentUser.firstName,
             lastName: $rootScope.currentUser.lastName,
-            email: $rootScope.currentUser.email,
-            favoritePlayer: $rootScope.currentUser.favoritePlayer
+            newEmail: $rootScope.currentUser.newEmail
         };
 
-        $scope.updateUser = updateUser;
+        vm.display.emails = $rootScope.currentUser.emails;
+
+        vm.updateUser = updateUser;
 
         function updateUser() {
-            UserService.updateUser($rootScope.currentUser._id, $scope.display).then(function(res){
-                $scope.message = "Information update successful";
+            vm.display.emails.push(vm.display.newEmail);
+            UserService.updateUser($rootScope.currentUser._id, vm.display).then(function(res){
+                console.log(res.data);
+                vm.message = "Information update successful";
+                $rootScope.currentUser.username = res.data.username;
+                $rootScope.currentUser.password = res.data.password;
+                $rootScope.currentUser.firstName = res.data.firstName;
+                $rootScope.currentUser.lastName = res.data.lastName;
+                $rootScope.currentUser.emails = res.data.emails;
             });
         }
     }

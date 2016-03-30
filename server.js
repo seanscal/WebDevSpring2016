@@ -41,6 +41,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(multer());
 
+app.use(session({
+    secret: 'idontknow',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
+
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.static(__dirname + '/public'));

@@ -5,7 +5,8 @@ module.exports = function (app, UserModel) {
     app.get("/api/assignment4/user", getUserQuery);
     app.put("/api/assignment4/user/:id/", updateUser);
     app.delete("/api/assignment4/user/:id/", removeUser);
-
+    app.get("/api/assignment4/loggedin", loggedin);
+    app.post("/api/assignment4/logout", logout);
 
     function addUser(req, res) {
         var user = req.body;
@@ -49,6 +50,8 @@ module.exports = function (app, UserModel) {
         if (password) {
             UserModel.findUserByCredentials(username, password).then(
                 function (doc) {
+                    req.session.currentUser = doc;
+                    console.log(req.session.currentUser);
                     res.json(doc);
                 },
                 function (err) {
@@ -91,5 +94,15 @@ module.exports = function (app, UserModel) {
                 res.status(400).send(err);
             }
         );
+    }
+
+    function loggedin(req, res) {
+        console.log(req.session.currentUser);
+        res.json(req.session.currentUser);
+    }
+
+    function logout(req, res) {
+        req.session.destroy();
+        res.send(200);
     }
 };

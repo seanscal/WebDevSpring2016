@@ -1,7 +1,6 @@
-var model = require("../models/roster.model.js")();
 var http = require('http');
 
-module.exports = function (app) {
+module.exports = function (app, RosterModel) {
 
     app.post("/api/project/player/", addPlayer);
     app.post("/api/project/players", checkForNewPlayers);
@@ -18,42 +17,95 @@ module.exports = function (app) {
 
     function addPlayer(req, res) {
         var user = req.body;
-        res.json(model.createPlayer(user));
+        RosterModel.createPlayer(user).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function getAllPlayers(req, res) {
-        res.json(model.findAllPlayers());
+        RosterModel.findAllPlayers().then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function getPlayer(req, res) {
         var id = req.params.id;
-        res.json(model.findPlayerById(id));
+        RosterModel.findPlayerById(id).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function updatePlayer(req, res) {
         var id = req.params.id;
         var player = req.body;
-        res.json(model.updatePlayer(player._id, player));
+        RosterModel.updatePlayer(player._id, player).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function updateMultiplePlayers(req, res) {
         var players = req.body;
-        res.json(model.updateMultiplePlayers(players));
+        RosterModel.updateMultiplePlayers(players).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function removePlayer(req, res) {
         var id = req.params.id;
-        res.json(model.deletePlayer(id));
+        RosterModel.deletePlayer(id).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function getPlayerQuery(req, res) {
         var name = req.query.name;
-        res.json(model.findPlayerByPlayername(name));
+        RosterModel.findPlayerByPlayername(name).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function checkForNewPlayers(req, res){
+        //console.log("Checking for new players in roster server side");
+        //console.log("players:")
+        //console.log(req.body);
+        //console.log("Update Service");
+
         var players = req.body;
-        res.json(model.checkForNewPlayers(players));
+        RosterModel.checkForNewPlayers(players).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
     }
 
     function fetchPlayers(req, res){
@@ -83,10 +135,10 @@ module.exports = function (app) {
             host: 'nhlwc.cdnak.neulion.com',
             path: '/fs1/nhl/league/playerstatsline/20152016/2/NJD/iphone/playerstatsline.json',
             method: 'GET'
-        }
+        };
 
         var request = http.request(options, function (response) {
-            var body = ""
+            var body = "";
             response.on('data', function (data) {
                 body += data;
             });

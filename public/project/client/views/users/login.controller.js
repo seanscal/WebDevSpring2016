@@ -1,19 +1,20 @@
-(function(){
+(function () {
     angular
         .module("DevilsFanApp")
         .controller("LoginController", LoginController);
 
-    function LoginController($scope, $rootScope, UserService) {
-        $scope.login = login;
+    function LoginController($rootScope, UserService) {
+        var vm = this;
+        vm.login = login;
 
-        function login (user) {
-            UserService.findUserByCredentials(user.username, user.password).then(function(res){
-                if (res){
-                    $rootScope.currentUser = res.data;
-                    $rootScope.$location.url("/profile");
+        function login(user) {
+            UserService.findUserByCredentials(user.username, user.password).then(function (res) {
+                if (res.data == null) {
+                    vm.error = "Login failed: Invalid credentials."
                 }
                 else {
-                    $scope.error = "Login failed: invalid credentials."
+                    $rootScope.currentUser = res.data;
+                    $rootScope.$location.url("/profile");
                 }
             });
         }

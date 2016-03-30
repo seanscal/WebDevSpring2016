@@ -1,10 +1,11 @@
 module.exports = function(mongoose) {
     var UserSchema = mongoose.Schema({
-        firstName: String,
-        lastName: String,
+        firstName: {type: String, default: "User"},
+        lastName: {type: String, default: "Name"},
         username: String,
         password: String,
-        email: {type: String, default: ""}
+        emails: {type: [String], default: []},
+        phones: {type: [String], default: []}
     });
     return UserSchema;
 };

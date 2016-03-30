@@ -19,6 +19,8 @@
         function fetchPlayers() {
             RosterService.fetchPlayers().then(function (response) {
                 $scope.players = response;
+                RosterService.fetchStats().then(function(res){
+                });
             });
         }
 
@@ -27,13 +29,17 @@
         }
 
         if ($routeParams.id){
+
             RosterService.findPlayerById($routeParams.id).then(function(res){
-                RosterService.fetchStats().then(function(res){
-                    $scope.currentPlayer = res;
-                });
+                console.log(res.data);
+                $scope.currentPlayer = res.data;
+                console.log($scope.currentPlayer);
             });
         }
         else {
+            RosterService.findAllPlayers().then(function(res){
+                    $scope.players = res.data;
+                });
             fetchPlayers();
         }
 
@@ -96,7 +102,6 @@
 
             RosterService.updatePlayer($scope.selectedPlayer).then(function (res) {
                 RosterService.players[index] = res.data;
-                console.log(RosterService.players[index]);
                 RosterService.findAllPlayers().then(function(response){
                     $scope.players = response.data;
                 });
@@ -165,9 +170,7 @@
         }
 
         function printDate(date) {
-            console.log(date);
             date = new Date(date);
-            console.log(date);
             var dateStr = padStr(1+date.getMonth()) + '/' + padStr(date.getDate())  + '/'+ padStr(date.getFullYear());
             return dateStr;
         }

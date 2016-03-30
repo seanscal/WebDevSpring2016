@@ -53,6 +53,7 @@
         }
 
         function checkForNewPlayers(players) {
+            console.log("check for new players");
             return $http.post("/api/project/players", players);
         }
 
@@ -63,6 +64,7 @@
 
 
         function fetchStats() {
+            console.log("fetch stats service");
             var updaterArray = [];
             return $http.get('/api/project/playerStats')
                 .then(function (response) {
@@ -119,7 +121,10 @@
             return $http.get('/api/project/playerInfo')
                 .then(function (response) {
                     var data = angular.fromJson(response.data);
+                    console.log("Fetching Players");
                     return checkForNewPlayers(data.goalie).then(function (res) {
+                        console.log("Goalies");
+                        console.log(res.data);
                         for (var x = 0; x < res.data.length; x++) {
                             model.players.push(res.data[x]);
                         }

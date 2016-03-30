@@ -4,18 +4,22 @@
     angular.module("DevilsFanApp")
         .controller("RegisterController", RegisterController);
 
-    function RegisterController($rootScope, $scope, UserService){
-        $scope.register = register;
+    function RegisterController($rootScope, UserService){
+        var vm = this;
+        vm.register = register;
 
         function register() {
-            if ($scope.user.password !== $scope.user.verifyPassword) {
-                $scope.passwordVerification = "Your passwords do not match";
+            vm.user.emails = [];
+            if (vm.user.password !== vm.user.verifyPassword) {
+                vm.passwordVerification = "Your passwords do not match";
             }
             else {
-                $scope.passwordVerification = null;
+                vm.user.emails.push(vm.user.newEmail);
+                vm.passwordVerification = null;
 
-                UserService.createUser($scope.user).then(function(res){
-                    $rootScope.currentUser = res;
+                UserService.createUser(vm.user).then(function(res){
+                    console.log(res);
+                    $rootScope.currentUser = res.data;
                     $rootScope.$location.url('/profile');
                 });
             }
