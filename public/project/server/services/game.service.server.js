@@ -2,12 +2,17 @@ var http = require('http');
 
 module.exports = function (app, GameModel) {
 
+    app.get("/api/project/game/", getAllGames);
     app.post("/api/project/game/", addGame);
     app.post("/api/project/games", addGames);
     app.put("/api/project/games", updateMultipleGames);
     app.get("/api/project/game/:id", getGame);
     app.put("/api/project/game/:id", updateGame);
+
+    app.put("/api/project/game/:gameId/stats", addStats);
+
     app.get("/api/project/:monthId/:yearId/basicGameInfo", fetchGames);
+    app.get('/api/project/:gameId/gameStats', fetchGameStats);
 
 
     function addGame(req, res) {
@@ -64,9 +69,9 @@ module.exports = function (app, GameModel) {
             });
     }
 
-    function removeGame(req, res) {
-        var id = req.params.id;
-        GameModel.deleteGame(id).then(
+    function addGames(req, res){
+        var games = req.body;
+        GameModel.addGames(games).then(
             function (doc) {
                 res.json(doc);
             },
@@ -75,9 +80,10 @@ module.exports = function (app, GameModel) {
             });
     }
 
-    function addGames(req, res){
-        var games = req.body;
-        GameModel.addGames(games).then(
+    function addStats(req, res){
+        var gameId = req.params.gameId;
+        var stats = req.body;
+        GameModel.addStats(stats, gameId).then(
             function (doc) {
                 res.json(doc);
             },
@@ -103,6 +109,33 @@ module.exports = function (app, GameModel) {
             });
             response.on('end', function () {
                 res.send(JSON.parse(body));
+            });
+        });
+        request.on('error', function (e) {
+            console.log('Problem with request: ' + e.message);
+        });
+        request.end();
+    }
+
+    function fetchGameStats(req, res){
+        var gameId = req.params.gameId;
+
+        var options = {
+            host: 'live.nhle.com',
+            path: '/GameData/20152016/' + gameId + '/gc/gcbx.jsonp',
+            method: 'GET'
+        };
+
+        var request = http.request(options, function (response) {
+            var body = "";
+            response.on('data', function (data) {
+                body += data;
+            });
+            response.on('end', function () {
+                if (body.indexOf("GCBX.load(") > -1) {
+                    var lo = body.replace("GCBX.load(", "").slice(0, -1);
+                    res.send(JSON.parse(lo));
+                }
             });
         });
         request.on('error', function (e) {

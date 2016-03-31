@@ -18,6 +18,19 @@ module.exports = function (mongoose, db) {
     };
     return api;
 
+    function getPicture(name) {
+        var hyphs = name.replace(' ', '-');
+        var pers = hyphs.replace('.', '');
+        var apos = pers.replace("'", "");
+        return ("http://tsnimages.tsn.ca/ImageProvider/PlayerHeadshot?seoId=" + apos)
+    }
+
+    function calculateAge(birthday) { // birthday is a date
+        var ageDifMs = Date.now() - birthday.getTime();
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
     function createPlayer(player) {
         var newPlayer = {
             name: player.name,
@@ -50,7 +63,7 @@ module.exports = function (mongoose, db) {
                     });
                 }
                 else {
-                    //deferred.resolve("NOT HERE");
+                    deferred.resolve(null);
                 }
             },
             function (err) {
@@ -97,12 +110,6 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
-    function calculateAge(birthday) { // birthday is a date
-        var ageDifMs = Date.now() - birthday.getTime();
-        var ageDate = new Date(ageDifMs); // miliseconds from epoch
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
-    }
-
     function findPlayerByName(name) {
         var deferred = q.defer();
 
@@ -120,8 +127,6 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
-
-    //TODO: Check for if the player exists before creating it
     function checkForNewPlayers(players) {
         var deferred = q.defer();
         for (var i = 0; i < players.length; i++) {
@@ -130,13 +135,6 @@ module.exports = function (mongoose, db) {
             });
         }
         return deferred.promise;
-    }
-
-    function getPicture(name) {
-        var hyphs = name.replace(' ', '-');
-        var pers = hyphs.replace('.', '');
-        var apos = pers.replace("'", "");
-        return ("http://tsnimages.tsn.ca/ImageProvider/PlayerHeadshot?seoId=" + apos)
     }
 
     function updatePlayer(playerId, player) {

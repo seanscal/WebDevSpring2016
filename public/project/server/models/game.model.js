@@ -2,8 +2,13 @@ var q = require("q");
 var uuid = require('node-uuid');
 
 module.exports = function (mongoose, db) {
-    var GameSchema = require("./game.server.schema.js")(mongoose);
+    var GoalSchema = require("./goals.server.schema.js")(mongoose);
+    var PenaltiesSchema = require("./penalties.server.schema.js")(mongoose);
+    var PlayersSchema = require("./gamePlayers.server.schema.js")(mongoose);
+    var GameStatsSchema = require("./gameStats.server.schema.js")(mongoose, GoalSchema, PenaltiesSchema, PlayersSchema);
+    var GameSchema = require("./game.server.schema.js")(mongoose, GameStatsSchema);
     var Game = mongoose.model("Game", GameSchema);
+
 
     var api = {
         createGame: createGame,
@@ -11,7 +16,8 @@ module.exports = function (mongoose, db) {
         updateGame: updateGame,
         deleteGame: deleteGame,
         findAllGames: findAllGames,
-        addGames: addGames
+        addGames: addGames,
+        addStats: addStats
     };
     return api;
 
@@ -36,6 +42,9 @@ module.exports = function (mongoose, db) {
                         deferred.resolve(doc);
                     }
                 });
+            }
+            else{
+                deferred.resolve(null);
             }
         });
         return deferred.promise;
@@ -68,7 +77,7 @@ module.exports = function (mongoose, db) {
     function updateGame(gameId, game) {
         var deferred = q.defer();
         delete game._id;
-        Game.update({_id: gameId}, game, function (err, response) {
+        Game.update({gameId: gameId}, game, function (err, response) {
             findGameById(gameId).then(function (game) {
                 deferred.resolve(game);
             });
@@ -91,6 +100,76 @@ module.exports = function (mongoose, db) {
                 deferred.resolve(game);
             });
         }
+        return deferred.promise;
+    }
+
+    function addStats(stats, gameId) {
+        var deferred = q.defer();
+        findGameById(gameId).then(function (game) {
+            if (game.stats[0] == null && game.status == "FINAL") {
+                var correctedStats = {
+                    roster: [],
+                    penaltySummary: [],
+                    goalSummary: []
+                };
+
+                for (var x in stats.players) {
+                    var p = stats.players[x];
+                    var newPlayer = {
+                        goals: p.g,
+                        assists: p.a,
+                        number: p.num,
+                        toi: p.toi,
+                        shots: p.sog,
+                        pim: p.pim,
+                        plusminus: p.pm,
+                        shotsagainst: p.sa,
+                        saves: p.sv,
+                        savepercentage: p.svp,
+                        goalsagainst: p.ga
+                    };
+                    correctedStats.roster.push(newPlayer);
+                }
+
+                for (var y in stats.goals) {
+                    var g = stats.goals[y];
+                    var newGoal = {
+                        description: g.desc,
+                        player1: g.p1,
+                        player2: g.pa,
+                        player3: g.sa,
+                        player1total: g.p1t,
+                        player2total: g.p2t,
+                        player3total: g.p3t,
+                        period: g.p
+                    };
+                    correctedStats.goalSummary.push(newGoal);
+                }
+
+                for (var z in stats.penalties) {
+                    var pen = stats.penalties[z];
+                    var newPenalty = {
+                        description: pen.desc,
+                        period: pen.p,
+                        player1: pen.p1,
+                        player2: pen.p2
+                    };
+                    correctedStats.penaltySummary.push(newPenalty);
+                }
+
+                game.stats = correctedStats;
+                Game.update({gameId: gameId}, game, function (err, response) {
+                    console.log("updated " + gameId);
+                    findGameById(gameId).then(function (game) {
+                        deferred.resolve(game);
+                    });
+                });
+            }
+            else{
+                deferred.resolve(null);
+            }
+        });
+
         return deferred.promise;
     }
 };
