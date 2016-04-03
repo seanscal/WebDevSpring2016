@@ -13,7 +13,10 @@
             fetchGameStats: fetchGameStats,
             findGameById: findGameById,
             getAllGames: getAllGames,
-            addGameStats: addGameStats
+            addGameStats: addGameStats,
+            fetchHighlightIds: fetchHighlightIds,
+            fetchHighlightStrings: fetchHighlightStrings,
+            updateGameHighlights: updateGameHighlights
 
         };
         return model;
@@ -45,8 +48,28 @@
         }
 
         function addGameStats(stats) {
-            console.log("Client Service Add Game Stats")
             return $http.put("/api/project/game/"+stats.gameId+"/stats", stats);
+        }
+
+        function fetchHighlightIds(gameId) {
+            return $http.get('/api/project/' + gameId + '/highlightId')
+                .then(function (res) {
+                    return res;
+                });
+        }
+
+        function fetchHighlightStrings(gameId, feed){
+            return $http.post('/api/project/' + gameId + '/highlightString', feed)
+                .then(function (res) {
+                    return res;
+                });
+        }
+
+        function updateGameHighlights(gameId, video, goalId){
+            return $http.post('/api/project/' + gameId + '/video/' + goalId, video)
+                .then(function (res) {
+                    return res;
+                });
         }
     }
 }());

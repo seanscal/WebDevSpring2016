@@ -2,19 +2,20 @@ var q = require("q");
 var uuid = require('node-uuid');
 
 module.exports = function (mongoose, db) {
-    var PlayerSchema = require("./player.server.schema.js")(mongoose);
+    var GoalSchema = require("./goals.server.schema.js")(mongoose);
+    var PlayerSchema = require("./player.server.schema.js")(mongoose, GoalSchema);
     var PlayerModel = mongoose.model("Players", PlayerSchema);
 
     var api = {
         createPlayer: createPlayer,
         findPlayerById: findPlayerById,
-        findPlayerByPlayername: findPlayerByPlayername,
         updatePlayer: updatePlayer,
-        deletePlayer: deletePlayer,
         findAllPlayers: findAllPlayers,
         checkForNewPlayers: checkForNewPlayers,
         updateMultiplePlayers: updateMultiplePlayers,
-        getPicture: getPicture
+        getPicture: getPicture,
+        findPlayerByNumber: findPlayerByNumber,
+        addHighlightToPlayer: addHighlightToPlayer
     };
     return api;
 
@@ -40,7 +41,7 @@ module.exports = function (mongoose, db) {
             birthday: new Date(player.birthdate),
             age: calculateAge(new Date(player.birthdate)),
             birthPlace: player.birthplace,
-            number: player.number,
+            number: parseInt(player.number),
             updated: Date.now(),
             playerId: player.id,
             pictureLink: getPicture(player.name)
@@ -56,8 +57,6 @@ module.exports = function (mongoose, db) {
                             console.log(err);
                             deferred.reject(err);
                         } else {
-                            //console.log("ADDED");
-                            //console.log(doc);
                             deferred.resolve(doc);
                         }
                     });
@@ -127,6 +126,24 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
+    function findPlayerByNumber(number) {
+        var deferred = q.defer();
+        var num = parseInt(number);
+
+        PlayerModel.findOne(
+            {
+                number: num
+            },
+            function (err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            });
+        return deferred.promise;
+    }
+
     function checkForNewPlayers(players) {
         var deferred = q.defer();
         for (var i = 0; i < players.length; i++) {
@@ -148,6 +165,28 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
+    function addHighlightToPlayer(playerId, player) {
+        var deferred = q.defer();
+        var newHighlights = player.highlights;
+        console.log("OLD1");
+        console.log(player);
+        findPlayerById(playerId).then(function (res) {
+            playerId = res._id;
+            delete res._id;
+            res.highlights.push(newHighlights);
+            console.log("OLD2");
+            console.log(res);
+            PlayerModel.update({_id: playerId}, player, function (err, response) {
+                findPlayerById(playerId).then(function (player) {
+                    console.log("NEW");
+                    console.log(player);
+                    deferred.resolve(player);
+                });
+            });
+        });
+        return deferred.promise;
+    }
+
 
     function updateMultiplePlayers(players) {
 
@@ -160,25 +199,6 @@ module.exports = function (mongoose, db) {
                 });
         }
         return deferred.promise;
-    }
-
-    function deletePlayer(playerId) {
-        for (var i = 0; i < rosterMock.length; i++) {
-            if (rosterMock[i]._id === playerId) {
-                return rosterMock.splice(i, 1);
-            }
-        }
-        return null;
-    }
-
-    function findPlayerByPlayername(name) {
-        name.replace('_', ' ');
-        for (var i = 0; i < rosterMock.length; i++) {
-            if (rosterMock[i].name === name) {
-                return rosterMock[i];
-            }
-        }
-        return null;
     }
 }
 ;

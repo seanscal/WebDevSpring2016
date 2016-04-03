@@ -5,7 +5,8 @@ module.exports = function(mongoose) {
         username: String,
         password: String,
         emails: {type: [String], default: []},
-        phones: {type: [String], default: []}
+        roles: {type: [String], default: ["fan"]},
+        favoritePlayer: {type: String, default: "Patrik Elias"}
     });
     return UserSchema;
 };

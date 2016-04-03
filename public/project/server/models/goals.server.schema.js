@@ -8,7 +8,9 @@ module.exports = function(mongoose) {
         player2total: {type: Number, default: null},
         player3total: {type: Number, default: null},
         period: {type: Number, default: null},
-        highlight: {type: String, default: null}
+        highlight: {type: [String], default: []},
+        goalId: {type: String, default: null},
+        team: {type: String, default: "NJD"}
     });
     return GoalsSchema;
 };

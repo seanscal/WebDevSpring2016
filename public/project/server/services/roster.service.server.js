@@ -4,7 +4,7 @@ module.exports = function (app, RosterModel) {
 
     app.post("/api/project/player/", addPlayer);
     app.post("/api/project/players", checkForNewPlayers);
-    app.put("/api/project/players", updateMultiplePlayers)
+    app.put("/api/project/players", updateMultiplePlayers);
 
     app.get("/api/project/player/", getAllPlayers);
     app.get("/api/project/player/:id", getPlayer);
@@ -12,7 +12,9 @@ module.exports = function (app, RosterModel) {
     app.put("/api/project/player/:id", updatePlayer);
     app.delete("/api/project/player/:id", removePlayer);
     app.get("/api/project/playerInfo", fetchPlayers);
-    app.get("/api/project/playerStats", fetchStats)
+    app.get("/api/project/playerStats", fetchStats);
+
+    app.put("/api/project/player/:id/highlights", addHighlights);
 
 
     function addPlayer(req, res) {
@@ -83,21 +85,31 @@ module.exports = function (app, RosterModel) {
 
     function getPlayerQuery(req, res) {
         var name = req.query.name;
-        RosterModel.findPlayerByPlayername(name).then(
-            function (doc) {
-                res.json(doc);
-            },
-            function (err) {
-                res.status(400).send(err);
-            });
+        var number = req.query.number;
+        console.log("Querying player");
+        console.log(number);
+        if (name) {
+            RosterModel.findPlayerByPlayername(name).then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                });
+        }
+        else if (number) {
+            RosterModel.findPlayerByNumber(number).then(
+                function (doc) {
+                    res.json(doc);
+                },
+                function (err) {
+                    res.status(400).send(err);
+                });
+        }
+
     }
 
-    function checkForNewPlayers(req, res){
-        //console.log("Checking for new players in roster server side");
-        //console.log("players:")
-        //console.log(req.body);
-        //console.log("Update Service");
-
+    function checkForNewPlayers(req, res) {
         var players = req.body;
         RosterModel.checkForNewPlayers(players).then(
             function (doc) {
@@ -108,7 +120,20 @@ module.exports = function (app, RosterModel) {
             });
     }
 
-    function fetchPlayers(req, res){
+    function addHighlights(req, res) {
+        var player = req.body;
+        console.log("player in service");
+        console.log(player);
+        RosterModel.addHighlightToPlayer(player._id, player).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
+    }
+
+    function fetchPlayers(req, res) {
         var options = {
             host: 'nhlwc.cdnak.neulion.com',
             path: '/fs1/nhl/league/teamroster/NJD/iphone/clubroster.json',
@@ -151,4 +176,4 @@ module.exports = function (app, RosterModel) {
         });
         request.end();
     }
-};
+}

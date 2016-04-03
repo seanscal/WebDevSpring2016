@@ -1,6 +1,5 @@
-module.exports = function (mongoose) {
+module.exports = function (mongoose, Goal) {
     var PlayerSchema = mongoose.Schema({
-
 
         updated: {type: Date, default: Date.now},
         _type: {type: String, default: "player"},
@@ -9,7 +8,7 @@ module.exports = function (mongoose) {
         weight: String,
         age: Number,
         birthPlace:String,
-        number: String,
+        number: Number,
         pictureLink:String,
         position: String,
         birthday: String,
@@ -38,7 +37,9 @@ module.exports = function (mongoose) {
         minutes: {type: String, default: null},
 
         games: {type: String, default: null},
-        pim: {type: String, default: null}
+        pim: {type: String, default: null},
+
+        highlights: {type: [Goal], default: []}
     });
     return PlayerSchema;
 };

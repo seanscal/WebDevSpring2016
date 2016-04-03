@@ -16,7 +16,9 @@
             updatePlayer: updatePlayer,
             findPlayerById: findPlayerById,
             fetchStats: fetchStats,
-            updateMultiplePlayers: updateMultiplePlayers
+            updateMultiplePlayers: updateMultiplePlayers,
+            findPlayerByNumber: findPlayerByNumber,
+            addHighlights: addHighlights
         };
         return model;
 
@@ -30,7 +32,11 @@
 
         function findPlayerByName(name) {
             name.replace(' ', '_');
-            return $http.get("/api/project/user?name=" + name);
+            return $http.get("/api/project/player?name=" + name);
+        }
+
+        function findPlayerByNumber(number) {
+            return $http.get("/api/project/player?number=" + number);
         }
 
         function findPlayerById(playerId) {
@@ -39,6 +45,10 @@
 
         function updatePlayer(player) {
             return $http.put("/api/project/player/" + player._id, player);
+        }
+
+        function addHighlights(player) {
+            return $http.put("/api/project/player/" + player._id + "/highlights", player);
         }
 
         function deletePlayerById(playerId) {
@@ -53,7 +63,6 @@
         }
 
         function checkForNewPlayers(players) {
-            console.log("check for new players");
             return $http.post("/api/project/players", players);
         }
 
@@ -116,26 +125,22 @@
             return $http.get('/api/project/playerInfo')
                 .then(function (response) {
                     var data = angular.fromJson(response.data);
-                    console.log("goalies");
                     return checkForNewPlayers(data.goalie).then(function (res) {
                         if (res.data) {
                             for (var x = 0; x < res.data.length; x++) {
                                 model.players.push(res.data[x]);
-                                console.log("goalies");
                             }
                         }
                         return checkForNewPlayers(data.defensemen).then(function (res) {
                             if (res.data) {
                                 for (var x = 0; x < res.data.length; x++) {
                                     model.players.push(res.data[x]);
-                                    console.log("defensemen");
                                 }
                             }
                             return checkForNewPlayers(data.forwards).then(function (res) {
                                 if (res.data) {
                                     for (var x = 0; x < res.data.length; x++) {
                                         model.players.push(res.data[x]);
-                                        console.log("forwards");
                                     }
                                 }
                                 return findAllPlayers().then(function (res) {

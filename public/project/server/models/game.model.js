@@ -17,7 +17,8 @@ module.exports = function (mongoose, db) {
         deleteGame: deleteGame,
         findAllGames: findAllGames,
         addGames: addGames,
-        addStats: addStats
+        addStats: addStats,
+        updateGameHighlights: updateGameHighlights
     };
     return api;
 
@@ -43,7 +44,7 @@ module.exports = function (mongoose, db) {
                     }
                 });
             }
-            else{
+            else {
                 deferred.resolve(null);
             }
         });
@@ -103,73 +104,94 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
-    function addStats(stats, gameId) {
+    function updateGameHighlights(gameId, videoId, video) {
         var deferred = q.defer();
+        var found = false;
         findGameById(gameId).then(function (game) {
-            if (game.stats[0] == null && game.status == "FINAL") {
-                var correctedStats = {
-                    roster: [],
-                    penaltySummary: [],
-                    goalSummary: []
-                };
-
-                for (var x in stats.players) {
-                    var p = stats.players[x];
-                    var newPlayer = {
-                        goals: p.g,
-                        assists: p.a,
-                        number: p.num,
-                        toi: p.toi,
-                        shots: p.sog,
-                        pim: p.pim,
-                        plusminus: p.pm,
-                        shotsagainst: p.sa,
-                        saves: p.sv,
-                        savepercentage: p.svp,
-                        goalsagainst: p.ga
-                    };
-                    correctedStats.roster.push(newPlayer);
+            for (var x in game.stats[0].goalSummary) {
+                if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId){
+                    found = true;
+                    game.stats[0].goalSummary[x].highlight.push(video.html);
+                    updateGame(gameId, game);
+                    deferred.resolve(game.stats[0].goalSummary[x]);
                 }
-
-                for (var y in stats.goals) {
-                    var g = stats.goals[y];
-                    var newGoal = {
-                        description: g.desc,
-                        player1: g.p1,
-                        player2: g.pa,
-                        player3: g.sa,
-                        player1total: g.p1t,
-                        player2total: g.p2t,
-                        player3total: g.p3t,
-                        period: g.p
-                    };
-                    correctedStats.goalSummary.push(newGoal);
-                }
-
-                for (var z in stats.penalties) {
-                    var pen = stats.penalties[z];
-                    var newPenalty = {
-                        description: pen.desc,
-                        period: pen.p,
-                        player1: pen.p1,
-                        player2: pen.p2
-                    };
-                    correctedStats.penaltySummary.push(newPenalty);
-                }
-
-                game.stats = correctedStats;
-                Game.update({gameId: gameId}, game, function (err, response) {
-                    console.log("updated " + gameId);
-                    findGameById(gameId).then(function (game) {
-                        deferred.resolve(game);
-                    });
-                });
             }
-            else{
+            if(found == false) {
                 deferred.resolve(null);
             }
         });
-
         return deferred.promise;
     }
-};
+
+function addStats(stats, gameId) {
+    var deferred = q.defer();
+    findGameById(gameId).then(function (game) {
+        if (game.stats[0] == null && game.status == "FINAL") {
+            var correctedStats = {
+                roster: [],
+                penaltySummary: [],
+                goalSummary: []
+            };
+
+            for (var x in stats.players) {
+                var p = stats.players[x];
+                var newPlayer = {
+                    goals: p.g,
+                    assists: p.a,
+                    number: p.num,
+                    toi: p.toi,
+                    shots: p.sog,
+                    pim: p.pim,
+                    plusminus: p.pm,
+                    shotsagainst: p.sa,
+                    saves: p.sv,
+                    savepercentage: p.svp,
+                    goalsagainst: p.ga
+                };
+                correctedStats.roster.push(newPlayer);
+            }
+
+            for (var y in stats.goals) {
+                var g = stats.goals[y];
+                var newGoal = {
+                    description: g.desc,
+                    player1: g.p1,
+                    player2: g.pa,
+                    player3: g.sa,
+                    player1total: g.p1t,
+                    player2total: g.p2t,
+                    player3total: g.p3t,
+                    period: g.p,
+                    goalId: g.id,
+                    team: g.t1
+                };
+                correctedStats.goalSummary.push(newGoal);
+            }
+
+            for (var z in stats.penalties) {
+                var pen = stats.penalties[z];
+                var newPenalty = {
+                    description: pen.desc,
+                    period: pen.p,
+                    player1: pen.p1,
+                    player2: pen.p2
+                };
+                correctedStats.penaltySummary.push(newPenalty);
+            }
+
+            game.stats = correctedStats;
+            Game.update({gameId: gameId}, game, function (err, response) {
+                findGameById(gameId).then(function (game) {
+                    deferred.resolve(game);
+                });
+            });
+        }
+        else {
+            deferred.resolve(null);
+        }
+    });
+
+    return deferred.promise;
+}
+}
+;
