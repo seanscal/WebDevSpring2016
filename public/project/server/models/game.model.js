@@ -108,9 +108,11 @@ module.exports = function (mongoose, db) {
         var deferred = q.defer();
         var found = false;
         console.log("In the model.");
+        console.log(gameId);
         findGameById(gameId).then(function (game) {
             console.log("found the game");
-            console.log(game.stats[0].goalSummary)
+            console.log(game);
+            console.log(game.stats[0].goalSummary);
             for (var x in game.stats[0].goalSummary) {
                 console.log("game video" + game.stats[0].goalSummary[x].goalId);
                 console.log("video: "+ videoId);
