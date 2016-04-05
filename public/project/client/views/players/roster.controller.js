@@ -111,10 +111,10 @@
         }
 
         function getHighlight(game, res, eventIngame) {
-            if (eventIngame == "event") {
+            if (eventIngame=="event"){
                 var data = res.data.video.events;
             }
-            else {
+            else{
                 var data = res.data.video.ingame;
             }
             for (var x in data) {
@@ -128,50 +128,47 @@
                                 var video = {
                                     html: "https://www.nhl.com/video/embed/t-279689874/c-" + newId + "?autostart=false"
                                 };
-                            }
+                                var idFinder = feed.extId.split("-")[1];
 
-                            GameService.updateGameHighlights(game.data.gid, video, idFinder)
-                                .then(function (res) {
-                                    var highlight = res.data;
-                                    if (highlight && highlight.team == "NJD") {
-                                        RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
-                                            if (res.data) {
-                                                res.data.highlights.push(highlight);
-                                                console.log("nhlembed");
-                                                RosterService.addHighlights(res.data).then(function (res) {
-                                                    console.log(res.data);
+                                GameService.updateGameHighlights(game.data.gid, video, idFinder)
+                                    .then(function (res) {
+                                        var highlight = res.data;
+                                        if (highlight && highlight.team == "NJD") {
+                                            RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
+                                                if (res.data) {
+                                                    res.data.highlights.push(highlight);
+                                                    RosterService.addHighlights(res.data).then(function (res) {
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                            }
+                        }
+                        else {
+                            GameService.fetchHighlightStrings(game.data.gid, feed).then(function (res) {
+                                if (res.data[0]) {
+                                    var video = {
+                                        html: res.data[0].publishPoint
+                                    };
+                                    var idFinder = res.data[0].id.split("-")[1];
+                                    GameService.updateGameHighlights(game.data.gid, video, idFinder)
+                                        .then(function (res) {
+                                            var highlight = res.data;
+                                            if (highlight && highlight.team == "NJD") {
+                                                RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
+                                                    if (res.data) {
+                                                        res.data.highlights.push(highlight);
+                                                        RosterService.addHighlights(res.data).then(function (res) {
+                                                        });
+                                                    }
                                                 });
                                             }
                                         });
-                                    }
-                                });
+                                }
+                            });
                         }
                     }
-                }
-                else {
-                    GameService.fetchHighlightStrings(game.data.gid, feed).then(function (res) {
-                        if (res.data[0]) {
-                            var video = {
-                                html: res.data[0].publishPoint
-                            };
-                            var idFinder = res.data[0].id.split("-")[1];
-                            GameService.updateGameHighlights(game.data.gid, video, idFinder)
-                                .then(function (res) {
-                                    var highlight = res.data;
-                                    if (highlight && highlight.team == "NJD") {
-                                        RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
-                                            if (res.data) {
-                                                res.data.highlights.push(highlight);
-                                                console.log("fetched");
-                                                RosterService.addHighlights(res.data).then(function (res) {
-                                                    console.log(res.data);
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                        }
-                    });
                 }
             }
         }
@@ -179,37 +176,37 @@
 
         function addStats(stats, game) {
             GameService.addGameStats(stats).then(function (res) {
-                    GameService.fetchHighlightIds(game.data.gid).then(function (res) {
-                        getHighlight(game, res, "event");
-                        getHighlight(game, res, "ingame");
-                    });
-                }
-            );
-        }
-
-        function setOrderProp(prop) {
-            $scope.orderProp = prop;
-        }
-
-        function deletePlayer(index) {
-            var player = RosterService.players[index];
-            RosterService.deletePlayerById(player._id).then(function (res) {
-                RosterService.findAllPlayers().then(function (response) {
-                    $scope.players = response.data;
-                })
+                GameService.fetchHighlightIds(game.data.gid).then(function (res) {
+                    getHighlight(game, res, "event");
+                    getHighlight(game, res, "ingame");
             });
         }
+    );
+}
+
+function setOrderProp(prop) {
+    $scope.orderProp = prop;
+}
+
+function deletePlayer(index) {
+    var player = RosterService.players[index];
+    RosterService.deletePlayerById(player._id).then(function (res) {
+        RosterService.findAllPlayers().then(function (response) {
+            $scope.players = response.data;
+        })
+    });
+}
 
 //format birthdays
-        function padStr(i) {
-            return (i < 10) ? "0" + i : "" + i;
-        }
+function padStr(i) {
+    return (i < 10) ? "0" + i : "" + i;
+}
 
-        function printDate(date) {
-            date = new Date(date);
-            var dateStr = padStr(1 + date.getMonth()) + '/' + padStr(date.getDate()) + '/' + padStr(date.getFullYear());
-            return dateStr;
-        }
-    }
+function printDate(date) {
+    date = new Date(date);
+    var dateStr = padStr(1 + date.getMonth()) + '/' + padStr(date.getDate()) + '/' + padStr(date.getFullYear());
+    return dateStr;
+}
+}
 })
 ();

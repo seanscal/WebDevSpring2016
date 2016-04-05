@@ -168,14 +168,6 @@ module.exports = function (mongoose, db) {
     function addHighlightToPlayer(playerId, player) {
         var deferred = q.defer();
         var newHighlights = player.highlights;
-        if (player.name = "Michael Cammalleri"){
-            console.log("NEW HIGHLIGHTS FOR " + player.name);
-            for (var x =0; x < player.highlights.length; x++){
-                console.log(player.highlights[x].player1total);
-            }
-        }
-        //console.log("OLD1");
-        //console.log(player);
         findPlayerById(playerId).then(function (res) {
             playerId = res._id;
             delete res._id;
@@ -189,8 +181,11 @@ module.exports = function (mongoose, db) {
                 }
                 if(!highlightsContains){
                     res.highlights.push(newHighlights[y]);
-                    highlightsContains = false;
+                    for (var x =0; x < res.highlights.length; x++){
+                        console.log(res.highlights[x].player1total);
+                    }
                 }
+                highlightsContains = false;
             }
 
             PlayerModel.update({_id: playerId}, res, function (err, response) {

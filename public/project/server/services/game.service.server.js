@@ -211,7 +211,7 @@ module.exports = function (app, GameModel) {
                     body = body.replace("\\'", "'");
                     setTimeout(function () {
                         res.send(JSON.parse(body));
-                    },5000);
+                    },50);
 
                 }
                 else {
