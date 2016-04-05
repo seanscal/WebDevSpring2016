@@ -111,34 +111,35 @@ module.exports = function (mongoose, db) {
         console.log(gameId);
         findGameById(gameId).then(function (game) {
             console.log("found the game");
-            console.log(game.stats);
-            console.log(game.stats[0].goalSummary);
-            for (var x in game.stats[0].goalSummary) {
-                console.log("game video" + game.stats[0].goalSummary[x].goalId);
-                console.log("video: "+ videoId);
-                if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId){
-                    console.log("found the video");
-                    found = true;
-                    var highlightFound = false;
-
-                    for(var y = 0; y < game.stats[0].goalSummary[x].highlight.length; y++){
-                        if(game.stats[0].goalSummary[x].highlight[y] == video.html){
-                            highlightFound = true;
-                            y = game.stats[0].goalSummary[x].highlight.length;
-                        }
-                        if (!highlightFound && y == game.stats[0].goalSummary[x].highlight.length){
-                            game.stats[0].goalSummary[x].highlight.push(video.html);
-                        }
-                    }
-                    updateGame(gameId, game);
-                    console.log("sending back goal");
-                    console.log(game.stats[0].goalSummary[x]);
-                    deferred.resolve(game.stats[0].goalSummary[x])
-                }
-            }
-            if(found == false) {
-                deferred.resolve(null);
-            }
+            deferred.resolve(game);
+            //console.log(game.stats);
+            //console.log(game.stats[0].goalSummary);
+            //for (var x in game.stats[0].goalSummary) {
+            //    console.log("game video" + game.stats[0].goalSummary[x].goalId);
+            //    console.log("video: "+ videoId);
+            //    if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId){
+            //        console.log("found the video");
+            //        found = true;
+            //        var highlightFound = false;
+            //
+            //        for(var y = 0; y < game.stats[0].goalSummary[x].highlight.length; y++){
+            //            if(game.stats[0].goalSummary[x].highlight[y] == video.html){
+            //                highlightFound = true;
+            //                y = game.stats[0].goalSummary[x].highlight.length;
+            //            }
+            //            if (!highlightFound && y == game.stats[0].goalSummary[x].highlight.length){
+            //                game.stats[0].goalSummary[x].highlight.push(video.html);
+            //            }
+            //        }
+            //        updateGame(gameId, game);
+            //        console.log("sending back goal");
+            //        console.log(game.stats[0].goalSummary[x]);
+            //        deferred.resolve(game.stats[0].goalSummary[x])
+            //    }
+            //}
+            //if(found == false) {
+            //    deferred.resolve(null);
+            //}
         });
         return deferred.promise;
     }

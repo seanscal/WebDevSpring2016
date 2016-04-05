@@ -78,8 +78,6 @@ module.exports = function (app, GameModel) {
         var videoId = req.params.videoId;
         var video = req.body;
 
-        console.log("updating highlights");
-
         GameModel.updateGameHighlights(gameId, videoId, video).then(
             function (doc) {
                 console.log("coming back from updating highlights");
