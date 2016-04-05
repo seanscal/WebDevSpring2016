@@ -107,7 +107,9 @@ module.exports = function (mongoose, db) {
     function updateGameHighlights(gameId, videoId, video) {
         var deferred = q.defer();
         var found = false;
+        console.log("In the model.");
         findGameById(gameId).then(function (game) {
+            console.log("found the game");
             for (var x in game.stats[0].goalSummary) {
                 if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId){
                     found = true;
