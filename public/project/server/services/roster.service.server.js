@@ -86,8 +86,6 @@ module.exports = function (app, RosterModel) {
     function getPlayerQuery(req, res) {
         var name = req.query.name;
         var number = req.query.number;
-        console.log("Querying player");
-        console.log(number);
         if (name) {
             RosterModel.findPlayerByPlayername(name).then(
                 function (doc) {
@@ -122,8 +120,7 @@ module.exports = function (app, RosterModel) {
 
     function addHighlights(req, res) {
         var player = req.body;
-        console.log("player in service");
-        console.log(player);
+
         RosterModel.addHighlightToPlayer(player._id, player).then(
             function (doc) {
                 res.json(doc);
