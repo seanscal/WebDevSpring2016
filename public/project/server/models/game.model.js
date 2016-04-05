@@ -111,6 +111,8 @@ module.exports = function (mongoose, db) {
         findGameById(gameId).then(function (game) {
             console.log("found the game");
             for (var x in game.stats[0].goalSummary) {
+                console.log("game video" + game.stats[0].goalSummary[x].goalId);
+                console.log("video: "+ videoId);
                 if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId){
                     console.log("found the video");
                     found = true;
