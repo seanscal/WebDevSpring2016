@@ -123,7 +123,9 @@ module.exports = function (mongoose, db) {
                         }
                     }
                     updateGame(gameId, game);
-                    deferred.resolve(game.stats[0].goalSummary[x]);
+                    console.log("sending back goal");
+                    console.log(game.stats[0].goalSummary[x]);
+                    deferred.resolve(game.stats[0].goalSummary[x])
                 }
             }
             if(found == false) {
