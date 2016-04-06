@@ -7,7 +7,7 @@ module.exports = function(mongoose, GameStats) {
         loc: {type: String, default: "home"},
         score: {type: String, default: null},
         abb: {type: String, default: null},
-        stats: {type: [GameStats], default: null},
+        stats: {type: [GameStats], default: null}
     });
     return GameSchema;
 };

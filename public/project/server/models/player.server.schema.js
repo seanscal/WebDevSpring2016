@@ -38,8 +38,6 @@ module.exports = function (mongoose, Goal) {
 
         games: {type: String, default: null},
         pim: {type: String, default: null},
-
-        highlights: {type: [Goal], default: []}
     });
     return PlayerSchema;
 };
