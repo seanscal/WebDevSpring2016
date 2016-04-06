@@ -66,11 +66,8 @@
         }
 
         function updateGameHighlights(gameId, video, goalId){
-            console.log("posting game highlights");
             return $http.post('/api/project/' + gameId + '/video/' + goalId, video)
                 .then(function (res) {
-                    console.log("GAME IS HERE");
-                    console.log(res);
                     return res;
                 });
         }

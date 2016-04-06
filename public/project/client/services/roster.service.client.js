@@ -48,6 +48,7 @@
         }
 
         function addHighlights(player) {
+            console.log("adding highlights");
             return $http.put("/api/project/player/" + player._id + "/highlights", player);
         }
 
@@ -71,7 +72,6 @@
         }
 
         function fetchStats() {
-            console.log("fetch stats service");
             var updaterArray = [];
             return $http.get('/api/project/playerStats')
                 .then(function (response) {

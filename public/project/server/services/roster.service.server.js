@@ -173,4 +173,4 @@ module.exports = function (app, RosterModel) {
         });
         request.end();
     }
-}
+};

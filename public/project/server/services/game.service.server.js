@@ -80,7 +80,6 @@ module.exports = function (app, GameModel) {
 
         GameModel.updateGameHighlights(gameId, videoId, video).then(
             function (doc) {
-                console.log("coming back from updating highlights");
                 res.json(doc);
             },
             function (err) {
@@ -206,8 +205,6 @@ module.exports = function (app, GameModel) {
                 body += data;
             });
             response.on('end', function () {
-                //console.log(body);
-                //console.log(body.length);
                 if (body.length > 50) {
                     body = body.replace("\\'", "'");
                     setTimeout(function () {
