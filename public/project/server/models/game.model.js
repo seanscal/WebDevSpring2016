@@ -131,8 +131,9 @@ module.exports = function (mongoose, db) {
                     found = true;
                     game.stats[0].goalSummary[x].highlight.push(video.html);
                     console.log("update game highlight");
-                    updateGame(gameId, game);
-                    deferred.resolve(game.stats[0].goalSummary[x]);
+                    updateGame(gameId, game).then(function (res){
+                        deferred.resolve(game.stats[0].goalSummary[x]);
+                    });
                 }
             }
             if (found == false) {
