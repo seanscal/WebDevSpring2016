@@ -123,7 +123,6 @@ module.exports = function (mongoose, db) {
     function updateGameHighlights(gameId, videoId, video) {
         var deferred = q.defer();
         var found = false;
-        console.log(video);
 
         findGameById(gameId).then(function (game) {
             for (var x in game.stats[0].goalSummary) {
@@ -132,7 +131,8 @@ module.exports = function (mongoose, db) {
                     game.stats[0].goalSummary[x].highlight.push(video.html);
                     console.log("update game highlight");
                     updateGame(gameId, game).then(function (res){
-                        deferred.resolve(game.stats[0].goalSummary[x]);
+                        console.log("updated");
+                        deferred.resolve(res.data.stats[0].goalSummary[x]);
                     });
                 }
             }
