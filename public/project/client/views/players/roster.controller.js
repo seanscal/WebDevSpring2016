@@ -134,13 +134,13 @@
                                         if (res.data) {
                                             if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
                                                 var goals = res.data.stats[0].goalSummary;
+                                                console.log("embed");
                                                 for (var goal in goals) {
                                                     if (goals[goal].team == "NJD") {
                                                         RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
                                                             if (res.data) {
                                                                 console.log("adding highlight");
                                                                 console.log(goals);
-                                                                var devilsGoals = [];
                                                                 for (var goal in goals) {
                                                                     if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
                                                                         res.data.highlights.push(goals[goal]);
@@ -182,13 +182,13 @@
                                                                 if (res.data) {
                                                                     console.log("adding highlight");
                                                                     console.log(goals);
-                                                                    var devilsGoals = [];
                                                                     for (var goal in goals) {
                                                                         if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
-                                                                            devilsGoals.push(goals[goal]);
+                                                                            res.data.highlights.push(goals[goal]);
                                                                         }
                                                                     }
-                                                                    res.data.highlights = devilsGoals;
+                                                                    console.log("highlights");
+                                                                    console.log(res.data.highlights);
                                                                     RosterService.addHighlights(res.data).then(function (res) {
                                                                         console.log("added highlight");
                                                                         console.log(res.data);
