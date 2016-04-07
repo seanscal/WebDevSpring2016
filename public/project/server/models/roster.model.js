@@ -188,6 +188,12 @@ module.exports = function (mongoose, db) {
 
             PlayerModel.update({_id: playerId}, res, function (err, response) {
                 console.log("adding highlights");
+                if(err){
+                    deferred.resolve(err);
+                }
+                else{
+                    deferred.resolve("A OK");
+                }
                 console.log(err);
                 console.log(response);
                 findPlayerById(playerId).then(function (player) {
