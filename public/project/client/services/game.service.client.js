@@ -67,6 +67,9 @@
 
         function updateGameHighlights(gameId, video, goalId){
             console.log("update hightlights");
+            console.log(video);
+            console.log(gameId);
+            console.log(goalId);
             return $http.post('/api/project/' + gameId + '/video/' + goalId, video)
                 .then(function (res) {
                     return res;
