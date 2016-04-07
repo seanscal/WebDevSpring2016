@@ -150,7 +150,7 @@
 
 
         function addStats(stats, game) {
-            GameService.findGameById(res.data.gid).then(function (res) {
+            GameService.findGameById(game.data.gid).then(function (res) {
                 if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
                     GameService.addGameStats(stats).then(function (res) {
                             GameService.fetchHighlightIds(game.data.gid).then(function (res) {
