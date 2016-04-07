@@ -110,7 +110,6 @@
         }
 
         function getHighlight(game, res, eventIngame) {
-            console.log("getHighlight");
             if (eventIngame == "event") {
                 var data = res.data.video.events;
             }
@@ -119,7 +118,6 @@
             }
             for (var x in data) {
                 if (data[x].type == 505) {
-                    console.log("GOAL!");
                     for (var y = 0; y < data[x].feeds.length; y++) {
                         var feed = {extId: data[x].feeds[y].extId};
 
@@ -131,26 +129,30 @@
                                 };
                                 var idFinder = feed.extId.split("-")[1];
 
-                                console.log(game.data.gid);
-                                console.log(video);
-                                console.log(idFinder);
-
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
-                                        var highlight = res.data;
-
-                                        if (highlight && highlight.team == "NJD") {
-                                            RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
-                                                if (res.data) {
-                                                    console.log("adding highlight");
-                                                    res.data.highlights.push(highlight);
-                                                    RosterService.addHighlights(res.data).then(function (res) {
-                                                        console.log("added highlight");
-                                                        console.log(res.data);
-                                                    });
+                                        console.log("goals: " + res.data.stats[0].goalSummary.length + "highlights filled: " + res.data.filledHighlights);
+                                        if (res.data.filledHighlights == res.data.stats[0].goalSummary.length) {
+                                            if (res.data) {
+                                                var goals = res.data.stats[0].goalSummary;
+                                                console.log(goals[0]);
+                                                for (var goal in goals) {
+                                                    if (goals[goal].team == "NJD") {
+                                                        RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
+                                                            if (res.data) {
+                                                                console.log("adding highlight");
+                                                                res.data.highlights.push(highlight);
+                                                                RosterService.addHighlights(res.data).then(function (res) {
+                                                                    console.log("added highlight");
+                                                                    console.log(res.data);
+                                                                });
+                                                            }
+                                                        });
+                                                    }
                                                 }
-                                            });
+                                            }
                                         }
+
                                     });
                             }
                         }
@@ -161,28 +163,28 @@
                                         html: res.data[0].publishPoint
                                     };
                                     var idFinder = res.data[0].id.split("-")[1];
-
-                                    console.log(game.data.gid);
-                                    console.log(video);
-                                    console.log(idFinder);
-
-
                                     GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                         .then(function (res) {
-                                            var highlight = res.data;
-                                            console.log("updated");
-                                            console.log(highlight);
-                                            if (highlight && highlight.team == "NJD") {
-                                                RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
-                                                    if (res.data) {
-                                                        console.log("adding highlight");
-                                                        res.data.highlights.push(highlight);
-                                                        RosterService.addHighlights(res.data).then(function (res) {
-                                                            console.log("added highlight");
-                                                            console.log(res.data);
-                                                        });
+                                            console.log("goals: " + res.data.stats[0].goalSummary.length + "highlights filled: " + res.data.filledHighlights);
+                                            if (res.data.filledHighlights == res.data.stats[0].goalSummary.length) {
+                                                if (res.data) {
+                                                    var goals = res.data.stats[0].goalSummary;
+                                                    console.log(goals[0]);
+                                                    for (var goal in goals) {
+                                                        if (goals[goal].team == "NJD") {
+                                                            RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
+                                                                if (res.data) {
+                                                                    console.log("adding highlight");
+                                                                    res.data.highlights.push(highlight);
+                                                                    RosterService.addHighlights(res.data).then(function (res) {
+                                                                        console.log("added highlight");
+                                                                        console.log(res.data);
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
                                                     }
-                                                });
+                                                }
                                             }
                                         });
                                 }
