@@ -158,6 +158,7 @@ module.exports = function (mongoose, db) {
         var deferred = q.defer();
         delete player._id;
         PlayerModel.update({playerId: playerId}, player, function (err, response) {
+            console.log(err)
             findPlayerByPlayerId(playerId).then(function (player) {
                 deferred.resolve(player);
             });
@@ -186,6 +187,7 @@ module.exports = function (mongoose, db) {
             }
 
             PlayerModel.update({_id: playerId}, res, function (err, response) {
+                console.log(err)
                 findPlayerById(playerId).then(function (player) {
                     //console.log("NEW");
                     //console.log(player);
