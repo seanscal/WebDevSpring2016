@@ -138,10 +138,10 @@
                                                 console.log(goals[0]);
                                                 for (var goal in goals) {
                                                     if (goals[goal].team == "NJD") {
-                                                        RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
+                                                        RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
                                                             if (res.data) {
                                                                 console.log("adding highlight");
-                                                                res.data.highlights.push(highlight);
+                                                                res.data.highlights.push(goals[goal]);
                                                                 RosterService.addHighlights(res.data).then(function (res) {
                                                                     console.log("added highlight");
                                                                     console.log(res.data);
@@ -172,10 +172,10 @@
                                                     console.log(goals[0]);
                                                     for (var goal in goals) {
                                                         if (goals[goal].team == "NJD") {
-                                                            RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
+                                                            RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
                                                                 if (res.data) {
                                                                     console.log("adding highlight");
-                                                                    res.data.highlights.push(highlight);
+                                                                    res.data.highlights.push(goals[goal]);
                                                                     RosterService.addHighlights(res.data).then(function (res) {
                                                                         console.log("added highlight");
                                                                         console.log(res.data);
