@@ -136,24 +136,25 @@
                                                 var goals = res.data.stats[0].goalSummary;
                                                 console.log("goals:");
                                                 console.log(goals);
-                                                RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
-                                                    if (res.data) {
-                                                        console.log("adding highlight");
-                                                        console.log(goals);
-                                                        var devilsGoals = [];
-                                                        for (var goal in goals) {
-                                                            if (goals[goal].team == "NJD") {
-                                                                devilsGoals.push(goals[goal]);
-
+                                                for (var goal in goals) {
+                                                    RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
+                                                        if (res.data) {
+                                                            console.log("adding highlight");
+                                                            console.log(goals);
+                                                            var devilsGoals = [];
+                                                            for (var goal in goals) {
+                                                                if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
+                                                                    devilsGoals.push(goals[goal]);
+                                                                }
                                                             }
+                                                            res.data.highlights = devilsGoals;
+                                                            RosterService.addHighlights(res.data).then(function (res) {
+                                                                console.log("added highlight");
+                                                                console.log(res.data);
+                                                            });
                                                         }
-                                                        res.data.highlights = devilsGoals;
-                                                        RosterService.addHighlights(res.data).then(function (res) {
-                                                            console.log("added highlight");
-                                                            console.log(res.data);
-                                                        });
-                                                    }
-                                                });
+                                                    });
+                                                }
                                             }
                                         }
                                     });
@@ -173,24 +174,25 @@
                                                     var goals = res.data.stats[0].goalSummary;
                                                     console.log("goals:");
                                                     console.log(goals);
-                                                    RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
-                                                        if (res.data) {
-                                                            console.log("adding highlight");
-                                                            console.log(goals);
-                                                            var devilsGoals = [];
-                                                            for (var goal in goals) {
-                                                                if (goals[goal].team == "NJD") {
-                                                                    devilsGoals.push(goals[goal]);
-
+                                                    for (var goal in goals) {
+                                                        RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
+                                                            if (res.data) {
+                                                                console.log("adding highlight");
+                                                                console.log(goals);
+                                                                var devilsGoals = [];
+                                                                for (var goal in goals) {
+                                                                    if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
+                                                                        devilsGoals.push(goals[goal]);
+                                                                    }
                                                                 }
+                                                                res.data.highlights = devilsGoals;
+                                                                RosterService.addHighlights(res.data).then(function (res) {
+                                                                    console.log("added highlight");
+                                                                    console.log(res.data);
+                                                                });
                                                             }
-                                                            res.data.highlights = devilsGoals;
-                                                            RosterService.addHighlights(res.data).then(function (res) {
-                                                                console.log("added highlight");
-                                                                console.log(res.data);
-                                                            });
-                                                        }
-                                                    });
+                                                        });
+                                                    }
                                                 }
                                             }
                                         });
