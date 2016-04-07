@@ -181,9 +181,9 @@ module.exports = function (mongoose, db) {
                 }
 
                 game.stats = correctedStats;
-                console.log(game.stats);
-                console.log(gameId);
                 Game.update({gameId: gameId}, game, function (err, response) {
+                    console.log(err);
+                    console.log(response);
                     findGameById(gameId).then(function (game) {
                         deferred.resolve(game);
                     });
