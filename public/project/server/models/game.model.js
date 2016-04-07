@@ -89,6 +89,8 @@ module.exports = function (mongoose, db) {
         };
 
         Game.update({gameId: gameId}, updateGame, function (err, response) {
+            console.log(err);
+            console.log(response);
             findGameById(gameId).then(function (game) {
                 deferred.resolve(game);
             });
