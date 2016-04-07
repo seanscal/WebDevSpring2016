@@ -186,7 +186,11 @@ module.exports = function (mongoose, db) {
                 highlightsContains = false;
             }
 
-            PlayerModel.update({_id: playerId}, res, function (err, response) {
+            var newPlayer = {
+                highlights: res.highlights
+            };
+
+            PlayerModel.update({_id: playerId}, newPlayer, function (err, response) {
                 console.log("adding highlights");
                 if(err){
                     deferred.resolve(err);
