@@ -106,7 +106,6 @@
                             stats.players.push(game.data.rosters.away.goalies[g]);
                         }
                     }
-                    console.log(stats);
                     addStats(stats, game);
                 });
             });
@@ -131,8 +130,6 @@
                                     html: "https://www.nhl.com/video/embed/t-279689874/c-" + newId + "?autostart=false"
                                 };
                                 var idFinder = feed.extId.split("-")[1];
-                                console.log("gonna update some game hurr");
-
 
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
@@ -181,7 +178,10 @@
 
 
         function addStats(stats, game) {
+            console.log(stats);
             GameService.addGameStats(stats).then(function (res) {
+                    console.log("after add");
+                    console.log(res.data);
                     GameService.fetchHighlightIds(game.data.gid).then(function (res) {
                         getHighlight(game, res, "event");
                         getHighlight(game, res, "ingame");
