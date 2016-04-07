@@ -114,8 +114,9 @@ module.exports = function (mongoose, db) {
                 if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId) {
                     found = true;
                     game.stats[0].goalSummary[x].highlight.push(video.html);
-                    game.filledHighlights++;
-
+                    if (game.stats[0].goalSummary[x].highlight[0] == video.html) {
+                        game.filledHighlights++;
+                    }
                     updateGame = {
                         status: game.status,
                         cPeriod: game.cPeriod,
