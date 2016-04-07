@@ -201,7 +201,7 @@ module.exports = function (mongoose, db) {
                     gameId: game.gameId
                 };
 
-                Game.update({gameId: gameId}, game2, function (err, response) {
+                Game.save({gameId: gameId}, game, function (err, response) {
                     findGameById(gameId).then(function (game) {
                         deferred.resolve(game);
                     });
