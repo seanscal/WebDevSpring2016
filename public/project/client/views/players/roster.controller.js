@@ -119,6 +119,7 @@
             }
             for (var x in data) {
                 if (data[x].type == 505) {
+                    console.log("GOAL!");
                     for (var y = 0; y < data[x].feeds.length; y++) {
                         var feed = {extId: data[x].feeds[y].extId};
 
@@ -129,6 +130,10 @@
                                     html: "https://www.nhl.com/video/embed/t-279689874/c-" + newId + "?autostart=false"
                                 };
                                 var idFinder = feed.extId.split("-")[1];
+
+                                console.log(game.data.gid);
+                                console.log(video);
+                                console.log(idFinder);
 
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
