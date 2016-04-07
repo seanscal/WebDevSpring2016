@@ -138,6 +138,7 @@
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
                                         var highlight = res.data;
+                                        console.log("updated");
                                         console.log(highlight);
                                         if (highlight && highlight.team == "NJD") {
                                             RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
