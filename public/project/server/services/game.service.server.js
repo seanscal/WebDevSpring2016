@@ -101,6 +101,7 @@ module.exports = function (app, GameModel) {
     function addStats(req, res) {
         var gameId = req.params.gameId;
         var stats = req.body;
+        console.log(stats.players[0]);
         GameModel.addStats(stats, gameId).then(
             function (doc) {
                 res.json(doc);

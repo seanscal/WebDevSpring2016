@@ -48,6 +48,7 @@
         }
 
         function addGameStats(stats) {
+            console.log(stats);
             return $http.put("/api/project/game/"+stats.gameId+"/stats", stats);
         }
 

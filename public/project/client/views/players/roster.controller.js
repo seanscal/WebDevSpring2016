@@ -85,9 +85,7 @@
                         stats.penalties.push(res.data.penaltySummary[i].penalties[j]);
                     }
                 }
-
-                console.log(res.data.gid);
-
+                
                 GameService.findGameById(res.data.gid).then(function (res) {
                     var side = res.data.loc;
                     if (side == "home") {
@@ -178,7 +176,6 @@
 
 
         function addStats(stats, game) {
-            console.log(stats);
             GameService.addGameStats(stats).then(function (res) {
                     console.log("after add");
                     console.log(res.data);
