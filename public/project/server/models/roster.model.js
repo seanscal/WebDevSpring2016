@@ -187,6 +187,7 @@ module.exports = function (mongoose, db) {
             }
 
             PlayerModel.update({_id: playerId}, res, function (err, response) {
+                console.log("adding highlights");
                 console.log(err)
                 findPlayerById(playerId).then(function (player) {
                     //console.log("NEW");
