@@ -146,6 +146,8 @@
                                                                         res.data.highlights.push(goals[goal]);
                                                                     }
                                                                 }
+                                                                console.log("highlights");
+                                                                console.log(res.data.highlights);
 
                                                                 RosterService.addHighlights(res.data).then(function (res) {
                                                                     console.log("added highlight");
