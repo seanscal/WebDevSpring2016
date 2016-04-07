@@ -48,7 +48,6 @@
         }
 
         function addHighlights(player) {
-            console.log("adding highlights");
             return $http.put("/api/project/player/" + player._id + "/highlights", player);
         }
 
