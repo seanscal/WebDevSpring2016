@@ -190,7 +190,7 @@ module.exports = function (mongoose, db) {
                 console.log("adding highlights");
                 console.log(err);
                 findPlayerById(playerId).then(function (player) {
-                    //console.log("NEW");
+                    //console.log("NEW");/
                     //console.log(player);
                     deferred.resolve(player);
                 });
