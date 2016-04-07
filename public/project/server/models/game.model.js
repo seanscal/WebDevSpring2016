@@ -88,6 +88,9 @@ module.exports = function (mongoose, db) {
             stats: game.stats
         };
 
+        console.log("new");
+        console.log(updateGame);
+
         Game.update({gameId: gameId}, updateGame, function (err, response) {
             console.log(err);
             console.log(response);
@@ -127,6 +130,7 @@ module.exports = function (mongoose, db) {
                 if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId) {
                     found = true;
                     game.stats[0].goalSummary[x].highlight.push(video.html);
+                    console.log("update game highlight");
                     updateGame(gameId, game);
                     deferred.resolve(game.stats[0].goalSummary[x]);
                 }
@@ -201,7 +205,7 @@ module.exports = function (mongoose, db) {
                     gameId: game.gameId
                 };
 
-                Game.save({gameId: gameId}, game, function (err, response) {
+                Game.update({gameId: gameId}, game2, function (err, response) {
                     findGameById(gameId).then(function (game) {
                         deferred.resolve(game);
                     });
