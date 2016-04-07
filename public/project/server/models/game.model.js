@@ -77,8 +77,18 @@ module.exports = function (mongoose, db) {
 
     function updateGame(gameId, game) {
         var deferred = q.defer();
-        delete game._id;
-        Game.update({gameId: gameId}, game, function (err, response) {
+
+        updateGame = {
+            status: game.status,
+            cPeriod: game.cPeriod,
+            startTime: game.startTime,
+            loc: game.loc,
+            score: game.score,
+            abb: game.abb,
+            stats: game.stats,
+        }
+
+        Game.update({gameId: gameId}, updateGame, function (err, response) {
             console.log(err);
             findGameById(gameId).then(function (game) {
                 deferred.resolve(game);
@@ -108,6 +118,7 @@ module.exports = function (mongoose, db) {
     function updateGameHighlights(gameId, videoId, video) {
         var deferred = q.defer();
         var found = false;
+
         findGameById(gameId).then(function (game) {
             for (var x in game.stats[0].goalSummary) {
                 if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId) {
