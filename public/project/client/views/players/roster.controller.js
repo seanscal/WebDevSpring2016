@@ -104,7 +104,12 @@
                             stats.players.push(game.data.rosters.away.goalies[g]);
                         }
                     }
-                    addStats(stats, game);
+                    if (!res.data.stats[0]) {
+                        addStats(stats, game);
+                    }
+                    else if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
+                        addStats(stats, game);
+                    }
                 });
             });
         }
@@ -150,27 +155,15 @@
 
 
         function addStats(stats, game) {
-            GameService.findGameById(game.data.gid).then(function (res) {
-                if (!res.data.stats[0]){
-                    GameService.addGameStats(stats).then(function (res) {
-                        GameService.fetchHighlightIds(game.data.gid).then(function (res) {
-                            getHighlight(game, res, "event");
-                            getHighlight(game, res, "ingame");
-                        });
-                    });
-                }
-                else if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
-                    GameService.addGameStats(stats).then(function (res) {
-                            GameService.fetchHighlightIds(game.data.gid).then(function (res) {
-                                getHighlight(game, res, "event");
-                                getHighlight(game, res, "ingame");
-                            });
-                    });
-                }
+            GameService.addGameStats(stats).then(function (res) {
+                GameService.fetchHighlightIds(game.data.gid).then(function (res) {
+                    getHighlight(game, res, "event");
+                    getHighlight(game, res, "ingame");
+                });
             });
         }
 
-        function addHighlights(gameId, video, goalId){
+        function addHighlights(gameId, video, goalId) {
             GameService.updateGameHighlights(gameId, video, goalId)
                 .then(function (res) {
                     if (res.data) {
