@@ -125,8 +125,11 @@ module.exports = function (mongoose, db) {
 
     function addStats(stats, gameId) {
         var deferred = q.defer();
+        console.log(gameId);
         findGameById(gameId).then(function (game) {
+            console.log("found game")
             if (game.stats[0] == null && game.status == "FINAL") {
+                console.log("null stats");
                 var correctedStats = {
                     roster: [],
                     penaltySummary: [],
