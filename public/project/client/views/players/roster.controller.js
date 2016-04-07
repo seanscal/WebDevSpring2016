@@ -140,15 +140,18 @@
                                                     if (res.data) {
                                                         console.log("adding highlight");
                                                         console.log(goals);
-                                                        res.data.highlights = goals;
+                                                        var devilsGoals = [];
                                                         for (var goal in goals) {
                                                             if (goals[goal].team == "NJD") {
-                                                                RosterService.addHighlights(res.data).then(function (res) {
-                                                                    console.log("added highlight");
-                                                                    console.log(res.data);
-                                                                });
+                                                                devilsGoals.push(goals[goal]);
+
                                                             }
                                                         }
+                                                        res.data.highlights = devilsGoals;
+                                                        RosterService.addHighlights(res.data).then(function (res) {
+                                                            console.log("added highlight");
+                                                            console.log(res.data);
+                                                        });
                                                     }
                                                 });
                                             }
@@ -174,15 +177,18 @@
                                                         if (res.data) {
                                                             console.log("adding highlight");
                                                             console.log(goals);
-                                                            res.data.highlights = goals;
+                                                            var devilsGoals = [];
                                                             for (var goal in goals) {
                                                                 if (goals[goal].team == "NJD") {
-                                                                    RosterService.addHighlights(res.data).then(function (res) {
-                                                                        console.log("added highlight");
-                                                                        console.log(res.data);
-                                                                    });
+                                                                    devilsGoals.push(goals[goal]);
+
                                                                 }
                                                             }
+                                                            res.data.highlights = devilsGoals;
+                                                            RosterService.addHighlights(res.data).then(function (res) {
+                                                                console.log("added highlight");
+                                                                console.log(res.data);
+                                                            });
                                                         }
                                                     });
                                                 }
