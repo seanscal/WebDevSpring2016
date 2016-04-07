@@ -181,6 +181,7 @@ module.exports = function (mongoose, db) {
                 }
 
                 game.stats = correctedStats;
+                delete game._id;
                 Game.update({gameId: gameId}, game, function (err, response) {
                     console.log(err);
                     console.log(response);
