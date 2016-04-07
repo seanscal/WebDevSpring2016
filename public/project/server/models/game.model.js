@@ -113,6 +113,9 @@ module.exports = function (mongoose, db) {
             for (var x in game.stats[0].goalSummary) {
                 if (parseInt(game.stats[0].goalSummary[x].goalId) == videoId) {
                     found = true;
+                    if (game.stats[0].goalSummary[x].highlight[0] == video.html) {
+                        game.filledHighlights--;
+                    }
                     game.stats[0].goalSummary[x].highlight.push(video.html);
                     if (game.stats[0].goalSummary[x].highlight[0] == video.html) {
                         game.filledHighlights++;
