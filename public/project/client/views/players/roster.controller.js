@@ -107,7 +107,7 @@
                     if (!res.data.stats[0]) {
                         addStats(stats, game);
                     }
-                    else if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
+                    else if (res.data.filledHighlights < res.data.stats[0].goalSummary.length-1) {
                         addStats(stats, game);
                     }
                 });
@@ -167,6 +167,7 @@
             GameService.updateGameHighlights(gameId, video, goalId)
                 .then(function (res) {
                     if (res.data) {
+                        //TODO: make this "attempts" attribute on game, give it (3-5) tries to find the highlight
                         if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length-1) {
                             var goals = res.data.stats[0].goalSummary;
                             for (var goal in goals) {
