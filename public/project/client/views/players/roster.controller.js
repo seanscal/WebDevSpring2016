@@ -85,7 +85,7 @@
                         stats.penalties.push(res.data.penaltySummary[i].penalties[j]);
                     }
                 }
-                
+
                 GameService.findGameById(res.data.gid).then(function (res) {
                     var side = res.data.loc;
                     if (side == "home") {
@@ -177,8 +177,6 @@
 
         function addStats(stats, game) {
             GameService.addGameStats(stats).then(function (res) {
-                    console.log("after add");
-                    console.log(res.data);
                     GameService.fetchHighlightIds(game.data.gid).then(function (res) {
                         getHighlight(game, res, "event");
                         getHighlight(game, res, "ingame");

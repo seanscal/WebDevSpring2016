@@ -117,6 +117,7 @@ module.exports = function (mongoose, db) {
     function updateGameHighlights(gameId, videoId, video) {
         var deferred = q.defer();
         var found = false;
+        console.log(video);
 
         findGameById(gameId).then(function (game) {
             for (var x in game.stats[0].goalSummary) {

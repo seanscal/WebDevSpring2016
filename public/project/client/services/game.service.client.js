@@ -48,7 +48,6 @@
         }
 
         function addGameStats(stats) {
-            console.log(stats);
             return $http.put("/api/project/game/"+stats.gameId+"/stats", stats);
         }
 
@@ -67,6 +66,7 @@
         }
 
         function updateGameHighlights(gameId, video, goalId){
+            console.log("update hightlights");
             return $http.post('/api/project/' + gameId + '/video/' + goalId, video)
                 .then(function (res) {
                     return res;
