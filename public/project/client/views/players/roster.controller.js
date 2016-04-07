@@ -128,12 +128,13 @@
                                     html: "https://www.nhl.com/video/embed/t-279689874/c-" + newId + "?autostart=false"
                                 };
                                 var idFinder = feed.extId.split("-")[1];
-
+                                console.log("gonna update some game hurr");
 
 
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
                                         var highlight = res.data;
+                                        console.log(highlight);
                                         if (highlight && highlight.team == "NJD") {
                                             RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
                                                 if (res.data) {

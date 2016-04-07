@@ -181,9 +181,6 @@ module.exports = function (mongoose, db) {
                 }
                 if(!highlightsContains){
                     res.highlights.push(newHighlights[y]);
-                    for (var x =0; x < res.highlights.length; x++){
-                        console.log(res.highlights[x].player1total);
-                    }
                 }
                 highlightsContains = false;
             }
