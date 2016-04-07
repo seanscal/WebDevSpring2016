@@ -167,7 +167,7 @@
             GameService.updateGameHighlights(gameId, video, goalId)
                 .then(function (res) {
                     if (res.data) {
-                        if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
+                        if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length-1) {
                             var goals = res.data.stats[0].goalSummary;
                             for (var goal in goals) {
                                 if (goals[goal].team == "NJD") {
