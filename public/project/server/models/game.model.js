@@ -180,10 +180,14 @@ module.exports = function (mongoose, db) {
                 }
 
                 game.stats = correctedStats;
-                console.log(game._id);
-                delete game._id;
-                console.log("After delete" + game._id);
-                Game.update({gameId: gameId}, game, function (err, response) {
+
+                game2 = {
+                    stats: game.stats,
+                    gameId: game.gameId
+                };
+
+                console.log(game2);
+                Game.update({gameId: gameId}, game2, function (err, response) {
                     console.log(err);
                     findGameById(gameId).then(function (game) {
                         deferred.resolve(game);
