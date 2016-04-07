@@ -131,9 +131,8 @@
 
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
-                                        console.log("goals: " + res.data.stats[0].goalSummary.length + "highlights filled: " + res.data.filledHighlights);
-                                        if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
-                                            if (res.data) {
+                                        if (res.data) {
+                                            if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
                                                 var goals = res.data.stats[0].goalSummary;
                                                 console.log(goals[0]);
                                                 for (var goal in goals) {
@@ -165,11 +164,11 @@
                                     var idFinder = res.data[0].id.split("-")[1];
                                     GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                         .then(function (res) {
-                                            console.log("goals: " + res.data.stats[0].goalSummary.length + "highlights filled: " + res.data.filledHighlights);
                                             if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
                                                 if (res.data) {
                                                     var goals = res.data.stats[0].goalSummary;
-                                                    console.log(goals[0]);
+                                                    console.log("goals:");
+                                                    console.log(goals);
                                                     for (var goal in goals) {
                                                         if (goals[goal].team == "NJD") {
                                                             RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
