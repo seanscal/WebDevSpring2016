@@ -130,6 +130,7 @@ module.exports = function (mongoose, db) {
                     found = true;
                     game.stats[0].goalSummary[x].highlight.push(video.html);
                     console.log("update game highlight");
+                    console.log(game.stats[0].goalSummary[x].highlight);
                     updateGame(gameId, game).then(function (res){
                         console.log("updated");
                         deferred.resolve(res.data.stats[0].goalSummary[x]);
