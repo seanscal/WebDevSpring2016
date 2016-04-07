@@ -92,6 +92,7 @@ module.exports = function (mongoose, db) {
             console.log(err);
             console.log(response);
             findGameById(gameId).then(function (game) {
+                console.log("found game?");
                 deferred.resolve(game);
             });
         });
