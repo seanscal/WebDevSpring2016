@@ -151,7 +151,15 @@
 
         function addStats(stats, game) {
             GameService.findGameById(game.data.gid).then(function (res) {
-                if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
+                if (!res.data.stats[0]){
+                    GameService.addGameStats(stats).then(function (res) {
+                        GameService.fetchHighlightIds(game.data.gid).then(function (res) {
+                            getHighlight(game, res, "event");
+                            getHighlight(game, res, "ingame");
+                        });
+                    });
+                }
+                else if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
                     GameService.addGameStats(stats).then(function (res) {
                             GameService.fetchHighlightIds(game.data.gid).then(function (res) {
                                 getHighlight(game, res, "event");
