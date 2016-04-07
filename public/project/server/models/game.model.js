@@ -127,7 +127,6 @@ module.exports = function (mongoose, db) {
         var deferred = q.defer();
         findGameById(gameId).then(function (game) {
             if (game.stats[0] == null && game.status == "FINAL") {
-                console.log("null stats");
                 var correctedStats = {
                     roster: [],
                     penaltySummary: [],
@@ -182,9 +181,9 @@ module.exports = function (mongoose, db) {
 
                 game.stats = correctedStats;
                 delete game._id;
+                console.log(game);
                 Game.update({gameId: gameId}, game, function (err, response) {
                     console.log(err);
-                    console.log(response);
                     findGameById(gameId).then(function (game) {
                         deferred.resolve(game);
                     });
