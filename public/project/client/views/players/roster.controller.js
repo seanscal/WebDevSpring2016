@@ -86,6 +86,8 @@
                     }
                 }
 
+                console.log(res.data.gid);
+
                 GameService.findGameById(res.data.gid).then(function (res) {
                     var side = res.data.loc;
                     if (side == "home") {
@@ -104,6 +106,7 @@
                             stats.players.push(game.data.rosters.away.goalies[g]);
                         }
                     }
+                    console.log(stats);
                     addStats(stats, game);
                 });
             });
