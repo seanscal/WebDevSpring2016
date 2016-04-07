@@ -142,8 +142,11 @@
                                         if (highlight && highlight.team == "NJD") {
                                             RosterService.findPlayerByNumber(highlight.player1).then(function (res) {
                                                 if (res.data) {
+                                                    console.log("adding highlight");
                                                     res.data.highlights.push(highlight);
                                                     RosterService.addHighlights(res.data).then(function (res) {
+                                                        console.log("added highlight");
+                                                        console.log(res.data);
                                                     });
                                                 }
                                             });
