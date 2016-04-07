@@ -132,7 +132,7 @@
                                 GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                     .then(function (res) {
                                         console.log("goals: " + res.data.stats[0].goalSummary.length + "highlights filled: " + res.data.filledHighlights);
-                                        if (res.data.filledHighlights == res.data.stats[0].goalSummary.length) {
+                                        if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
                                             if (res.data) {
                                                 var goals = res.data.stats[0].goalSummary;
                                                 console.log(goals[0]);
@@ -166,7 +166,7 @@
                                     GameService.updateGameHighlights(game.data.gid, video, idFinder)
                                         .then(function (res) {
                                             console.log("goals: " + res.data.stats[0].goalSummary.length + "highlights filled: " + res.data.filledHighlights);
-                                            if (res.data.filledHighlights == res.data.stats[0].goalSummary.length) {
+                                            if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
                                                 if (res.data) {
                                                     var goals = res.data.stats[0].goalSummary;
                                                     console.log(goals[0]);
