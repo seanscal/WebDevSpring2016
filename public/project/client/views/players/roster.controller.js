@@ -129,37 +129,7 @@
                                 };
                                 var idFinder = feed.extId.split("-")[1];
 
-                                GameService.updateGameHighlights(game.data.gid, video, idFinder)
-                                    .then(function (res) {
-                                        if (res.data) {
-                                            if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
-                                                var goals = res.data.stats[0].goalSummary;
-                                                console.log("embed");
-                                                for (var goal in goals) {
-                                                    if (goals[goal].team == "NJD") {
-                                                        RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
-                                                            if (res.data) {
-                                                                console.log("adding highlight");
-                                                                console.log(goals);
-                                                                for (var goal in goals) {
-                                                                    if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
-                                                                        res.data.highlights.push(goals[goal]);
-                                                                    }
-                                                                }
-                                                                console.log("highlights");
-                                                                console.log(res.data.highlights);
-
-                                                                RosterService.addHighlights(res.data).then(function (res) {
-                                                                    console.log("added highlight");
-                                                                    console.log(res.data);
-                                                                });
-                                                            }
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
+                                addHighlights(game.data.gid, video, idFinder)
                             }
                         }
                         else {
@@ -169,29 +139,7 @@
                                         html: res.data[0].publishPoint
                                     };
                                     var idFinder = res.data[0].id.split("-")[1];
-                                    GameService.updateGameHighlights(game.data.gid, video, idFinder)
-                                        .then(function (res) {
-                                            if (res.data) {
-                                                if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
-                                                    var goals = res.data.stats[0].goalSummary;
-                                                    for (var goal in goals) {
-                                                        if (goals[goal].team == "NJD") {
-                                                            RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
-                                                                if (res.data) {
-                                                                    for (var goal in goals) {
-                                                                        if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
-                                                                            res.data.highlights.push(goals[goal]);
-                                                                        }
-                                                                    }
-                                                                    RosterService.addHighlights(res.data).then(function (res) {
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        });
+                                    addHighlights(game.data.gid, video, idFinder)
                                 }
                             });
                         }
@@ -212,6 +160,32 @@
                     });
                 }
             });
+        }
+
+        function addHighlights(gameId, video, goalId){
+            GameService.updateGameHighlights(gameId, video, goalId)
+                .then(function (res) {
+                    if (res.data) {
+                        if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
+                            var goals = res.data.stats[0].goalSummary;
+                            for (var goal in goals) {
+                                if (goals[goal].team == "NJD") {
+                                    RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
+                                        if (res.data) {
+                                            for (var goal in goals) {
+                                                if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
+                                                    res.data.highlights.push(goals[goal]);
+                                                }
+                                            }
+                                            RosterService.addHighlights(res.data).then(function (res) {
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                });
         }
 
         function setOrderProp(prop) {
