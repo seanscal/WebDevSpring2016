@@ -167,7 +167,6 @@ module.exports = function (mongoose, db) {
 
     function addHighlightToPlayer(playerId, player) {
         var deferred = q.defer();
-        console.log("adding highlights i hope");
         var newHighlights = player.highlights;
         findPlayerById(playerId).then(function (res) {
             playerId = res._id;
@@ -191,15 +190,11 @@ module.exports = function (mongoose, db) {
             };
 
             PlayerModel.update({_id: playerId}, newPlayer, function (err, response) {
-                console.log("adding highlights");
                 if(err){
                     deferred.resolve(err);
                 }
                 else{
-                    deferred.resolve("A OK");
                 }
-                console.log(err);
-                console.log(response);
                 findPlayerById(playerId).then(function (player) {
                     //console.log("NEW");/
                     //console.log(player);

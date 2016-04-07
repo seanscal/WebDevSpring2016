@@ -174,24 +174,16 @@
                                             if (res.data) {
                                                 if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length) {
                                                     var goals = res.data.stats[0].goalSummary;
-                                                    console.log("goals:");
-                                                    console.log(goals);
                                                     for (var goal in goals) {
                                                         if (goals[goal].team == "NJD") {
                                                             RosterService.findPlayerByNumber(goals[goal].player1).then(function (res) {
                                                                 if (res.data) {
-                                                                    console.log("adding highlight");
-                                                                    console.log(goals);
                                                                     for (var goal in goals) {
                                                                         if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
                                                                             res.data.highlights.push(goals[goal]);
                                                                         }
                                                                     }
-                                                                    console.log("highlights");
-                                                                    console.log(res.data.highlights);
                                                                     RosterService.addHighlights(res.data).then(function (res) {
-                                                                        console.log("added highlight");
-                                                                        console.log(res.data);
                                                                     });
                                                                 }
                                                             });
@@ -210,15 +202,16 @@
 
 
         function addStats(stats, game) {
-            GameService.addGameStats(stats).then(function (res) {
-                    GameService.fetchHighlightIds(game.data.gid).then(function (res) {
-                        console.log("fetching highlights");
-                        console.log(res.data);
-                        getHighlight(game, res, "event");
-                        getHighlight(game, res, "ingame");
+            GameService.findGameById(res.data.gid).then(function (res) {
+                if (res.data.filledHighlights < res.data.stats[0].goalSummary.length) {
+                    GameService.addGameStats(stats).then(function (res) {
+                            GameService.fetchHighlightIds(game.data.gid).then(function (res) {
+                                getHighlight(game, res, "event");
+                                getHighlight(game, res, "ingame");
+                            });
                     });
                 }
-            );
+            });
         }
 
         function setOrderProp(prop) {

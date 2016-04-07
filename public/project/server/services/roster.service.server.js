@@ -121,8 +121,6 @@ module.exports = function (app, RosterModel) {
     function addHighlights(req, res) {
         var player = req.body;
 
-        console.log("Should be here");
-
         RosterModel.addHighlightToPlayer(player._id, player).then(
             function (doc) {
                 res.json(doc);
