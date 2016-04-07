@@ -85,12 +85,14 @@ module.exports = function (mongoose, db) {
             loc: game.loc,
             score: game.score,
             abb: game.abb,
-            stats: game.stats,
-        }
+            stats: game.stats
+        };
 
         Game.update({gameId: gameId}, updateGame, function (err, response) {
             console.log(err);
+            console.log(gameId);
             findGameById(gameId).then(function (game) {
+                console.log(game.status);
                 deferred.resolve(game);
             });
         });
