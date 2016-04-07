@@ -110,6 +110,7 @@
         }
 
         function getHighlight(game, res, eventIngame) {
+            console.log("getHighlight");
             if (eventIngame == "event") {
                 var data = res.data.video.events;
             }
@@ -178,6 +179,8 @@
         function addStats(stats, game) {
             GameService.addGameStats(stats).then(function (res) {
                     GameService.fetchHighlightIds(game.data.gid).then(function (res) {
+                        console.log("fetching highlights");
+                        console.log(res.data);
                         getHighlight(game, res, "event");
                         getHighlight(game, res, "ingame");
                     });
