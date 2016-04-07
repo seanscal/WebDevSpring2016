@@ -182,10 +182,7 @@ module.exports = function (mongoose, db) {
                 game.stats = correctedStats;
                 console.log(game._id);
                 delete game._id;
-                console.log(game._id);
-                console.log(game.stats);
-                delete game.stats._id;
-                console.log(game.stats);
+                console.log("After delete" + game._id);
                 Game.update({gameId: gameId}, game, function (err, response) {
                     console.log(err);
                     findGameById(gameId).then(function (game) {
