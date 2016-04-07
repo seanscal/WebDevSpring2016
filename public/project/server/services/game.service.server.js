@@ -107,7 +107,7 @@ module.exports = function (app, GameModel) {
             },
             function (err) {
                 res.status(400).send(err);
-            });å
+            });
     }
 
     function fetchGames(req, res) {
