@@ -2,6 +2,10 @@
     text-align: right;
 }
 
+#modals {
+    display: none;
+}
+
 .left-justified{
     text-align: left;
 }

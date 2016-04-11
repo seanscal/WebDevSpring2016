@@ -1,0 +1,41 @@
+<table class="table title table-striped table-bordered table-white">
+    <thead>
+    <tr>
+        <th style="width:800px">Highlights</th>
+    </tr>
+    </thead>
+</table>
+
+<table class="table table-striped table-bordered table-white">
+    <thead>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="highlight in game.stats[0].goalSummary" class="centered">
+        <td>
+            <button ng-click="createModal($index)">{{highlight.description}}</button>
+        </td>
+
+
+
+        <td id="modals">
+            <div ng-switch="{{noAutoPlay(highlight.highlight[0])}}">
+                <div ng-switch-when=false>
+                    <div class="videoModal" ng-attr-id="{{$index}}">
+                        <iframe class = "video" ng-src={{highlight.highlight[0]}} width='1080' height='600'></iframe>
+                    </div>
+                </div>
+                <div ng-switch-default>
+                    <div class="videoModal" ng-attr-id="{{$index}}">
+                        <video id="VIDEO" height="600" width = "1080" controls>
+                            <source class = "video" ng-src={{highlight.highlight[0]}} allowfullscreen="true"/>
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+

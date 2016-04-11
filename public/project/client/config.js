@@ -38,8 +38,8 @@
                 controller: "SearchController as Search"
             })
             .when("/games", {
-                templateUrl: "views/games/game.view.html",
-                controller: "GameController as Game"
+                templateUrl: "views/games/schedule.view.html",
+                controller: "ScheduleController as Sched"
             })
             .when("/games/:id", {
                 templateUrl: "views/games/game.view.html",

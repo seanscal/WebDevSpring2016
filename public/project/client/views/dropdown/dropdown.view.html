@@ -10,19 +10,12 @@
                 <a href="#/roster" ng-click="dropboxitemselected('Roster')">Roster</a>
             </li>
 
+            <li ng-class="{'active': $location.url()=='/games'}" class="top-element">
+                <a href="#/games" ng-click="dropboxitemselected('Schedule')">Schedule</a>
+            </li>
+
             <li ng-class="{'active': $location.url()=='/search'}" class="top-element">
                 <a href="#/search" ng-click="dropboxitemselected('Search')">Simple search example for now</a>
-            </li>
-
-            <li ng-hide="currentUser"
-                ng-class="{'active': $location.url()=='/register'}">
-                <a href="#/register" ng-click="dropboxitemselected('Register')">Register</a>
-            </li>
-
-            <li ng-hide="currentUser"
-                ng-class="{'active': $location.url()=='/login'}"
-                class="bottom-element">
-                <a href="#/login" ng-click="dropboxitemselected('Login')">Login</a>
             </li>
 
             <li ng-show="currentUser"
