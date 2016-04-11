@@ -37,6 +37,14 @@
                 templateUrl: "views/search/search.view.html",
                 controller: "SearchController as Search"
             })
+            .when("/games", {
+                templateUrl: "views/games/game.view.html",
+                controller: "GameController as Game"
+            })
+            .when("/games/:id", {
+                templateUrl: "views/games/game.view.html",
+                controller: "GameController as Game"
+            })
             .otherwise({
                 redirectTo: "/home"
             });

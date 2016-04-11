@@ -7,7 +7,6 @@
     function RosterController($scope, RosterService, GameService) {
 
         $scope.players = [];
-        $scope.deletePlayer = deletePlayer;
         $scope.setOrderProp = setOrderProp;
         $scope.printDate = printDate;
 
@@ -18,16 +17,16 @@
                 $scope.players = res.data;
 
                 //TODO: DELETE THIS BEFORE FINAL
-                fetchContent();
+                //fetchContent();
 
                 // update content if it's been more than 30 minutes since the last update
                 if ($scope.players[0]) {
                     if (Math.abs(Date.now() - new Date($scope.players[0].updated)) > 1800000) {
-                        //fetchContent();
+                        fetchContent();
                     }
                 }
                 else {
-                    //fetchContent();
+                    fetchContent();
                 }
             });
         }
@@ -191,15 +190,6 @@
 
         function setOrderProp(prop) {
             $scope.orderProp = prop;
-        }
-
-        function deletePlayer(index) {
-            var player = RosterService.players[index];
-            RosterService.deletePlayerById(player._id).then(function (res) {
-                RosterService.findAllPlayers().then(function (response) {
-                    $scope.players = response.data;
-                })
-            });
         }
 
 //format birthdays

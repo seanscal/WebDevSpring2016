@@ -1,0 +1,32 @@
+<table class="table title table-striped table-bordered table-white">
+    <thead>
+    <tr>
+        <th >
+            <img class="inline player-photo" src="../../../../assets/NJD_logo.png" alt={{currentPlayer.name}} style="width:289px;height:289px;" height='512' width='512'>
+            <div class="inline player-info">
+
+                <h1>#{{currentPlayer.number}} {{currentPlayer.name}}</h1>
+                <div class="left-justified">
+                    Position: {{currentPlayer.position}}
+                    <br>
+                    <br>
+                    Height: {{currentPlayer.height}}
+                    <br>
+                    <br>
+                    Weight: {{currentPlayer.weight}}
+                    <br>
+                    <br>
+                    Birthday: {{printDate(currentPlayer.birthday)}}
+                    <br>
+                    <br>
+                    Age: {{currentPlayer.age}}
+                    <br>
+                    <br>
+                    Birthplace: {{currentPlayer.birthPlace}}
+                </div>
+
+            </div>
+        </th>
+    </tr>
+    </thead>
+</table>
