@@ -20,7 +20,6 @@
                 //TODO: DELETE THIS BEFORE FINAL
                 fetchContent();
 
-
                 // update content if it's been more than 30 minutes since the last update
                 if ($scope.players[0]) {
                     if (Math.abs(Date.now() - new Date($scope.players[0].updated)) > 1800000) {
@@ -167,7 +166,7 @@
             GameService.updateGameHighlights(gameId, video, goalId)
                 .then(function (res) {
                     if (res.data) {
-                        //TODO: make this "attempts" attribute on game, give it (3-5) tries to find the highlight
+                        //TODO: make this "attempts" attribute on games, give it (3-5) tries to find the highlight
                         if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length-1) {
                             var goals = res.data.stats[0].goalSummary;
                             for (var goal in goals) {

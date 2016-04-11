@@ -26,11 +26,11 @@
         }
 
         function findGameById(gameId) {
-            return $http.get("/api/project/game/" + gameId);
+            return $http.get("/api/project/games/" + gameId);
         }
 
         function getAllGames(){
-            return $http.get("/api/project/game/");
+            return $http.get("/api/project/games/");
         }
 
         function fetchGames(month, year) {
@@ -48,7 +48,7 @@
         }
 
         function addGameStats(stats) {
-            return $http.put("/api/project/game/"+stats.gameId+"/stats", stats);
+            return $http.put("/api/project/games/"+stats.gameId+"/stats", stats);
         }
 
         function fetchHighlightIds(gameId) {

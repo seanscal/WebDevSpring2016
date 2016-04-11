@@ -2,18 +2,18 @@ var http = require('http');
 
 module.exports = function (app, GameModel) {
 
-    app.get("/api/project/game/", getAllGames);
-    app.get("/api/project/game/:id", getGame);
+    app.get("/api/project/games/", getAllGames);
+    app.get("/api/project/games/:id", getGame);
     app.get("/api/project/:monthId/:yearId/basicGameInfo", fetchGames);
     app.get('/api/project/:gameId/gameStats', fetchGameStats);
     app.get('/api/project/:gameId/highlightId', fetchHighlightIds);
 
     app.put("/api/project/games", updateMultipleGames);
-    app.put("/api/project/game/:id", updateGame);
-    app.put("/api/project/game/:gameId/stats", addStats);
+    app.put("/api/project/games/:id", updateGame);
+    app.put("/api/project/games/:gameId/stats", addStats);
 
 
-    app.post("/api/project/game/", addGame);
+    app.post("/api/project/games/", addGame);
     app.post("/api/project/games", addGames);
     app.post('/api/project/:gameId/highlightString', fetchHighlightStrings);
     app.post("/api/project/:gameId/video/:videoId", updateGameHighlights);
