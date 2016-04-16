@@ -16,7 +16,7 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="game in games | orderBy:game.startTime" class="right-justified">
+    <tr ng-repeat="game in games | orderBy:'-startTime'" class="right-justified">
         <td>{{printDate(game.startTime)}}</td>
         <td>{{game.abb}}</td>
         <td><a href="#/games/{{game.gameId}}">{{game.score}}</a></td>

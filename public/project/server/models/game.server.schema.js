@@ -8,7 +8,10 @@ module.exports = function(mongoose, GameStats) {
         score: {type: String, default: null},
         abb: {type: String, default: null},
         stats: {type: [GameStats], default: null},
-        filledHighlights: {type: Number, default: 0}
+        filledHighlights: {type: Number, default: 0},
+        story: {type: String, default: null},
+        storyTitle: {type: String, default: null},
+        keywords:{type:String, default: []}
     });
     return GameSchema;
 };

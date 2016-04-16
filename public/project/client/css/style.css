@@ -18,6 +18,10 @@
     text-align: center;
 }
 
+.vs{
+    margin-top: 130px;
+}
+
 #logout {
     cursor: pointer;
 }

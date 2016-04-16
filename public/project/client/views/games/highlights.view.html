@@ -11,12 +11,11 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="highlight in game.stats[0].goalSummary" class="centered">
+    <tr ng-repeat="highlight in game.stats[0].goalSummary" class="left-justified">
         <td>
-            <button ng-click="createModal($index)">{{highlight.description}}</button>
+            <img ng-if="highlight.highlight[0]" src="../../../../assets/play_button.jpeg" width='25' height='25' ng-click="createModal($index)">
+            {{highlight.description}}
         </td>
-
-
 
         <td id="modals">
             <div ng-switch="{{noAutoPlay(highlight.highlight[0])}}">

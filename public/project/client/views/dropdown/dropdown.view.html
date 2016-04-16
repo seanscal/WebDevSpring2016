@@ -18,11 +18,6 @@
                 <a href="#/search" ng-click="dropboxitemselected('Search')">Simple search example for now</a>
             </li>
 
-            <li ng-show="currentUser"
-                ng-class="{'active': $location.url()=='/profile'}">
-                <a href="#/profile" ng-click="dropboxitemselected('Profile')">My Profile</a>
-            </li>
-
             <li ng-show="currentUser.roles.indexOf('editor') > -1"
                 ng-class="{'active': $location.url()=='/editor'}"
                 class="bottom-element">

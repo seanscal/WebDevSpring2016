@@ -165,6 +165,8 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
+
+
     function addHighlightToPlayer(playerId, player) {
         var deferred = q.defer();
         var newHighlights = player.highlights;

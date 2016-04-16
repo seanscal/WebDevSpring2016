@@ -16,13 +16,17 @@
             addGameStats: addGameStats,
             fetchHighlightIds: fetchHighlightIds,
             fetchHighlightStrings: fetchHighlightStrings,
-            updateGameHighlights: updateGameHighlights
-
+            updateGameHighlights: updateGameHighlights,
+            updateGame: updateGame
         };
         return model;
 
         function addGames(games) {
             return $http.post("/api/project/games", games);
+        }
+
+        function updateGame(game) {
+            return $http.post("/api/project/games/"+game._id, game);
         }
 
         function findGameById(gameId) {

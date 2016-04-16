@@ -11,14 +11,22 @@
             for(var x in $scope.game.stats[0].roster){
                 RosterService.findPlayerByNumber($scope.game.stats[0].roster[x].number).then(function (response) {
                     if(!response.data){
-                        $scope.players.push("Lee Stempniak")
+                        if($scope.game.stats[0].roster[x].number == 20){
+                            $scope.players.push("Lee Stempniak");
+                        }
+                        else if($scope.game.stats[0].roster[x].number == 18){
+                            $scope.players.push("Brian O'Neill");
+                        }
+                        else{
+                            $scope.players.push("Unknown");
+                        }
                     }
 
                     $scope.players.push(response.data.name);
                 });
             }
         });
-
+        
         $scope.createModal = createModal;
         $scope.noAutoPlay = noAutoPlay;
         $scope.findPlayer = findPlayer;
