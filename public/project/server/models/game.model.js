@@ -45,7 +45,20 @@ module.exports = function (mongoose, db) {
                 });
             }
             else {
-                deferred.resolve(null);
+                var newGame2 = new Game({
+                    status: game.status,
+                    cPeriod: game.cPeriod,
+                    startTime: game.startTime,
+                    loc: game.loc,
+                    score: game.score,
+                    abb: game.abb
+                });
+
+                Game.update({gameId: gameId}, newGame2, function (err, response) {
+                    findGameById(gameId).then(function (game) {
+                        deferred.resolve(game);
+                    });
+                });
             }
         });
         return deferred.promise;
