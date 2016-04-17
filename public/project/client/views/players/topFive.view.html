@@ -1,7 +1,7 @@
 <table class="table title table-striped table-bordered table-white">
     <thead>
     <tr>
-        <th style="width:800px">Highlights</th>
+        <th style="width:800px">Top Highlights</th>
     </tr>
     </thead>
 </table>
@@ -11,7 +11,7 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="highlight in currentPlayer.highlights | orderBy:'player1total'"
+    <tr ng-repeat="highlight in currentPlayer.topFive"
         class="left-justified">
 
         <td>
@@ -33,9 +33,6 @@
                         </video>
                     </div>
                 </div>
-            </div>
-            <div class="chooseFiveModal" ng-attr-id="{{$index}}">
-
             </div>
         </td>
     </tr>
