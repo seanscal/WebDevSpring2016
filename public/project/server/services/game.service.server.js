@@ -12,7 +12,6 @@ module.exports = function (app, GameModel) {
     app.put("/api/project/games/:id", updateGame);
     app.put("/api/project/games/:gameId/stats", addStats);
 
-
     app.post("/api/project/games/", addGame);
     app.post("/api/project/games", addGames);
     app.post('/api/project/:gameId/highlightString', fetchHighlightStrings);
@@ -53,7 +52,8 @@ module.exports = function (app, GameModel) {
 
     function updateGame(req, res) {
         var game = req.body;
-        GameModel.updateGame(game._id, game).then(
+
+        GameModel.updateGame(game.gameId, game).then(
             function (doc) {
                 res.json(doc);
             },

@@ -100,8 +100,7 @@
         vm.createModal = function (fieldType, idx) {
             var field = vm.fields[idx];
             var options = vm.fields[idx].options;
-            console.log(field);
-            console.log(options);
+
             // set popups values to fields currently set value
             var str = fieldType + "label";
             vm[fieldType + "label"] = field.label;
@@ -144,13 +143,6 @@
                 var options = optionsString.split("\n");
                 field.options = parseData(options);
             }
-
-            console.log("Updating controller");
-            console.log(vm.formId);
-            console.log(field);
-            console.log("Updating controller");
-
-
 
             FieldService.updateField(vm.formId, field._id, field);
         }

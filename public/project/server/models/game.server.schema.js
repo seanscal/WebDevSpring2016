@@ -11,7 +11,8 @@ module.exports = function(mongoose, GameStats) {
         filledHighlights: {type: Number, default: 0},
         story: {type: String, default: null},
         storyTitle: {type: String, default: null},
-        keywords:{type:String, default: []}
+        keywords:{type:String, default: []},
+        playerNameArray: {type:String, default: []}
     });
     return GameSchema;
 };

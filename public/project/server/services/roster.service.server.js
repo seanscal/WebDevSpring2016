@@ -4,18 +4,18 @@ module.exports = function (app, RosterModel) {
 
     app.post("/api/project/player/", addPlayer);
     app.post("/api/project/players", checkForNewPlayers);
-    app.put("/api/project/players", updateMultiplePlayers);
 
     app.get("/api/project/player/", getAllPlayers);
     app.get("/api/project/player/:id", getPlayer);
     app.get("/api/project/player", getPlayerQuery);
-    app.put("/api/project/player/:id", updatePlayer);
-    app.delete("/api/project/player/:id", removePlayer);
     app.get("/api/project/playerInfo", fetchPlayers);
     app.get("/api/project/playerStats", fetchStats);
 
-    app.put("/api/project/player/:id/highlights", addHighlights);
+    app.delete("/api/project/player/:id", removePlayer);
 
+    app.put("/api/project/player/:id/highlights", addHighlights);
+    app.put("/api/project/players", updateMultiplePlayers);
+    app.put("/api/project/player/:id", updatePlayer);
 
     function addPlayer(req, res) {
         var user = req.body;
@@ -106,6 +106,7 @@ module.exports = function (app, RosterModel) {
         }
 
     }
+
 
     function checkForNewPlayers(req, res) {
         var players = req.body;

@@ -102,10 +102,9 @@ module.exports = function (mongoose, db) {
             filledHighlights: game.filledHighlights,
             story: game.story,
             storyTitle: game.storyTitle,
-            keywords: game.keywords
+            keywords: game.keywords,
+            playerNameArray: game.playerNameArray
         };
-
-        console.log(updateGame);
 
         Game.update({gameId: gameId}, updateGame, function (err, response) {
             findGameById(gameId).then(function (game) {
@@ -200,7 +199,8 @@ module.exports = function (mongoose, db) {
                         shotsagainst: p.sa,
                         saves: p.sv,
                         savepercentage: p.svp,
-                        goalsagainst: p.ga
+                        goalsagainst: p.ga,
+                        name: p.name
                     };
                     correctedStats.roster.push(newPlayer);
                 }

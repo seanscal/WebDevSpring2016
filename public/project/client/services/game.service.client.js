@@ -26,7 +26,7 @@
         }
 
         function updateGame(game) {
-            return $http.post("/api/project/games/"+game._id, game);
+            return $http.put("/api/project/games/"+game._id, game);
         }
 
         function findGameById(gameId) {

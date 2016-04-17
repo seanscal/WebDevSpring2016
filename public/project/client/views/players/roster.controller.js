@@ -189,7 +189,15 @@
         }
 
         function setOrderProp(prop) {
-            $scope.orderProp = prop;
+            if ($scope.orderProp == prop)
+            {
+                $scope.orderProp = "-" + prop;
+                console.log($scope.orderProp)
+            }
+            else{
+                $scope.orderProp = prop;
+                console.log($scope.orderProp)
+            }
         }
 
 //format birthdays

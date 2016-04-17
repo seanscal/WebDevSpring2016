@@ -3,6 +3,7 @@ module.exports = function(mongoose) {
         goals: {type: Number, default: null},
         shots: {type: Number, default: null},
         number: Number,
+        name: {type: String, default: null},
         pim: {type: Number, default: null},
         toi: {type: String, default: null},
         assists: {type: Number, default: null},
