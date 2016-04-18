@@ -10,7 +10,8 @@ module.exports = function(mongoose) {
         period: {type: Number, default: null},
         highlight: {type: [String], default: []},
         goalId: {type: String, default: null},
-        team: {type: String, default: "NJD"}
+        team: {type: String, default: "NJD"},
+        topFive: {type: Boolean, default: false}
     });
     return GoalsSchema;
 };

@@ -156,11 +156,47 @@ module.exports = function (mongoose, db) {
 
     function updatePlayer(playerId, player) {
         var deferred = q.defer();
-        delete player._id;
-        PlayerModel.update({playerId: playerId}, player, function (err, response) {
-            findPlayerByPlayerId(playerId).then(function (player) {
-                deferred.resolve(player);
-            });
+
+        var newPlayer = {
+            goals: player.goals,
+            assists: player.assists,
+            points: player.points,
+            shots: player.shots,
+            timeonice: player.timeonice,
+            PP: player.PP,
+            SH: player.SH,
+            GWG: player.GWG,
+            OT: player.OT,
+            plusminus: player.plusminus,
+
+            wins: player.wins,
+            losses: player.losses,
+            overtimeLosses: player.overtimeLosses,
+            goalsAgainst: player.goalsAgainst,
+            shotsAgainst: player.shotsAgainst,
+            saves: player.saves,
+            savePercentage: player.savePercentage,
+            GAA: player.GAA,
+            shutouts: player.shutouts,
+            minutes: player.minutes,
+
+            games: player.games,
+            pim: player.pim,
+
+            highlights: player.highlights,
+            topFive: player.topFive
+        };
+
+        PlayerModel.update({playerId: playerId}, newPlayer, function (err, response) {
+            if(err){
+                deferred.resolve(err);
+            }
+            else{
+                findPlayerByPlayerId(playerId).then(function (player) {
+                    deferred.resolve(player);
+                });
+            }
+
         });
         return deferred.promise;
     }
@@ -172,7 +208,7 @@ module.exports = function (mongoose, db) {
         var newHighlights = player.highlights;
         findPlayerById(playerId).then(function (res) {
             playerId = res._id;
-            delete res._id;
+
             var highlightsContains = false;
             for(var y = 0; y < newHighlights.length; y++){
                 for (var z = 0; z < res.highlights.length; z++)
@@ -198,8 +234,6 @@ module.exports = function (mongoose, db) {
                 else{
                 }
                 findPlayerById(playerId).then(function (player) {
-                    //console.log("NEW");/
-                    //console.log(player);
                     deferred.resolve(player);
                 });
             });

@@ -50,9 +50,8 @@ module.exports = function (app, RosterModel) {
     }
 
     function updatePlayer(req, res) {
-        var id = req.params.id;
         var player = req.body;
-        RosterModel.updatePlayer(player._id, player).then(
+        RosterModel.updatePlayer(player.playerId, player).then(
             function (doc) {
                 res.json(doc);
             },

@@ -1,28 +1,4 @@
-<table class="table title table-striped table-bordered table-white">
-    <thead>
-    <tr>
-        <th ng-if="game.loc == 'away'">
-            <img class="inline player-photo" src="../../../../assets/NJD_logo.png" alt={{currentPlayer.name}}
-                 style="width:289px;height:289px;" height='512' width='512'>
-            <div class="inline player-info">
-                <h1 class="vs">VS. {{game.abb}}</h1>
-            </div>
-        </th>
-        <th ng-if="game.loc == 'home'">
-            <div class="inline player-info">
-                <h1 class="vs">{{game.abb}} VS.</h1>
-            </div>
-            <img class="right-justified" src="../../../../assets/NJD_logo.png" alt={{currentPlayer.name}}
-                 style="width:289px;height:289px;" height='512' width='512'>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td><h1 class="centered">{{game.score}}</h1></td>
-    </tr>
-    </tbody>
-</table>
+<div ng-include="'./views/games/top.view.html'"></div>
 <div ng-include="'./views/games/story.view.html'"></div>
 <div ng-include="'./views/games/highlights.view.html'"></div>
 <div ng-include="'./views/games/stats.view.html'"></div>
