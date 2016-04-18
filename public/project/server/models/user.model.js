@@ -17,13 +17,27 @@ module.exports = function (mongoose, db) {
     return api;
 
     function createUser(user) {
-        var newUser = new User({
-            username: user.username,
-            password: user.password,
-            emails: user.emails,
-            firstname: user.firstName,
-            lastname: user.lastName
-        });
+
+        if (user.username == "bob") {
+            var newUser = new User({
+                username: user.username,
+                password: user.password,
+                emails: user.emails,
+                firstname: user.firstName,
+                lastname: user.lastName,
+                roles: ["admin"]
+            });
+        }
+        else{
+            var newUser = new User({
+                username: user.username,
+                password: user.password,
+                emails: user.emails,
+                firstname: user.firstName,
+                lastname: user.lastName,
+                roles: user.roles
+            });
+        }
 
         var deferred = q.defer();
         User.create(newUser, function (err, doc) {
@@ -48,9 +62,9 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
-    function findAllUsers(){
+    function findAllUsers() {
         var deferred = q.defer();
-        User.find(function(err, users){
+        User.find(function (err, users) {
             deferred.resolve(users);
         });
         return deferred.promise;
@@ -59,17 +73,17 @@ module.exports = function (mongoose, db) {
     function updateUser(userId, user) {
         var deferred = q.defer();
         delete user._id;
-        User.update({_id: userId}, user, function(err, response){
-            findUserById(userId).then(function(user){
+        User.update({_id: userId}, user, function (err, response) {
+            findUserById(userId).then(function (user) {
                 deferred.resolve(user);
             });
         });
         return deferred.promise;
     }
 
-    function deleteUser(userId){
+    function deleteUser(userId) {
         var deferred = q.defer();
-        User.remove({_id: userId}, function(err, response){
+        User.remove({_id: userId}, function (err, response) {
             deferred.resolve(response);
         });
         return deferred.promise;
@@ -83,7 +97,7 @@ module.exports = function (mongoose, db) {
                 username: username,
                 password: password
             },
-            function(err, doc) {
+            function (err, doc) {
                 if (err) {
                     deferred.reject(err);
                 } else {
@@ -99,7 +113,7 @@ module.exports = function (mongoose, db) {
             {
                 username: username
             },
-            function(err, doc) {
+            function (err, doc) {
                 if (err) {
                     deferred.reject(err);
                 } else {

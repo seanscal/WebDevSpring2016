@@ -4,10 +4,15 @@
 </section>
 
 <section class="devils-red-text" ng-show="!resultsHidden">
-    <div class="no-recipes" ng-hide="players.length">No results</div>
+    <div class="no-players" ng-hide="players.length">No results</div>
     <article class="playerSearch" ng-repeat="player in players | filter: filterPlayers" ng-cloak>
         <h2 class="devils-red-text">
             <a href="#/players/{{player._id}}">{{player.name}}</a>
+        </h2>
+    </article>
+    <article class="gameSearch" ng-repeat="game in games | filter: filterGames" ng-cloak>
+        <h2 class="devils-red-text">
+            <a href="#/games/{{game.gameId}}">{{game.score}} against {{game.abb}}</a>
         </h2>
     </article>
 </section>
