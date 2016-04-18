@@ -15,7 +15,8 @@ module.exports = function (mongoose, db) {
         updateMultiplePlayers: updateMultiplePlayers,
         getPicture: getPicture,
         findPlayerByNumber: findPlayerByNumber,
-        addHighlightToPlayer: addHighlightToPlayer
+        addHighlightToPlayer: addHighlightToPlayer,
+        updatePlayerTopHighlights: updatePlayerTopHighlights
     };
     return api;
 
@@ -156,51 +157,29 @@ module.exports = function (mongoose, db) {
 
     function updatePlayer(playerId, player) {
         var deferred = q.defer();
-
-        var newPlayer = {
-            goals: player.goals,
-            assists: player.assists,
-            points: player.points,
-            shots: player.shots,
-            timeonice: player.timeonice,
-            PP: player.PP,
-            SH: player.SH,
-            GWG: player.GWG,
-            OT: player.OT,
-            plusminus: player.plusminus,
-
-            wins: player.wins,
-            losses: player.losses,
-            overtimeLosses: player.overtimeLosses,
-            goalsAgainst: player.goalsAgainst,
-            shotsAgainst: player.shotsAgainst,
-            saves: player.saves,
-            savePercentage: player.savePercentage,
-            GAA: player.GAA,
-            shutouts: player.shutouts,
-            minutes: player.minutes,
-
-            games: player.games,
-            pim: player.pim,
-
-            highlights: player.highlights,
-            topFive: player.topFive
-        };
-
-        PlayerModel.update({playerId: playerId}, newPlayer, function (err, response) {
-            if(err){
-                deferred.resolve(err);
-            }
-            else{
-                findPlayerByPlayerId(playerId).then(function (player) {
-                    deferred.resolve(player);
-                });
-            }
-
+        delete player._id;
+        PlayerModel.update({playerId: playerId}, player, function (err, response) {
+            findPlayerByPlayerId(playerId).then(function (player) {
+                deferred.resolve(player);
+            });
         });
         return deferred.promise;
     }
 
+    function updatePlayerTopHighlights(playerId, player) {
+        var deferred = q.defer();
+        console.log("here");
+        var newPlayer = {
+            highlights: player.highlights,
+            topFive: player.topFive
+        };
+        PlayerModel.update({playerId: playerId}, newPlayer, function (err, response) {
+            findPlayerByPlayerId(playerId).then(function (player) {
+                deferred.resolve(player);
+            });
+        });
+        return deferred.promise;
+    }
 
 
     function addHighlightToPlayer(playerId, player) {
@@ -208,14 +187,18 @@ module.exports = function (mongoose, db) {
         var newHighlights = player.highlights;
         findPlayerById(playerId).then(function (res) {
             playerId = res._id;
-
+            delete res._id;
             var highlightsContains = false;
             for(var y = 0; y < newHighlights.length; y++){
                 for (var z = 0; z < res.highlights.length; z++)
                 {
                     if (res.highlights[z].player1total == newHighlights[y].player1total){
                         highlightsContains = true;
+                        if (!res.highlights[z].highlight[0] && newHighlights[y].highlight[0]){
+                            res.highlights[z] = newHighlights[y];
+                        }
                     }
+
                 }
                 if(!highlightsContains){
                     res.highlights.push(newHighlights[y]);

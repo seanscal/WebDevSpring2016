@@ -15,7 +15,6 @@
         function getCurrentPlayer() {
             RosterService.findPlayerById($routeParams.id).then(function(res){
                 $scope.currentPlayer = res.data;
-                console.log($scope.currentPlayer);
             });
         }
 
@@ -54,14 +53,15 @@
                     }
                 }
                 $scope.currentPlayer.topFive = newTopFive;
-                RosterService.updatePlayer($scope.currentPlayer).then(function(res){
+                RosterService.updatePlayerTopHighlight($scope.currentPlayer).then(function(res){
                     console.log(res.data);
                 })
             }
             else if ($scope.currentPlayer.topFive.length < 5){
                 highlight.topFive = true;
                 $scope.currentPlayer.topFive.push(highlight);
-                RosterService.updatePlayer($scope.currentPlayer).then(function(res){
+                console.log("update");
+                RosterService.updatePlayerTopHighlight($scope.currentPlayer).then(function(res){
                     console.log(res.data);
                 })
             }

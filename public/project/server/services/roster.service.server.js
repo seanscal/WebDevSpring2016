@@ -16,6 +16,7 @@ module.exports = function (app, RosterModel) {
     app.put("/api/project/player/:id/highlights", addHighlights);
     app.put("/api/project/players", updateMultiplePlayers);
     app.put("/api/project/player/:id", updatePlayer);
+    app.put("/api/project/player/:id/topFive", updatePlayerTopHighlights);
 
     function addPlayer(req, res) {
         var user = req.body;
@@ -52,6 +53,19 @@ module.exports = function (app, RosterModel) {
     function updatePlayer(req, res) {
         var player = req.body;
         RosterModel.updatePlayer(player.playerId, player).then(
+            function (doc) {
+                res.json(doc);
+            },
+            function (err) {
+                res.status(400).send(err);
+            });
+    }
+
+    function updatePlayerTopHighlights(req, res) {
+        var player = req.body;
+        console.log('here');
+        res.json("here");
+        RosterModel.updatePlayerTopHighlights(player.playerId, player).then(
             function (doc) {
                 res.json(doc);
             },

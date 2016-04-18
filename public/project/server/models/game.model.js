@@ -23,7 +23,7 @@ module.exports = function (mongoose, db) {
     return api;
 
     function createGame(game) {
-        var newGame = new Game({
+        var newGame = {
             gameId: game.gameId,
             status: game.status,
             cPeriod: game.cPeriod,
@@ -31,11 +31,11 @@ module.exports = function (mongoose, db) {
             loc: game.loc,
             score: game.score,
             abb: game.abb
-        });
+        };
 
         var deferred = q.defer();
-        findGameById(game.gameId).then(function (game) {
-            if (!game && (newGame.gameId > 2015019999) && (newGame.gameId < 2015029999)) {
+        findGameById(newGame.gameId).then(function (res) {
+            if (!res && (newGame.gameId > 2015019999) && (newGame.gameId < 2015029999)) {
                 Game.create(newGame, function (err, doc) {
                     if (err) {
                         deferred.reject(err);
@@ -45,17 +45,22 @@ module.exports = function (mongoose, db) {
                 });
             }
             else {
-                var newGame2 = new Game({
-                    status: game.status,
-                    cPeriod: game.cPeriod,
-                    startTime: game.startTime,
-                    loc: game.loc,
-                    score: game.score,
-                    abb: game.abb
-                });
+                var newGame2 = {
+                    gameId: res.gameId,
+                    status: res.status,
+                    cPeriod: res.cPeriod,
+                    startTime: res.startTime,
+                    loc: res.loc,
+                    score: res.score,
+                    abb: res.abb
+                };
 
-                Game.update({gameId: gameId}, newGame2, function (err, response) {
-                    findGameById(gameId).then(function (game) {
+                Game.update({gameId: newGame2.gameId}, newGame2, function (err, response) {
+                    if(err){
+                        console.log("line 66");
+                        console.log(err);
+                    }
+                    findGameById(newGame2.gameId).then(function (game) {
                         deferred.resolve(game);
                     });
                 });

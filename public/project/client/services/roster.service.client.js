@@ -18,7 +18,8 @@
             fetchStats: fetchStats,
             updateMultiplePlayers: updateMultiplePlayers,
             findPlayerByNumber: findPlayerByNumber,
-            addHighlights: addHighlights
+            addHighlights: addHighlights,
+            updatePlayerTopHighlight: updatePlayerTopHighlight
         };
         return model;
 
@@ -45,6 +46,11 @@
 
         function updatePlayer(player) {
             return $http.put("/api/project/player/" + player._id, player);
+        }
+
+        function updatePlayerTopHighlight(player) {
+            console.log(player);
+            return $http.put("/api/project/player/" + player._id + "/topFive", player);
         }
 
         function addHighlights(player) {

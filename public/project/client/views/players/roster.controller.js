@@ -16,8 +16,7 @@
             RosterService.findAllPlayers().then(function (res) {
                 $scope.players = res.data;
 
-                //TODO: DELETE THIS BEFORE FINAL
-                //fetchContent();
+
 
                 // update content if it's been more than 30 minutes since the last update
                 if ($scope.players[0]) {
@@ -26,7 +25,9 @@
                     }
                 }
                 else {
-                    fetchContent();
+                    for (var x = 0; x < 3; x++){
+                        fetchContent();
+                    }
                 }
             });
         }
@@ -39,14 +40,19 @@
             RosterService.fetchStats().then(function (res) {
                 for (var x = 10; x <= 12; x++) {
                     GameService.fetchGames(x, 2015).then(function (res) {
+                        console.log("fetched games");
                         GameService.addGames(res.data.games).then(function (res) {
+                            console.log("added games");
                         })
                     });
                 }
 
                 for (var y = 1; y <= 4; y++) {
                     GameService.fetchGames(y, 2016).then(function (res) {
+                        console.log("fetched games");
+                        console.log(res.data.games);
                         GameService.addGames(res.data.games).then(function (res) {
+                            console.log("added games");
                         });
                     });
                 }
@@ -55,6 +61,7 @@
             var count = 0;
 
             GameService.getAllGames().then(function (response) {
+                console.log("got all games");
                 for (var x in response.data) {
                     if (response.data[x].status == "FINAL") {
                         fetchStats(response.data[x].gameId);
@@ -65,6 +72,7 @@
 
         function fetchStats(gameId) {
             GameService.fetchGameStats(gameId).then(function (res) {
+                console.log("fetched game stats");
                 var game = res;
                 var stats = {
                     gameId: game.data.gid,
@@ -85,6 +93,7 @@
                 }
 
                 GameService.findGameById(res.data.gid).then(function (res) {
+                    console.log("found game id");
                     var side = res.data.loc;
                     if (side == "home") {
                         for (var s in game.data.rosters.home.skaters) {
@@ -113,6 +122,7 @@
         }
 
         function getHighlight(game, res, eventIngame) {
+            console.log("getting highlights");
             if (eventIngame == "event") {
                 var data = res.data.video.events;
             }
@@ -131,12 +141,15 @@
                                     html: "https://www.nhl.com/video/embed/t-279689874/c-" + newId + "?autostart=false"
                                 };
                                 var idFinder = feed.extId.split("-")[1];
+                                console.log("to add highlights");
 
                                 addHighlights(game.data.gid, video, idFinder)
                             }
                         }
                         else {
+                            console.log("fetching strings");
                             GameService.fetchHighlightStrings(game.data.gid, feed).then(function (res) {
+                                console.log("fetched strings");
                                 if (res.data[0]) {
                                     var video = {
                                         html: res.data[0].publishPoint
@@ -153,8 +166,11 @@
 
 
         function addStats(stats, game) {
+            console.log("adding stats");
             GameService.addGameStats(stats).then(function (res) {
+                console.log("added stats");
                 GameService.fetchHighlightIds(game.data.gid).then(function (res) {
+                    console.log("fetched highlight ids");
                     getHighlight(game, res, "event");
                     getHighlight(game, res, "ingame");
                 });
@@ -162,8 +178,10 @@
         }
 
         function addHighlights(gameId, video, goalId) {
+            console.log("update highlights");
             GameService.updateGameHighlights(gameId, video, goalId)
                 .then(function (res) {
+                    console.log("updated highlights");
                     if (res.data) {
                         //TODO: make this "attempts" attribute on games, give it (3-5) tries to find the highlight
                         if (res.data.filledHighlights >= res.data.stats[0].goalSummary.length-1) {
@@ -174,10 +192,16 @@
                                         if (res.data) {
                                             for (var goal in goals) {
                                                 if (goals[goal].team == "NJD" && goals[goal].player1 == res.data.number) {
+                                                    if (!res.data.highlights){
+                                                        res.data.highlights = [];
+                                                    }
                                                     res.data.highlights.push(goals[goal]);
                                                 }
                                             }
+                                            console.log("adding player highlights");
                                             RosterService.addHighlights(res.data).then(function (res) {
+                                                console.log("added player highlights");
+                                                console.log(res.data);
                                             });
                                         }
                                     });
