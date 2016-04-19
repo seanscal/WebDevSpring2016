@@ -23,9 +23,9 @@
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
                 controller: "ProfileController as Profile",
-                //resolve: {
-                //    loggedin: checkLoggedin
-                //}
+                resolve: {
+                    loggedin: checkLoggedin
+                }
             })
             .when("/editor", {
                 templateUrl: "views/editor/editor.view.html",
@@ -101,7 +101,7 @@
             else
             {
                 $rootScope.errorMessage = 'You need to log in.';
-                //console.log("ERROR");
+                console.log("ERROR");
                 deferred.reject();
                 $location.url('/login');
             }

@@ -18,10 +18,16 @@
                 vm.passwordVerification = null;
 
                 UserService.createUser(vm.user).then(function(res){
-                    UserService.setCurrentUser(res.data);
-                    console.log(res.data);
-                    console.log("ayyp");
-                    $rootScope.$location.url('/profile');
+                    UserService.login(res.data).then(function (res) {
+                            if (res.data) {
+                                UserService.setCurrentUser(res.data);
+                                $rootScope.$location.url('/profile');
+                            }
+                            else {
+                                $rootScope.$location.url('/login');
+                            }
+                        }
+                    );
                 });
             }
         }
