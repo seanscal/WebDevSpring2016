@@ -17,10 +17,25 @@
             logout: logout,
             register: register,
             setCurrentUser: setCurrentUser,
-            getCurrentUser: getCurrentUser
+            getCurrentUser: getCurrentUser,
+            isAdmin: isAdmin
         };
 
         return service;
+
+        function isAdmin(user){
+
+            console.log("At is admin");
+
+            console.log(user.roles);
+
+            for (var x = 0; x < user.roles.length; x++){
+                if (user.roles[x] == "admin"){
+                    return true;
+                }
+            }
+            return false;
+        }
 
         function findUserByUsername(username){
             return $http.get("/api/project/user?username=" + username)

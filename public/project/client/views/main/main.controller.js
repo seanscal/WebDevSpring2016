@@ -13,8 +13,8 @@
 })();
 
 
-angular.module('DevilsFanApp').config(function() {
-
+angular.module('DevilsFanApp').config(function($sceDelegateProvider) {
+    $sceDelegateProvider.resourceUrlWhitelist(['**']);
 });
 
 

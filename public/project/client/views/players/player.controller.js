@@ -4,13 +4,14 @@
     angular.module("DevilsFanApp")
         .controller("PlayerController", PlayerController);
 
-    function PlayerController($scope, $routeParams, RosterService) {
+    function PlayerController($scope, $routeParams, RosterService, $rootScope, UserService) {
 
         getCurrentPlayer();
         $scope.printDate = printDate;
         $scope.createModal = createModal;
         $scope.noAutoPlay = noAutoPlay;
         $scope.updateTopFive = updateTopFive;
+        $scope.admin = admin;
 
         function getCurrentPlayer() {
             RosterService.findPlayerById($routeParams.id).then(function(res){
@@ -44,7 +45,9 @@
                     $scope.currentPlayer.highlights[y].topFive = true;
                 }
             }
+            console.log(highlight.topFive);
             if(highlight.topFive){
+                console.log("here");
                 var newTopFive = [];
                 highlight.topFive = false;
                 for(var x = 0; x < $scope.currentPlayer.topFive.length; x++){
@@ -76,6 +79,11 @@
                 return contains;
             }
             return null;
+        }
+
+        function admin(){
+            console.log(UserService.isAdmin($rootScope.currentUser));
+            return UserService.isAdmin($rootScope.currentUser);
         }
 
     }

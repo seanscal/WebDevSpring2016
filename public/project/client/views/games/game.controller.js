@@ -4,7 +4,7 @@
     angular.module("DevilsFanApp")
         .controller("GameController", GameController);
 
-    function GameController($scope, $routeParams, GameService, RosterService) {
+    function GameController($scope, $routeParams, GameService, RosterService, $rootScope, UserService) {
         
         $scope.createModal = createModal;
         $scope.noAutoPlay = noAutoPlay;
@@ -12,6 +12,7 @@
         $scope.editPlayerName = editPlayerName;
         $scope.createEditModal = createEditModal;
         $scope.createStoryModal = createStoryModal;
+        $scope.admin = admin;
         getGame();
 
         function getGame(){
@@ -133,6 +134,11 @@
 
             GameService.updateGame($scope.game).then(function (response){
             });
+        }
+
+        function admin(){
+            console.log(UserService.isAdmin($rootScope.currentUser));
+            return UserService.isAdmin($rootScope.currentUser);
         }
 
         //TODO: PAUSE VIDEO ON CLOSE

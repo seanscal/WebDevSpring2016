@@ -6,23 +6,23 @@
 <h1>Login</h1>
 <form class="form-horizontal">
     <div class="form-group">
-        <label for="username" class="col-sm-2 control-label">Username:</label>
+        <label for="username" class="col-sm-2 control-label devils-red-text">Username:</label>
         <div class="col-sm-5">
             <input ng-model="user.username" class="form-control" id="username" placeholder="Username">
         </div>
     </div>
     <div class="form-group">
-        <label for="password" class="col-sm-2 control-label">Password:</label>
+        <label for="password" class="col-sm-2 control-label devils-red-text">Password:</label>
         <div class="col-sm-5">
             <input ng-model="user.password" class="form-control" id="password" placeholder="Password">
         </div>
     </div>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-5">
+        <div class="col-sm-offset-2 col-sm-5 devils-red-text">
             <button class="btn btn-primary btn-block" ng-click="Login.login(user)">Login</button>
         </div>
     </div>
-    <div ng-show="Login.error" class="alert alert-warning">
+    <div ng-show="Login.error" class="alert alert-warning devils-red-text">
         {{Login.error}}
     </div>
 </form>

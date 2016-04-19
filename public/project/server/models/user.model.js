@@ -39,6 +39,7 @@ module.exports = function (mongoose, db) {
             if (err) {
                 deferred.reject(err);
             } else {
+                console.log(doc);
                 deferred.resolve(doc);
             }
         });
