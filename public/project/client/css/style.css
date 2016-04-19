@@ -6,6 +6,10 @@
     display: none;
 }
 
+.bottomspacing{
+    margin-bottom: 27px;
+}
+
 .left-justified{
     text-align: left;
 }

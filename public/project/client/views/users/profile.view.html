@@ -55,11 +55,15 @@
         </div>
     </div>
 
+    <div ng-include="'./views/users/playerDropDown.view.html'"></div>
+
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-5">
             <a class="btn btn-primary btn-block" ng-click="Profile.updateUser(currentUser)" role="button">Update</a>
         </div>
     </div>
+
+
     <div ng-show="Profile.message" class="alert alert-warning">
         {{Profile.message}}
     </div>

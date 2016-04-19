@@ -4,7 +4,7 @@
     angular.module("DevilsFanApp")
         .controller("ProfileController", ProfileController);
 
-    function ProfileController($rootScope, UserService){
+    function ProfileController($scope, $rootScope, UserService,RosterService){
         var vm = this;
 
         if(!$rootScope.currentUser){
@@ -16,13 +16,36 @@
             password: $rootScope.currentUser.password,
             firstName: $rootScope.currentUser.firstName,
             lastName: $rootScope.currentUser.lastName,
-            newEmail: $rootScope.currentUser.newEmail
+            newEmail: $rootScope.currentUser.newEmail,
+            favoritePlayer: $rootScope.currentUser.favoritePlayer
         };
 
         vm.display.emails = $rootScope.currentUser.emails;
         vm.display.roles = $rootScope.currentUser.roles;
 
+        vm.players = [];
+
         vm.updateUser = updateUser;
+        vm.fetchPlayers = fetchPlayers();
+
+        vm.favoritePlayer = $scope.currentUser.favoritePlayer;
+
+        vm.dropboxitemselected = dropboxitemselected;
+
+        function fetchPlayers() {
+            RosterService.fetchPlayers().then(function(response){
+                vm.players = response;
+            });
+        }
+
+        function dropboxitemselected(player){
+            console.log(player);
+            console.log("selected " + player);
+            vm.favoritePlayer = player;
+            vm.display.favoritePlayer = player;
+        }
+
+
 
         function updateUser() {
             vm.display.emails.push(vm.display.newEmail);
@@ -34,6 +57,7 @@
                 $rootScope.currentUser.firstName = res.data.firstName;
                 $rootScope.currentUser.lastName = res.data.lastName;
                 $rootScope.currentUser.emails = res.data.emails;
+
             });
         }
     }
