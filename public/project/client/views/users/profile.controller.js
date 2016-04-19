@@ -20,6 +20,7 @@
         };
 
         vm.display.emails = $rootScope.currentUser.emails;
+        vm.display.roles = $rootScope.currentUser.roles;
 
         vm.updateUser = updateUser;
 

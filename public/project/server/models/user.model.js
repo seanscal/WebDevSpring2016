@@ -18,26 +18,21 @@ module.exports = function (mongoose, db) {
 
     function createUser(user) {
 
-        if (user.username == "bob") {
-            var newUser = new User({
-                username: user.username,
-                password: user.password,
-                emails: user.emails,
-                firstname: user.firstName,
-                lastname: user.lastName,
-                roles: ["admin"]
-            });
+        var newUser = new User({
+            username: user.username,
+            password: user.password,
+            emails: user.emails,
+            firstname: user.firstName,
+            lastname: user.lastName,
+            roles: ["fan"]
+        });
+
+        if (newUser.username == "bob") {
+            newUser.roles.push("admin");
         }
-        else{
-            var newUser = new User({
-                username: user.username,
-                password: user.password,
-                emails: user.emails,
-                firstname: user.firstName,
-                lastname: user.lastName,
-                roles: user.roles
-            });
-        }
+
+
+        console.log(newUser.roles);
 
         var deferred = q.defer();
         User.create(newUser, function (err, doc) {

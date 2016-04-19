@@ -13,8 +13,8 @@
 })();
 
 
-angular.module('DevilsFanApp').config(function($sceDelegateProvider) {
-    $sceDelegateProvider.resourceUrlWhitelist(['**']);
+angular.module('DevilsFanApp').config(function() {
+
 });
 
 

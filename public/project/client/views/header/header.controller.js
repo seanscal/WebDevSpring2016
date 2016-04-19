@@ -8,9 +8,12 @@
         $scope.dropDown = dropDown;
 
         function logout() {
-            $rootScope.currentUser = null;
-            $rootScope.$location.url("/home");
+            UserService.logout().then(function(res) {
+                UserService.setCurrentUser(null);
+                $rootScope.$location.url('/home');
+            });
         }
+
         function dropDown(item) {
             DropDownService.dropdownitemselected(item);
         }

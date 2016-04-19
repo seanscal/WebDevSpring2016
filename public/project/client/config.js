@@ -1,13 +1,16 @@
-(function(){
+(function () {
     angular
         .module("DevilsFanApp")
         .config(Configure);
 
-    function Configure($routeProvider,$httpProvider) {
+    function Configure($routeProvider, $httpProvider) {
         $routeProvider
-            .when("/home",{
+            .when("/home", {
                 templateUrl: "views/home/home.view.html",
-                controller: "HomeController"
+                controller: "HomeController",
+                resolve: {
+                    loggedin: checkCurrentUser
+                }
             })
             .when("/register", {
                 templateUrl: "views/users/register.view.html",
@@ -19,7 +22,10 @@
             })
             .when("/profile", {
                 templateUrl: "views/users/profile.view.html",
-                controller: "ProfileController as Profile"
+                controller: "ProfileController as Profile",
+                resolve: {
+                    loggedin: checkLoggedin
+                }
             })
             .when("/editor", {
                 templateUrl: "views/editor/editor.view.html",
@@ -31,7 +37,10 @@
             })
             .when("/players/:id", {
                 templateUrl: "views/players/player.view.html",
-                controller: "PlayerController as Player"
+                controller: "PlayerController as Player",
+                resolve: {
+                    loggedin: checkLoggedin
+                }
             })
             .when("/search", {
                 templateUrl: "views/search/search.view.html",
@@ -43,10 +52,75 @@
             })
             .when("/games/:id", {
                 templateUrl: "views/games/game.view.html",
-                controller: "GameController as Game"
+                controller: "GameController as Game",
+                resolve: {
+                    loggedin: checkLoggedin
+                }
             })
             .otherwise({
                 redirectTo: "/home"
             });
     }
+
+    var checkAdmin = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/project/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0' && user.roles.indexOf('admin') != -1)
+            {
+                $rootScope.currentUser = user;
+                deferred.resolve();
+            }
+        });
+
+        return deferred.promise;
+    };
+
+
+    var checkLoggedin = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/project/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0')
+            {
+                $rootScope.currentUser = user;
+                deferred.resolve(user);
+            }
+            // User is Not Authenticated
+            else
+            {
+                $rootScope.errorMessage = 'You need to log in.';
+                deferred.reject();
+                $location.url('/login');
+            }
+        });
+
+        return deferred.promise;
+    };
+
+    var checkCurrentUser = function($q, $timeout, $http, $location, $rootScope)
+    {
+        var deferred = $q.defer();
+
+        $http.get('/api/project/loggedin').success(function(user)
+        {
+            $rootScope.errorMessage = null;
+            // User is Authenticated
+            if (user !== '0')
+            {
+                $rootScope.currentUser = user;
+            }
+            deferred.resolve();
+        });
+
+        return deferred.promise;
+    };
 })();

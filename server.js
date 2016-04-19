@@ -1,13 +1,12 @@
 require('dotenv').config();
 
-var express = require('express');
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var multer          = require('multer');
+var passport        = require('passport');
+var cookieParser    = require('cookie-parser');
+var session         = require('express-session');
 var app = express();
-var http = require('http');
-var multer        = require('multer');
-var passport      = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var cookieParser  = require('cookie-parser');
-var session       = require('express-session');
 
 
 // install and require the mongoose library
@@ -36,17 +35,17 @@ console.log(connectionString);
 //connect to the database
 var db = mongoose.connect(connectionString);
 
+multer();
+
+app.use(session({
+    secret: process.env.WEBDEV_SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true}));
+
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(multer());
 
-app.use(session({
-    secret: 'idontknow',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
-}))
 
 app.use(express.json());
 app.use(express.urlencoded());

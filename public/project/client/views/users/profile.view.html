@@ -1,45 +1,54 @@
 <body>
-<h1>Profile</h1>
+<h1 class="devils-red-text">Profile</h1>
 <form class="form-horizontal">
     <div class="form-group">
-        <label for="username" class="col-sm-2 control-label">Username:</label>
+        <label for="username" class="col-sm-2 control-label devils-red-text">Username:</label>
         <div class="col-sm-5">
             <input ng-model="Profile.display.username" type="text" class="form-control" id="username"
                    placeholder="Username">
         </div>
     </div>
     <div class="form-group">
-        <label for="password" class="col-sm-2 control-label">Password:</label>
+        <label for="password" class="col-sm-2 control-label devils-red-text">Password:</label>
         <div class="col-sm-5">
             <input ng-model="Profile.display.password" type="password" class="form-control" id="password"
                    placeholder="Password">
         </div>
     </div>
     <div class="form-group">
-        <label for="firstName" class="col-sm-2 control-label">First Name:</label>
+        <label for="firstName" class="col-sm-2 control-label devils-red-text">First Name:</label>
         <div class="col-sm-5">
             <input ng-model="Profile.display.firstName" type="text" class="form-control" id="firstName"
                    placeholder="First Name">
         </div>
     </div>
     <div class="form-group">
-        <label for="lastName" class="col-sm-2 control-label">Last Name:</label>
+        <label for="lastName" class="col-sm-2 control-label devils-red-text">Last Name:</label>
         <div class="col-sm-5">
             <input ng-model="Profile.display.lastName" type="text" class="form-control" id="lastName"
                    placeholder="Last Name">
         </div>
     </div>
     <div class="form-group">
-        <label for="email" class="col-sm-2 control-label">Current Emails:</label>
+        <label for="email" class="col-sm-2 control-label devils-red-text">Current Emails:</label>
         <div class="col-sm-5">
-            <div ng-repeat="email in Profile.display.emails">
+            <div class="devils-red-text" ng-repeat="email in Profile.display.emails">
                 {{email}}
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label for="email" class="col-sm-2 control-label">Add Email:</label>
+        <label for="email" class="col-sm-2 control-label devils-red-text">Role:</label>
+        <div class="col-sm-5">
+            <div class="devils-red-text" ng-repeat="role in Profile.display.roles">
+                {{role}}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="email" class="col-sm-2 control-label devils-red-text">Add Email:</label>
         <div class="col-sm-5">
             <input ng-model="Profile.display.newEmail" type="email" class="form-control" id="email"
                    placeholder="Email Address">
