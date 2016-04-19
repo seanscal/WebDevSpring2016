@@ -7,10 +7,6 @@
     function ProfileController($scope, $rootScope, UserService,RosterService){
         var vm = this;
 
-        if(!$rootScope.currentUser){
-            $rootScope.$location.url('/login');
-        }
-
         vm.display = {
             username: $rootScope.currentUser.username,
             password: $rootScope.currentUser.password,
@@ -39,8 +35,6 @@
         }
 
         function dropboxitemselected(player){
-            console.log(player);
-            console.log("selected " + player);
             vm.favoritePlayer = player;
             vm.display.favoritePlayer = player;
         }

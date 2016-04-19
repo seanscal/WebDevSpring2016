@@ -27,14 +27,14 @@ module.exports = function (mongoose, db) {
             roles: ["fan"]
         });
 
+
         if (newUser.username == "bob") {
             newUser.roles.push("admin");
         }
 
 
-        console.log(newUser.roles);
-
         var deferred = q.defer();
+
         User.create(newUser, function (err, doc) {
             if (err) {
                 deferred.reject(err);
