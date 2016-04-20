@@ -65,6 +65,43 @@
         </div>
     </div>
 
+    <table class="table table-striped table-bordered table-white">
+        <thead>
+        <th>
+            {{Profile.display.favoritePlayer}} highlights
+        </th>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="highlight in Profile.display.allPlayerInfo.highlights | orderBy:'player1total'"
+            class="left-justified">
+
+            <td>
+                <img ng-if="highlight.highlight[0]" src="../../../../assets/play_button.jpeg" width='25' height='25'
+                     ng-click="createModal($index)">
+                {{highlight.description}}
+            </td>
+
+            <td id="modals">
+                <div ng-switch="{{noAutoPlay(highlight.highlight[0])}}">
+                    <div ng-switch-when=false>
+                        <div class="videoModal" ng-attr-id="{{$index}}">
+                            <iframe class="video" ng-src={{highlight.highlight[0]}} width='1080' height='600'></iframe>
+                        </div>
+                    </div>
+                    <div ng-switch-default>
+                        <div class="videoModal" ng-attr-id="{{$index}}">
+                            <video id="VIDEO" height="600" width="1080" controls>
+                                <source class="video" ng-src={{highlight.highlight[0]}} allowfullscreen="true"/>
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <div ng-show="Profile.message" class="alert alert-warning">
         {{Profile.message}}

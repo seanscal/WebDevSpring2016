@@ -12,7 +12,7 @@
                 {{player.name}}
             <li ng-repeat="player in Profile.players" ng-class="{'active': Profile.dropdownitemselected==player.name}"
                 class="top-element">
-                <a ng-click="Profile.dropboxitemselected(player.name)">{{player.name}}</a>
+                <a ng-click="Profile.dropboxitemselected(player)">{{player.name}}</a>
             </li>
         </ul>
     </div>
