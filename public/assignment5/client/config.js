@@ -31,7 +31,7 @@
                 templateUrl: "./views/admin/admin.view.html",
                 controller: "AdminController as Admin",
                 resolve: {
-                    loggedin: checkLoggedin
+                    loggedin: checkAdmin
                 }
             })
             .when("/forms", {
@@ -59,11 +59,9 @@
         {
             $rootScope.errorMessage = null;
             // User is Authenticated
-            console.log(user.roles.indexOf('admin'));
 
             if (user !== '0' && user.roles.indexOf('admin') != -1)
             {
-                console.log(user);
                 $rootScope.currentUser = user;
                 deferred.resolve();
             }
