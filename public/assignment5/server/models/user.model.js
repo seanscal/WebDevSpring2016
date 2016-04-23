@@ -1,10 +1,9 @@
 var q = require("q");
 var uuid = require('node-uuid');
-var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function (mongoose, db) {
     var UserSchema = require("./user.server.schema.js")(mongoose);
-    var User = mongoose.model("User", UserSchema);
+    var User = mongoose.model("AssignmentUser", UserSchema);
 
     var api = {
         createUser: createUser,
@@ -18,31 +17,19 @@ module.exports = function (mongoose, db) {
     return api;
 
     function createUser(user) {
-
-        user.password = bcrypt.hashSync(user.password);
-
         var newUser = new User({
             username: user.username,
             password: user.password,
             emails: user.emails,
             firstname: user.firstName,
-            lastname: user.lastName,
-            roles: ["fan"]
+            lastname: user.lastName
         });
 
-
-        if (newUser.username == "bob") {
-            newUser.roles.push("admin");
-        }
-
-
         var deferred = q.defer();
-
         User.create(newUser, function (err, doc) {
             if (err) {
                 deferred.reject(err);
             } else {
-                console.log(doc);
                 deferred.resolve(doc);
             }
         });
@@ -61,70 +48,48 @@ module.exports = function (mongoose, db) {
         return deferred.promise;
     }
 
-    function findAllUsers() {
+    function findAllUsers(){
         var deferred = q.defer();
-        User.find(function (err, users) {
+        User.find(function(err, users){
             deferred.resolve(users);
         });
         return deferred.promise;
     }
 
     function updateUser(userId, user) {
-
         var deferred = q.defer();
-
-        User.findOne({_id : userId}, function(err, doc) {
-            if(err) {
-                deferred.reject(err);
-            } else {
-                if(doc) {
-                    if(doc.password != user.password) {
-                        user.password = bcrypt.hashSync(user.password);
-                    }
-
-                    User.update({ _id: userId }, user, function(err, result) {
-                        if(err) {
-                            deferred.reject(err);
-                        } else {
-                            findUserBySsn(ssn).then(function(user) {
-                                deferred.resolve(user);
-                            });
-                        }
-                    });
-
-                } else {
-                    deferred.reject('Update failed: user not found.')
-                }
-            }
+        delete user._id;
+        User.update({_id: userId}, user, function(err, response){
+            findUserById(userId).then(function(user){
+                deferred.resolve(user);
+            });
         });
-
         return deferred.promise;
     }
 
-    function deleteUser(userId) {
+    function deleteUser(userId){
         var deferred = q.defer();
-        User.remove({_id: userId}, function (err, response) {
+        User.remove({_id: userId}, function(err, response){
             deferred.resolve(response);
         });
         return deferred.promise;
     }
 
     function findUserByCredentials(username, password) {
-
         var deferred = q.defer();
 
-        User.findOne({username: username}, function(err, doc) {
-            if(err) {
-                deferred.reject(err);
-            } else {
-                if(doc && bcrypt.compareSync(password, doc.password)) {
-                    deferred.resolve(doc);
+        User.findOne(
+            {
+                username: username,
+                password: password
+            },
+            function(err, doc) {
+                if (err) {
+                    deferred.reject(err);
                 } else {
-                    deferred.reject('Invalid password.');
+                    deferred.resolve(doc);
                 }
-            }
-        });
-
+            });
         return deferred.promise;
     }
 
@@ -134,7 +99,7 @@ module.exports = function (mongoose, db) {
             {
                 username: username
             },
-            function (err, doc) {
+            function(err, doc) {
                 if (err) {
                     deferred.reject(err);
                 } else {

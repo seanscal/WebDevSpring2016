@@ -1,0 +1,25 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Add New Field</label>
+        <div class="col-sm-5">
+            <select class="form-control" ng-model="fieldType">
+                <option value="TEXT">Single Line Text</option>
+                <option value="TEXTAREA">Multiline Text Field</option>
+                <option value="DATE">Date</option>
+                <option value="OPTIONS">Dropdown</option>
+                <option value="CHECKBOXES">Checkboxes</option>
+                <option value="RADIOS">Radio Buttons</option>
+            </select>
+        </div>
+        <div class="col-sm-3" ng-click="Fields.addField(fieldType)">
+            <button type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</form>
+
+

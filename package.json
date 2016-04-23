@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "angular-spinner": "^0.8.1",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "bootstrap": "^3.3.6",
     "cookie-parser": "^1.4.1",

@@ -1,17 +1,17 @@
-var passport         = require('passport');
-var LocalStrategy    = require('passport-local').Strategy;
+//var passport         = require('passport');
+//var LocalStrategy    = require('passport-local').Strategy;
 
 module.exports = function (app, UserModel) {
     var auth = authorized;
 
-    passport.use(new LocalStrategy(localStrategy));
-    passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser);
-
-    app.post('/api/project/login', passport.authenticate('local'), login);
-    app.get('/api/project/loggedin', loggedin);
-    app.post('/api/project/logout', logout);
-    app.post('/api/project/register', register);
+    //passport.use(new LocalStrategy(localStrategy));
+    //passport.serializeUser(serializeUser);
+    //passport.deserializeUser(deserializeUser);
+    //
+    //app.post('/api/project/login', passport.authenticate('local'), login);
+    //app.get('/api/project/loggedin', loggedin);
+    //app.post('/api/project/logout', logout);
+    //app.post('/api/project/register', register);
 
     app.post("/api/project/user/", addUser);
     app.get("/api/project/user/", getAllUsers);
@@ -21,77 +21,77 @@ module.exports = function (app, UserModel) {
     app.delete("/api/project/user/:id/", removeUser);
 
 
-    function localStrategy(username, password, done) {
-        UserModel
-            .findUserByCredentials(username, password)
-            .then(
-                function(user) {
-                    if (!user) { return done(null, false); }
-                    return done(null, user);
-                },
-                function(err) {
-                    if (err) { return done(err); }
-                }
-            );
-    }
+    //function localStrategy(username, password, done) {
+    //    UserModel
+    //        .findUserByCredentials(username, password)
+    //        .then(
+    //            function(user) {
+    //                if (!user) { return done(null, false); }
+    //                return done(null, user);
+    //            },
+    //            function(err) {
+    //                if (err) { return done(err); }
+    //            }
+    //        );
+    //}
+    //
+    //function serializeUser(user, done) {
+    //    done(null, user);
+    //}
+    //
+    //function deserializeUser(user, done) {
+    //    UserModel
+    //        .findUserById(user._id)
+    //        .then(
+    //            function(user){
+    //                done(null, user);
+    //            },
+    //            function(err){
+    //                done(err, null);
+    //            }
+    //        );
+    //}
 
-    function serializeUser(user, done) {
-        done(null, user);
-    }
-
-    function deserializeUser(user, done) {
-        UserModel
-            .findUserById(user._id)
-            .then(
-                function(user){
-                    done(null, user);
-                },
-                function(err){
-                    done(err, null);
-                }
-            );
-    }
-
-    function login(req, res) {
-        var user = req.user;
-        res.json(user);
-    }
-
-    function register(req, res) {
-        var newUser = req.body;
-        newUser.roles = ['student'];
-
-        UserModel
-            .findUserByUsername(newUser.username)
-            .then(
-                function(user){
-                    if(user) {
-                        res.json(null);
-                    } else {
-                        return UserModel.createUser(newUser);
-                    }
-                },
-                function(err){
-                    res.status(400).send(err);
-                }
-            )
-            .then(
-                function(user){
-                    if(user){
-                        req.login(user, function(err) {
-                            if(err) {
-                                res.status(400).send(err);
-                            } else {
-                                res.json(user);
-                            }
-                        });
-                    }
-                },
-                function(err){
-                    res.status(400).send(err);
-                }
-            );
-    }
+    //function login(req, res) {
+    //    var user = req.user;
+    //    res.json(user);
+    //}
+    //
+    //function register(req, res) {
+    //    var newUser = req.body;
+    //    newUser.roles = ['student'];
+    //
+    //    UserModel
+    //        .findUserByUsername(newUser.username)
+    //        .then(
+    //            function(user){
+    //                if(user) {
+    //                    res.json(null);
+    //                } else {
+    //                    return UserModel.createUser(newUser);
+    //                }
+    //            },
+    //            function(err){
+    //                res.status(400).send(err);
+    //            }
+    //        )
+    //        .then(
+    //            function(user){
+    //                if(user){
+    //                    req.login(user, function(err) {
+    //                        if(err) {
+    //                            res.status(400).send(err);
+    //                        } else {
+    //                            res.json(user);
+    //                        }
+    //                    });
+    //                }
+    //            },
+    //            function(err){
+    //                res.status(400).send(err);
+    //            }
+    //        );
+    //}
 
     function authorized (req, res, next) {
         if (!req.isAuthenticated()) {
@@ -195,13 +195,13 @@ module.exports = function (app, UserModel) {
         );
     }
 
-    function loggedin(req, res) {
-        res.send(req.isAuthenticated() ? req.user : '0');
-    }
-
-    function logout(req, res) {
-        console.log("Logging out");
-        req.session.destroy();
-        res.send(200);
-    }
+    //function loggedin(req, res) {
+    //    res.send(req.isAuthenticated() ? req.user : '0');
+    //}
+    //
+    //function logout(req, res) {
+    //    console.log("Logging out");
+    //    req.session.destroy();
+    //    res.send(200);
+    //}
 };

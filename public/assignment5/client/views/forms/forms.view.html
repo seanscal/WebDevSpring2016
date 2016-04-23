@@ -1,0 +1,59 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-11 main">
+            <h1 class="page-header">Forms</h1>
+
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#">Forms</a></li>
+                <li role="presentation"><a href="#/forms">Fields</a></li>
+            </ul>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            Form Name
+                        </th>
+                        <th>
+                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            Action
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="Name" ng-model="Forms.formTitle"></td>
+                        <td>
+                            <button ng-click="Forms.addForm()" type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </button>
+                            <button ng-click="Forms.updateForm()" type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="form in Forms.forms">
+                        <td><a href="#/forms/{{form._id}}/fields">{{form.title}}</a></td>
+                        <td>
+                            <button ng-click="Forms.deleteForm($index)" type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
+                            <button ng-click="Forms.selectForm($index)" type="button"
+                                    class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div ng-show="Forms.error" class="alert alert-warning">
+                {{Forms.error}}
+            </div>
+        </div>
+    </div>
+</div>
