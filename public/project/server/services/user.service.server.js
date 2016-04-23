@@ -2,7 +2,7 @@
 //var LocalStrategy    = require('passport-local').Strategy;
 
 module.exports = function (app, UserModel) {
-    var auth = authorized;
+    //var auth = authorized;
 
     //passport.use(new LocalStrategy(localStrategy));
     //passport.serializeUser(serializeUser);
@@ -93,13 +93,13 @@ module.exports = function (app, UserModel) {
     //        );
     //}
 
-    function authorized (req, res, next) {
-        if (!req.isAuthenticated()) {
-            res.send(401);
-        } else {
-            next();
-        }
-    };
+    //function authorized (req, res, next) {
+    //    if (!req.isAuthenticated()) {
+    //        res.send(401);
+    //    } else {
+    //        next();
+    //    }
+    //};
 
     function addUser(req, res) {
         var user = req.body;

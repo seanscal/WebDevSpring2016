@@ -6,11 +6,12 @@
     function HeaderController($rootScope, UserService) {
         var vm = this;
         vm.logout = logout;
-        vm.currentUser = UserService.loggedIn();
 
         function logout() {
-            vm.currentUser = null;
-            $rootScope.$location.url("/home");
+            UserService.logout().then(function(res) {
+                UserService.setCurrentUser(null);
+                $rootScope.$location.url('/home');
+            });
         }
     }
 })();

@@ -54,7 +54,6 @@
         }
 
         function createUser(user){
-            console.log("CREATE UPSER");
             return $http.post("/api/project/user/", user);
         }
 

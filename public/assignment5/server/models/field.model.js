@@ -3,7 +3,7 @@ var uuid = require('node-uuid');
 
 module.exports = function (mongoose, db, FormModel) {
     var FieldSchema = require('./field.server.schema.js')(mongoose);
-    var Field = mongoose.model("Field", FieldSchema);
+    var Field = mongoose.model("AssignmentField", FieldSchema);
 
     var api = {
         findAllFieldsByForm: findAllFieldsByForm,

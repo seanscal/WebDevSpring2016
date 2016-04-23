@@ -1,5 +1,5 @@
-var passport         = require('passport');
-var LocalStrategy    = require('passport-local').Strategy;
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function (app, UserModel) {
     var auth = authorized;
@@ -12,6 +12,7 @@ module.exports = function (app, UserModel) {
     app.get('/api/assignment5/loggedin', loggedin);
     app.post('/api/assignment5/logout', logout);
     app.post('/api/assignment5/register', register);
+
     app.post("/api/assignment5/user/", addUser);
     app.get("/api/assignment5/user/", getAllUsers);
     app.get("/api/assignment5/user/:id/", getSingleUser);
@@ -109,13 +110,108 @@ module.exports = function (app, UserModel) {
         );
     }
 
+    function localStrategy(username, password, done) {
+        UserModel
+            .findUserByCredentials(username, password)
+            .then(
+                function (user) {
+                    if (!user) {
+                        return done(null, false);
+                    }
+                    return done(null, user);
+                },
+                function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                }
+            );
+    }
+
+    function serializeUser(user, done) {
+        done(null, user);
+    }
+
+    function deserializeUser(user, done) {
+        UserModel
+            .findUserById(user._id)
+            .then(
+                function (user) {
+                    done(null, user);
+                },
+                function (err) {
+                    done(err, null);
+                }
+            );
+    }
+
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function register(req, res) {
+        var newUser = req.body;
+        newUser.roles = ['admin'];
+
+        console.log("HERE");
+        console.log(req.body);
+
+        UserModel
+            .findUserByUsername(newUser.username)
+            .then(
+                function (user) {
+                    if (user) {
+                        res.json(null);
+                    } else {
+                        return UserModel.createUser(newUser);
+                    }
+                },
+                function (err) {
+                    console.log(err);
+                    res.status(400).send(err);
+                }
+            )
+            .then(
+                function (user) {
+                    if (user) {
+                        console.log("HERE");
+                        console.log(user);
+                        req.login(user, function (err) {
+
+                            if (err) {
+                                console.log(err);
+                                res.status(400).send(err);
+                            } else {
+                                res.json(user);
+                            }
+                        });
+                    }
+                },
+                function (err) {
+                    console.log(err);
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function authorized (req, res, next) {
+        if (!req.isAuthenticated()) {
+            res.send(401);
+        } else {
+            next();
+        }
+    };
+
     function loggedin(req, res) {
-        console.log(req.session.currentUser);
-        res.json(req.session.currentUser);
+        console.log("loggedin");
+        res.send(req.isAuthenticated() ? req.user : '0');
     }
 
     function logout(req, res) {
+        console.log("Logging out");
         req.session.destroy();
         res.send(200);
     }
+
 };

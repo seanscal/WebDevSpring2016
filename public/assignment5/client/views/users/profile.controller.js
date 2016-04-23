@@ -7,10 +7,6 @@
     function ProfileController($rootScope, UserService){
         var vm = this;
 
-        if(!UserService.loggedIn()){
-            $rootScope.$location.url('/login')
-        }
-
         vm.display = {
             username: $rootScope.currentUser.username,
             password: $rootScope.currentUser.password,

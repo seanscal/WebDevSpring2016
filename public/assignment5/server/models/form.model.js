@@ -4,7 +4,7 @@ var uuid = require('node-uuid');
 module.exports = function (mongoose, db) {
     var FieldSchema = require('./field.server.schema.js')(mongoose);
     var FormSchema = require("./form.server.schema.js")(mongoose, FieldSchema);
-    var Form = mongoose.model("Form", FormSchema);
+    var Form = mongoose.model("AssignmentForm", FormSchema);
 
     var api = {
         createForm: createForm,
