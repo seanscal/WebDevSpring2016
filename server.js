@@ -15,9 +15,6 @@ var mongoose      = require('mongoose');
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
-var domain = "http://localhost:3000/";
-var STATURL = "http://nhlwc.cdnak.neulion.com/fs1/nhl/league/playerstatsline/20152016/2/NJD/iphone/playerstatsline.json"
-
 // create a default connection string
 var connectionString = 'mongodb://127.0.0.1:27017/cs5200';
 
